@@ -23,4 +23,5 @@ export const API_ENDPOINT = {
   addDefectType: "/defecttype",
   getDefects: "/defect",
   getReports: "/reports",
+  addReport: "/report",
 };

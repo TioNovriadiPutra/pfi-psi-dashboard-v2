@@ -27,6 +27,19 @@ export interface DefectInput {
   report: ReportInput;
 }
 
+export interface DefectDTO {
+  id: number;
+  building_id: number;
+  observation: string;
+  couse: string;
+  recommendation: string;
+  timeframe: string;
+  remedial: string;
+  image_elevation: string;
+  image_detail: string;
+  defect_type_id: DropdownType | null;
+}
+
 const useDefectModel = () => {
   const nav = useNavigate();
 

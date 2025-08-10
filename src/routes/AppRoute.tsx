@@ -7,6 +7,7 @@ import {
   Dashboard,
   Project,
 } from "@views/app";
+import Report from "@views/app/Report";
 import { Navigate, Route, Routes } from "react-router";
 
 const AppRoute = () => {
@@ -15,6 +16,7 @@ const AppRoute = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/project/*" element={<ProjectRoute />} />
       <Route path="/building/*" element={<BuildingRoute />} />
+      <Route path="/report/*" element={<ReportRoute />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
@@ -38,6 +40,14 @@ const BuildingRoute = () => {
       <Route path="/type-form" element={<AddBuildingType />} />
       <Route path="/defect-form" element={<AddDefect />} />
       <Route path="*" element={<Navigate to="/building" />} />
+    </Routes>
+  );
+};
+
+const ReportRoute = () => {
+  return (
+    <Routes>
+      <Route index element={<Report />} />
     </Routes>
   );
 };

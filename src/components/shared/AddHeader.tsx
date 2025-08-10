@@ -6,9 +6,10 @@ import { useLoadingButton } from "@stores/pageStore";
 type Props = {
   title: string;
   onSubmit?: () => void;
+  onPreview?: () => void;
 };
 
-const AddHeader = ({ title, onSubmit }: Props) => {
+const AddHeader = ({ title, onSubmit, onPreview }: Props) => {
   const loadingButton = useLoadingButton((state) => state.show);
 
   const nav = useNavigate();
@@ -30,11 +31,17 @@ const AddHeader = ({ title, onSubmit }: Props) => {
       <div className="!flex-row items-center gap-[8px]">
         <Button
           buttonData={{
-            label: "Cancel",
+            label: onPreview ? "Preview" : "Cancel",
             color: "bg-neutral-0",
             hover: "hover:bg-primary-200",
           }}
-          onClick={() => nav(-1)}
+          onClick={() => {
+            if (onPreview) {
+              onPreview();
+            } else {
+              nav(-1);
+            }
+          }}
         />
 
         <Button

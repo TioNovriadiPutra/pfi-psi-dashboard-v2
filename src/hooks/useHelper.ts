@@ -1,6 +1,10 @@
 import type { ResType } from "@interfaces/resInterface";
 import { useAuth } from "@stores/authStore";
-import { useLoadingModal } from "@stores/modalStore";
+import {
+  useConfirmationModal,
+  useDetailModal,
+  useLoadingModal,
+} from "@stores/modalStore";
 import { useLoadingButton, useToast } from "@stores/pageStore";
 import { useNavigate } from "react-router";
 
@@ -8,8 +12,10 @@ const useHelper = () => {
   const loadingButton = useLoadingButton();
   const loadingModal = useLoadingModal();
   const auth = useAuth();
+  const confirmationModal = useConfirmationModal();
 
   const showToast = useToast((state) => state.showToast);
+  const showDetailModal = useDetailModal((state) => state.showModal);
 
   const nav = useNavigate();
 
@@ -37,6 +43,8 @@ const useHelper = () => {
 
   return {
     auth,
+    confirmationModal,
+    showDetailModal,
     nav,
     onMutate,
     onSettled,

@@ -1,6 +1,8 @@
+import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
-import { getReports } from "@services/reportService";
-import { useQuery } from "@tanstack/react-query";
+import { deleteReport, getReports } from "@services/reportService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "@utils/config/client";
 
 export interface ReportInput {
   report_no: string;
@@ -37,14 +39,35 @@ export interface ReportDTO {
 }
 
 const useReportModel = () => {
+  const { confirmationModal, onMutate, onSettled, onError, onSuccess } =
+    useHelper();
+
   const useGetReports = () =>
     useQuery({
       queryKey: ["getReports"],
       queryFn: () => getReports(),
     });
 
+  const useDeleteReport = () =>
+    useMutation({
+      mutationKey: ["deleteReport"],
+      mutationFn: (reportNo: string) => deleteReport(reportNo),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
+      onError: (err) => {
+        confirmationModal.hideModal();
+        onError(err);
+      },
+      onSuccess: (res) => {
+        confirmationModal.hideModal();
+        queryClient.invalidateQueries({ queryKey: ["getReports"] });
+        onSuccess(res.message);
+      },
+    });
+
   return {
     useGetReports,
+    useDeleteReport,
   };
 };
 
