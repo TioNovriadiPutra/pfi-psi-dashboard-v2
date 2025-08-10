@@ -4,6 +4,7 @@ import { getBuildingDetail } from "@services/buildingService";
 import { useMutation } from "@tanstack/react-query";
 import { generateEncryption } from "@utils/helper/generator";
 import { useNavigate } from "react-router";
+import type { ReportInput } from "./reportModel";
 
 export interface DefectDataInput {
   observation: string;
@@ -23,6 +24,7 @@ export interface DefectReqInput extends DefectDataInput {
 
 export interface DefectInput {
   defects: DefectDataInput[];
+  report: ReportInput;
 }
 
 const useDefectModel = () => {

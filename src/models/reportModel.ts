@@ -3,7 +3,6 @@ import { getReports } from "@services/reportService";
 import { useQuery } from "@tanstack/react-query";
 
 export interface ReportInput {
-  building_id: DropdownType | null;
   report_no: string;
   report_date: string;
   time_inspection: string;

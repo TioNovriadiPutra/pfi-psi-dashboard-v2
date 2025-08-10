@@ -68,6 +68,8 @@ const TextInput = ({ inputData, control }: Props) => {
                 : "password"
               : inputData.type === "date"
               ? "date"
+              : inputData.type === "time"
+              ? "time"
               : "text"
           }
           inputMode={inputData.type === "number" ? "numeric" : "text"}
