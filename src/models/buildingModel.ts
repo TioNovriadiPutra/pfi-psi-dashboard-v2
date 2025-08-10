@@ -1,7 +1,8 @@
-import { useMutation, useQueries } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import type { ProjectDTO } from "./projectModel";
 import {
   addBuilding,
+  deleteBuilding,
   getBuildingDetail,
   getBuildings,
 } from "@services/buildingService";
@@ -18,7 +19,7 @@ import type {
   BuildingLevelDTO,
   BuildingLevelInput,
 } from "./buildingLevelModel";
-import { useDetailModal } from "@stores/modalStore";
+import { useConfirmationModal, useDetailModal } from "@stores/modalStore";
 import moment from "moment";
 
 export interface BuildingInput {
@@ -66,6 +67,9 @@ export interface BuildingDTO extends BuildingAddDTO {
 
 const useBuildingModel = () => {
   const showDetailModal = useDetailModal((state) => state.showModal);
+  const hideConfirmationModal = useConfirmationModal(
+    (state) => state.hideModal
+  );
 
   const { nav, onMutate, onSettled, onError, onSuccess } = useHelper();
 
@@ -75,6 +79,12 @@ const useBuildingModel = () => {
         { queryKey: ["getBuildings"], queryFn: () => getBuildings() },
         { queryKey: ["getBuildingTypes"], queryFn: () => getBuildingTypes() },
       ],
+    });
+
+  const useGetBuildingDetailForm = (id: number) =>
+    useQuery({
+      queryKey: ["getBuildingDetailForm"],
+      queryFn: () => getBuildingDetail(id),
     });
 
   const useGetBuildingFormDropdown = () =>
@@ -169,7 +179,13 @@ const useBuildingModel = () => {
                     },
                     {
                       label: "Status",
-                      value: res.data.project?.status.toString() ?? "-",
+                      value: res.data.project
+                        ? res.data.project.status === 1
+                          ? "Pending"
+                          : res.data.project.status === 2
+                          ? "Rejected"
+                          : "Accepted"
+                        : "-",
                     },
                   ],
                 },
@@ -193,6 +209,18 @@ const useBuildingModel = () => {
                 ],
               })),
             },
+            {
+              type: "accordion",
+              label: "Levels",
+              value: res.data.levels.map((level) => ({
+                title: level.level_name,
+                data: [
+                  { label: "Name", value: level.level_name },
+                  { label: "Primary Usage", value: level.primary_usage ?? "-" },
+                  { label: "Description", value: level.description ?? "-" },
+                ],
+              })),
+            },
           ],
         }),
     });
@@ -211,11 +239,30 @@ const useBuildingModel = () => {
       },
     });
 
+  const useDeleteBuilding = () =>
+    useMutation({
+      mutationKey: ["deleteBuilding"],
+      mutationFn: (name: string) => deleteBuilding(name),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
+      onError: (err) => {
+        hideConfirmationModal();
+        onError(err);
+      },
+      onSuccess: (res) => {
+        hideConfirmationModal();
+        queryClient.invalidateQueries({ queryKey: ["getBuildings"] });
+        onSuccess(res.message);
+      },
+    });
+
   return {
     useGetBuildings,
+    useGetBuildingDetailForm,
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
+    useDeleteBuilding,
   };
 };
 

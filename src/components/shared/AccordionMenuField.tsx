@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   menuContent: DetailAccordionDataStateType[];
   isOpen: boolean;
+  isLast: boolean;
 };
 
-const AccordionMenuField = ({ menuContent, isOpen }: Props) => {
+const AccordionMenuField = ({ menuContent, isOpen, isLast }: Props) => {
   const [menuHeight, setMenuHeight] = useState(0);
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -27,7 +28,12 @@ const AccordionMenuField = ({ menuContent, isOpen }: Props) => {
   }, [isOpen, menuHeight]);
 
   return (
-    <div ref={scope} className="overflow-hidden h-0">
+    <div
+      ref={scope}
+      className={`overflow-hidden h-0 ${
+        !isLast && "border-b border-b-neutral-200"
+      }`}
+    >
       <div ref={menuRef} className="gap-[8px]">
         {menuContent.map((item, index) => (
           <div

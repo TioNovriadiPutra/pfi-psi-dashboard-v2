@@ -7,17 +7,25 @@ import useBuildingTypeController from "./buildingTypeController";
 import { useConfirmationModal } from "@stores/modalStore";
 import type { DropdownType, FormType } from "@interfaces/formInterface";
 import { buildingForm } from "@utils/constant/formConst";
+import { BsBuildingGear } from "react-icons/bs";
+import { useNavigate } from "react-router";
+import { generateEncryption } from "@utils/helper/generator";
+import type { DefectInput } from "@models/defectModel";
 
 const useBuildingController = () => {
+  const nav = useNavigate();
+
   const showConfirmationModal = useConfirmationModal(
     (state) => state.showModal
   );
 
   const {
     useGetBuildings,
+    useGetBuildingDetailForm,
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
+    useDeleteBuilding,
   } = useBuildingModel();
 
   const { getBuildingTypeEditService, deleteBuildingTypeService } =
@@ -27,6 +35,7 @@ const useBuildingController = () => {
 
   const addBuildingMutation = useAddBuilding();
   const getBuildingDetailMutation = useGetBuildingDetail();
+  const deleteBuildingMutation = useDeleteBuilding();
 
   const useGetBuildingsService = () => {
     const responses = useGetBuildings();
@@ -102,6 +111,17 @@ const useBuildingController = () => {
               ],
               functions: [
                 {
+                  type: "custom",
+                  icon: BsBuildingGear,
+                  label: "Defect",
+                  onClick: () =>
+                    nav(
+                      `/building/defect-form?form=${encodeURIComponent(
+                        generateEncryption(item.id.toString())
+                      )}`
+                    ),
+                },
+                {
                   type: "detail",
                   onClick: () => getBuildingDetailMutation.mutate(item.id),
                 },
@@ -111,7 +131,12 @@ const useBuildingController = () => {
                 },
                 {
                   type: "delete",
-                  onClick: () => console.log("Delete"),
+                  onClick: () =>
+                    showConfirmationModal({
+                      title: "Delete Building",
+                      description: `Are you sure you want to delete |"${item.name}"| building? This action cannot be undo!`,
+                      onConfirm: () => deleteBuildingMutation.mutate(item.name),
+                    }),
                 },
               ],
             })),
@@ -150,6 +175,46 @@ const useBuildingController = () => {
             })),
           },
         ];
+      }
+    }
+
+    return {
+      finalData,
+      isLoading,
+    };
+  };
+
+  const useGetBuildingDetailFormService = (id: number) => {
+    const { data, isLoading, isError, error } = useGetBuildingDetailForm(id);
+
+    let finalData: { defaultValues: DefectInput; data: { title: string }[] } = {
+      defaultValues: {
+        defects: [],
+      },
+      data: [],
+    };
+
+    if (!isLoading) {
+      if (isError) {
+        onError(error);
+      } else if (data) {
+        finalData = {
+          defaultValues: {
+            defects: data.data.elevations.map(() => ({
+              image_elevation: "",
+              image_detail: "",
+              observation: "",
+              couse: "",
+              recommendation: "",
+              timeframe: "",
+              remedial: "",
+              defect_type_id: null,
+            })),
+          },
+          data: data.data.elevations.map((elevation) => ({
+            title: elevation.name,
+          })),
+        };
       }
     }
 
@@ -217,6 +282,7 @@ const useBuildingController = () => {
 
   return {
     useGetBuildingsService,
+    useGetBuildingDetailFormService,
     useGetBuildingFormDropdownService,
     addBuildingService: (body: any) => addBuildingMutation.mutate(body),
   };

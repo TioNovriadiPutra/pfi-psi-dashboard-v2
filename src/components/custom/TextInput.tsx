@@ -56,7 +56,7 @@ const TextInput = ({ inputData, control }: Props) => {
       <div
         className={`relative !flex-row px-[12px] py-[8px] border ${
           error ? "border-red-600" : "border-neutral-200"
-        } rounded-md`}
+        } rounded-md bg-neutral-0`}
       >
         <input
           {...field}

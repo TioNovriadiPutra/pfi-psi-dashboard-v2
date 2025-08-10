@@ -17,12 +17,11 @@ const CartInput = ({ inputData, control }: Props) => {
   });
 
   return (
-    <div>
+    <div className="gap-md">
       {fields.map((field, index) => (
         <div
-          className={`${
-            index < fields.length - 1 && "border-b border-b-neutral-200"
-          } pb-sm`}
+          className={`border border-neutral-200 pb-sm bg-neutral-50 px-xs rounded-md`}
+          style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
         >
           <div className="!flex-row items-center justify-between py-md">
             <h1 className="text-neutral-900">

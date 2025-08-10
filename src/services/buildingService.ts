@@ -77,3 +77,17 @@ export const addBuilding = async (
     throw errorResponse(error);
   }
 };
+
+export const deleteBuilding = async (
+  name: string
+): Promise<ResType<{ message: string }>> => {
+  try {
+    const response = await axiosInstance.delete(
+      `${API_ENDPOINT.addBuilding}/${encodeURIComponent(name)}`
+    );
+
+    return successResponse<{ message: string }>(response, "Building deleted!");
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};

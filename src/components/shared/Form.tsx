@@ -1,6 +1,7 @@
 import {
   CartInput,
   DropdownInput,
+  ImageInput,
   MapInput,
   TabInput,
   TextAreaInput,
@@ -57,6 +58,15 @@ const Form = ({ listData, control }: Props) => {
         if (item.type === "cart")
           return (
             <CartInput
+              key={index.toString()}
+              inputData={item}
+              control={control}
+            />
+          );
+
+        if (item.type === "image")
+          return (
+            <ImageInput
               key={index.toString()}
               inputData={item}
               control={control}

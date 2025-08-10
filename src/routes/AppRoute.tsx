@@ -1,6 +1,7 @@
 import {
   AddBuilding,
   AddBuildingType,
+  AddDefect,
   AddProject,
   Building,
   Dashboard,
@@ -35,6 +36,7 @@ const BuildingRoute = () => {
       <Route index element={<Building />} />
       <Route path="/form" element={<AddBuilding />} />
       <Route path="/type-form" element={<AddBuildingType />} />
+      <Route path="/defect-form" element={<AddDefect />} />
       <Route path="*" element={<Navigate to="/building" />} />
     </Routes>
   );

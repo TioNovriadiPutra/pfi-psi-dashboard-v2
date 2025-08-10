@@ -40,7 +40,7 @@ const DropdownInput = ({ inputData, control }: Props) => {
         type="button"
         className={`relative !flex-row !justify-start px-[12px] py-[8px] border ${
           error ? "border-red-600" : "border-neutral-200"
-        } rounded-md`}
+        } rounded-md bg-neutral-0`}
         onClick={() => setShowDrop(!showDrop)}
       >
         <p

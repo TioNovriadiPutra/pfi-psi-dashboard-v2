@@ -2,6 +2,7 @@ import type { AuthContentType, FormType } from "@interfaces/formInterface";
 import type { LoginInput, RegisterInput } from "@models/authModel";
 import type { BuildingInput } from "@models/buildingModel";
 import type { BuildingTypeInput } from "@models/buildingTypeModel";
+import type { DefectInput } from "@models/defectModel";
 import type { ProjectInput } from "@models/projectModel";
 
 export const loginForm: AuthContentType<LoginInput> = {
@@ -421,5 +422,133 @@ export const buildingForm: FormType<BuildingInput> = {
     construction_end_date: "",
     elevations: [],
     levels: [],
+  },
+};
+
+export const defectForm: FormType<DefectInput> = {
+  inputs: [
+    [
+      {
+        type: "image",
+        name: "image_elevation",
+        label: "Elevation Image",
+        placeholder: "Upload image",
+        required: true,
+      },
+      {
+        type: "image",
+        name: "image_detail",
+        label: "Detail Image",
+        placeholder: "Upload image",
+        required: true,
+      },
+      {
+        type: "text",
+        name: "observation",
+        label: "Observation",
+        placeholder: "Input here...",
+        required: true,
+      },
+      {
+        type: "text",
+        name: "couse",
+        label: "Couse",
+        placeholder: "Input here...",
+        required: true,
+      },
+      {
+        type: "text",
+        name: "recommendation",
+        label: "Recommendation",
+        placeholder: "Input here...",
+        required: true,
+      },
+      {
+        type: "text",
+        name: "timeframe",
+        label: "Timeframe",
+        placeholder: "Input here...",
+        required: true,
+      },
+      {
+        type: "text",
+        name: "remedial",
+        label: "Remedial",
+        placeholder: "Input here...",
+        required: true,
+      },
+      {
+        type: "cart",
+        name: "defect_levels",
+        label: "Level",
+        placeholder: "",
+        required: true,
+        cartData: {
+          inputs: [
+            {
+              type: "image",
+              name: "photograph",
+              label: "Photograph",
+              placeholder: "Upload image",
+              required: true,
+            },
+            {
+              type: "text",
+              name: "observation",
+              label: "Observation",
+              placeholder: "Input here...",
+              required: true,
+            },
+            {
+              type: "text",
+              name: "nature_of_defect",
+              label: "Nature of Defect",
+              placeholder: "Input here...",
+              required: true,
+            },
+            {
+              type: "text",
+              name: "recommendation",
+              label: "Recommendation",
+              placeholder: "Input here...",
+              required: true,
+            },
+            {
+              type: "textarea",
+              name: "description",
+              label: "Description",
+              placeholder: "Input here...",
+              required: true,
+            },
+            {
+              type: "image",
+              name: "image_elevation",
+              label: "Elevation Image",
+              placeholder: "Upload image",
+              required: true,
+            },
+            {
+              type: "image",
+              name: "image_defect",
+              label: "Defect Image",
+              placeholder: "Upload image",
+              required: true,
+            },
+          ],
+          template: {
+            photograph: "",
+            observation: "",
+            nature_of_defect: "",
+            recommendation: "",
+            description: "",
+            image_elevation: "",
+            image_defect: "",
+          },
+        },
+      },
+    ],
+  ],
+  defaultValues: {
+    defects: [],
   },
 };

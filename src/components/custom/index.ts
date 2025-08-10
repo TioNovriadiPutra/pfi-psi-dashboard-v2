@@ -18,3 +18,5 @@ export { default as MapInputLayer } from "./MapInputLayer";
 export { default as MapInputDetail } from "./MapInputDetail";
 export { default as TabInput } from "./TabInput";
 export { default as CartInput } from "./CartInput";
+export { default as AddDefectContent } from "./AddDefectContent";
+export { default as ImageInput } from "./ImageInput";

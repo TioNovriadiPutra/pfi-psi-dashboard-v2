@@ -41,6 +41,7 @@ const AccordionField = ({ label, value }: Props) => {
             <AccordionMenuField
               menuContent={item.data}
               isOpen={index === openIndex}
+              isLast={index === value.length - 1}
             />
           </div>
         ))}

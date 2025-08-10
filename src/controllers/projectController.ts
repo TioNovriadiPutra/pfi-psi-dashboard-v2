@@ -5,8 +5,11 @@ import type {
 } from "@interfaces/pageInterface";
 import useProjectModel from "@models/projectModel";
 import { useConfirmationModal } from "@stores/modalStore";
+import { buildingForm } from "@utils/constant/formConst";
+import { generateEncryption } from "@utils/helper/generator";
 import { paginationHandler } from "@utils/helper/responseHandler";
 import { FaRegBuilding } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const useProjectController = () => {
   const showConfirmationModal = useConfirmationModal(
@@ -29,6 +32,8 @@ const useProjectController = () => {
   const deleteProjectMutation = useDeleteProject();
 
   const useGetProjectsService = () => {
+    const nav = useNavigate();
+
     const { data, isLoading, isError, error } = useGetProjects();
 
     let finalData: FetchDataType[] = [];
@@ -77,7 +82,20 @@ const useProjectController = () => {
                   type: "custom",
                   icon: FaRegBuilding,
                   label: "Add Building",
-                  onClick: () => console.log("Add Building"),
+                  onClick: () =>
+                    nav(
+                      `/building/form?pick=${encodeURIComponent(
+                        generateEncryption(
+                          JSON.stringify({
+                            ...buildingForm.defaultValues,
+                            project_id: {
+                              label: item.name,
+                              value: item.id,
+                            },
+                          })
+                        )
+                      )}`
+                    ),
                 },
                 {
                   type: "edit",

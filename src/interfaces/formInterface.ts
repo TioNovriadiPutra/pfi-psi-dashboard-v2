@@ -33,7 +33,8 @@ export interface InputType {
     | "date"
     | "map"
     | "tab"
-    | "cart";
+    | "cart"
+    | "image";
   name: string;
   label?: string;
   placeholder: string;
