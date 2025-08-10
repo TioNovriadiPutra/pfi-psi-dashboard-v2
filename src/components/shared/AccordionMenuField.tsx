@@ -1,5 +1,5 @@
 import type { DetailAccordionDataStateType } from "@interfaces/stateInterface";
-import { easeIn, useAnimate } from "motion/react";
+import { useAnimate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
