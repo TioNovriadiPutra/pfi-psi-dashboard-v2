@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary-100: #ebf9fb;
+  --color-primary-200: #c6e9ef;
+  --color-primary-300: #7fbfcc;
+  --color-primary-400: #3399aa;
+  --color-primary-500: #006b7d;
+  --color-primary-600: #004f5b;
+  --color-primary-700: #003d4b;
+  --color-accent-100: #f1f5f9;
+  --color-accent-200: #e2e8f0;
+  --color-accent-300: #cbd5e1;
+  --color-accent-400: #94a3b8;
+  --color-accent-500: #64748b;
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-modal: rgba(23, 23, 23, 0.3);
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-yellow-100: #fef9c3;
+  --color-yellow-200: #fef08a;
+  --color-yellow-300: #fde047;
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #7dd3fc;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+
+  --default-font-family: "Inter", sans-serif;
+
+  --text-h1: 24px;
+  --text-h1--font-weight: 600;
+  --text-h1--line-height: 29px;
+
+  --text-h2: 20px;
+  --text-h2--font-weight: 600;
+  --text-h2--line-height: 24px;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 22px;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 19.5px;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 17px;
+
+  --text-body-xs: 12px;
+  --text-body-xs--line-height: 14.5px;
+
+  --spacing-xs: 14px;
+  --spacing-sm: 18px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 36px;
+
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+body {
+  overflow: hidden;
+}
+
+div,
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  @apply text-h1 m-0 p-0;
+}
+
+h2 {
+  @apply text-h2 m-0 p-0;
+}
+
+input,
+textarea {
+  @apply flex-1 text-body-sm font-normal text-neutral-900 outline-none;
+}
+
+input::placeholder {
+  @apply text-neutral-400;
+}
+
+.main {
+  @apply w-dvw h-dvh relative;
+}

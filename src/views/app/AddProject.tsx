@@ -1,0 +1,44 @@
+import { AddContent, AddHeader } from "@components/shared";
+import MainContainer from "@containers/MainContainer";
+import useProjectController from "@controllers/projectController";
+import { projectForm } from "@utils/constant/formConst";
+import { generateDecryption } from "@utils/helper/generator";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router";
+
+const AddProject = () => {
+  const [searchParams] = useSearchParams();
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: searchParams.get("data")
+      ? JSON.parse(
+          generateDecryption(decodeURIComponent(searchParams.get("data")!))
+        )
+      : projectForm.defaultValues,
+  });
+
+  const { addProjectService, updateProjectService } = useProjectController();
+
+  return (
+    <MainContainer>
+      <AddHeader
+        title="Add Project"
+        onSubmit={handleSubmit((body) => {
+          if (searchParams.get("data")) {
+            const param = JSON.parse(
+              generateDecryption(decodeURIComponent(searchParams.get("data")!))
+            );
+
+            updateProjectService({ name: param.name, body });
+          } else {
+            addProjectService(body);
+          }
+        })}
+      />
+
+      <AddContent contentData={projectForm.inputs} control={control} />
+    </MainContainer>
+  );
+};
+
+export default AddProject;
