@@ -13,13 +13,15 @@ const useDefectTypeController = () => {
     useAddDefectType,
     useGetDefectTypeEdit,
     useUpdateDefectType,
+    useDeleteDefectType,
   } = useDefectTypeModel();
 
-  const { onError } = useHelper();
+  const { confirmationModal, onError } = useHelper();
 
   const addDefectTypeMutation = useAddDefectType();
   const getDefectTypeEditMutation = useGetDefectTypeEdit();
   const updateDefectTypeMutation = useUpdateDefectType();
+  const deleteDefectTypeMutation = useDeleteDefectType();
 
   const useGetDefectTypesService = () => {
     const { data, isLoading, isError, error } = useGetDefectTypes();
@@ -54,6 +56,16 @@ const useDefectTypeController = () => {
                       type: "edit",
                       onClick: () =>
                         getDefectTypeEditMutation.mutate(item.name),
+                    },
+                    {
+                      type: "delete",
+                      onClick: () =>
+                        confirmationModal.showModal({
+                          title: "Delete Defect Type",
+                          description: `Are you sure you want to delete |"${item.name}"| type? This action cannot be undo!`,
+                          onConfirm: () =>
+                            deleteDefectTypeMutation.mutate(item.name),
+                        }),
                     },
                   ],
                 } as FetchFinalDataType)

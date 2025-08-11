@@ -1,6 +1,7 @@
 import useHelper from "@hooks/useHelper";
 import {
   addDefectType,
+  deleteDefectType,
   getDefectTypeDetail,
   getDefectTypes,
   updateDefectType,
@@ -19,7 +20,8 @@ export interface DefectTypeDTO extends DefectTypeInput {
 }
 
 const useDefectTypeModel = () => {
-  const { nav, onMutate, onSettled, onError, onSuccess } = useHelper();
+  const { confirmationModal, nav, onMutate, onSettled, onError, onSuccess } =
+    useHelper();
 
   const useGetDefectTypes = () =>
     useQuery({
@@ -76,11 +78,29 @@ const useDefectTypeModel = () => {
       },
     });
 
+  const useDeleteDefectType = () =>
+    useMutation({
+      mutationKey: ["deleteDefectType"],
+      mutationFn: (name: string) => deleteDefectType(name),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
+      onError: (err) => {
+        confirmationModal.hideModal();
+        onError(err);
+      },
+      onSuccess: (res) => {
+        confirmationModal.hideModal();
+        queryClient.invalidateQueries({ queryKey: ["deleteDefectType"] });
+        onSuccess(res.message);
+      },
+    });
+
   return {
     useGetDefectTypes,
     useAddDefectType,
     useGetDefectTypeEdit,
     useUpdateDefectType,
+    useDeleteDefectType,
   };
 };
 
