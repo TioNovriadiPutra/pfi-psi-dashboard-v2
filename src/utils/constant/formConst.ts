@@ -438,7 +438,7 @@ export const defectForm: FormType<DefectInput> = {
             title: "Report",
             inputs: [
               {
-                type: "date",
+                type: "text",
                 name: "report_no",
                 label: "Report No",
                 placeholder: "Input here...",
@@ -448,7 +448,7 @@ export const defectForm: FormType<DefectInput> = {
                 },
               },
               {
-                type: "text",
+                type: "date",
                 name: "report_date",
                 label: "Report Date",
                 placeholder: "DD-MM-YYYY",

@@ -81,3 +81,9 @@ export const useBuilding = create<SlideStateType>((set) => ({
   changePage: (page) => set({ page }),
   resetPage: () => set({ page: 0 }),
 }));
+
+export const useMaster = create<SlideStateType>((set) => ({
+  page: 0,
+  changePage: (page) => set({ page }),
+  resetPage: () => set({ page: 0 }),
+}));

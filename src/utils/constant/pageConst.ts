@@ -2,6 +2,7 @@ import type { AppType, SidebarType } from "@interfaces/pageInterface";
 import { BiBuildings, BiCabinet, BiSolidDashboard } from "react-icons/bi";
 import { HiOutlineAnnotation } from "react-icons/hi";
 import { TbReportAnalytics } from "react-icons/tb";
+import { LuDatabase } from "react-icons/lu";
 
 export const sidebarData: SidebarType[][] = [
   [
@@ -31,6 +32,11 @@ export const sidebarData: SidebarType[][] = [
       icon: TbReportAnalytics,
       label: "Report",
       dest: "/report",
+    },
+    {
+      icon: LuDatabase,
+      label: "Master",
+      dest: "/master",
     },
   ],
 ];

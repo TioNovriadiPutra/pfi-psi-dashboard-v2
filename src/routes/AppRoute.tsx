@@ -5,6 +5,7 @@ import {
   AddProject,
   Building,
   Dashboard,
+  Master,
   Project,
 } from "@views/app";
 import Report from "@views/app/Report";
@@ -17,6 +18,7 @@ const AppRoute = () => {
       <Route path="/project/*" element={<ProjectRoute />} />
       <Route path="/building/*" element={<BuildingRoute />} />
       <Route path="/report/*" element={<ReportRoute />} />
+      <Route path="/master/*" element={<MasterRoute />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
@@ -48,6 +50,14 @@ const ReportRoute = () => {
   return (
     <Routes>
       <Route index element={<Report />} />
+    </Routes>
+  );
+};
+
+const MasterRoute = () => {
+  return (
+    <Routes>
+      <Route index element={<Master />} />
     </Routes>
   );
 };

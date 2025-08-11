@@ -5,3 +5,4 @@ export { default as Building } from "./Building";
 export { default as AddBuildingType } from "./AddBuildingType";
 export { default as AddBuilding } from "./AddBuilding";
 export { default as AddDefect } from "./AddDefect";
+export { default as Master } from "./Master";
