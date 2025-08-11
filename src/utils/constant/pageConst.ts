@@ -127,7 +127,7 @@ export const masterPageData: AppType[] = [
     header: {
       withSearch: true,
       addLabel: "Add Defect Type",
-      addDest: "/defect/type-form",
+      addDest: "/master/defect-form",
     },
     content: {
       title: "Defect Type",

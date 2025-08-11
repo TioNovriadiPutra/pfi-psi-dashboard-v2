@@ -1,13 +1,25 @@
 import useHelper from "@hooks/useHelper";
-import type { FetchDataType } from "@interfaces/pageInterface";
+import type {
+  FetchDataType,
+  FetchFinalDataType,
+} from "@interfaces/pageInterface";
 import useDefectTypeModel from "@models/defectTypeModel";
 import { paginationHandler } from "@utils/helper/responseHandler";
 import moment from "moment";
 
 const useDefectTypeController = () => {
-  const { useGetDefectTypes } = useDefectTypeModel();
+  const {
+    useGetDefectTypes,
+    useAddDefectType,
+    useGetDefectTypeEdit,
+    useUpdateDefectType,
+  } = useDefectTypeModel();
 
   const { onError } = useHelper();
+
+  const addDefectTypeMutation = useAddDefectType();
+  const getDefectTypeEditMutation = useGetDefectTypeEdit();
+  const updateDefectTypeMutation = useUpdateDefectType();
 
   const useGetDefectTypesService = () => {
     const { data, isLoading, isError, error } = useGetDefectTypes();
@@ -25,18 +37,27 @@ const useDefectTypeController = () => {
               data.data.items_per_page,
               data.data.total_count
             ),
-            finalData: data.data.data.map((item) => ({
-              id: item.id,
-              row: [
-                { flex: "flex-1", type: "text", label: item.name },
-                {
-                  flex: "flex-1",
-                  type: "text",
-                  label: moment(item.created_at).format("ddd, DD MMM YYYY"),
-                },
-              ],
-              functions: [],
-            })),
+            finalData: data.data.data.map(
+              (item) =>
+                ({
+                  id: item.id,
+                  row: [
+                    { flex: "flex-1", type: "text", label: item.name },
+                    {
+                      flex: "flex-1",
+                      type: "text",
+                      label: moment(item.created_at).format("ddd, DD MMM YYYY"),
+                    },
+                  ],
+                  functions: [
+                    {
+                      type: "edit",
+                      onClick: () =>
+                        getDefectTypeEditMutation.mutate(item.name),
+                    },
+                  ],
+                } as FetchFinalDataType)
+            ),
           },
         ];
       }
@@ -50,6 +71,9 @@ const useDefectTypeController = () => {
 
   return {
     useGetDefectTypesService,
+    addDefectTypeService: (body: any) => addDefectTypeMutation.mutate(body),
+    updateDefectTypeService: (data: { name: string; body: any }) =>
+      updateDefectTypeMutation.mutate(data),
   };
 };
 

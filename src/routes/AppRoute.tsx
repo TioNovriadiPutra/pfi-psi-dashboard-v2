@@ -8,6 +8,7 @@ import {
   Master,
   Project,
 } from "@views/app";
+import AddDefectType from "@views/app/AddDefectType";
 import Report from "@views/app/Report";
 import { Navigate, Route, Routes } from "react-router";
 
@@ -19,7 +20,7 @@ const AppRoute = () => {
       <Route path="/building/*" element={<BuildingRoute />} />
       <Route path="/report/*" element={<ReportRoute />} />
       <Route path="/master/*" element={<MasterRoute />} />
-      <Route path="*" element={<Navigate to="/dashboard" />} />
+      <Route path="*" element={<Navigate to="/project" />} />
     </Routes>
   );
 };
@@ -50,6 +51,7 @@ const ReportRoute = () => {
   return (
     <Routes>
       <Route index element={<Report />} />
+      <Route path="*" element={<Navigate to="/report" />} />
     </Routes>
   );
 };
@@ -58,6 +60,8 @@ const MasterRoute = () => {
   return (
     <Routes>
       <Route index element={<Master />} />
+      <Route path="/defect-form" element={<AddDefectType />} />
+      <Route path="*" element={<Navigate to="/master" />} />
     </Routes>
   );
 };

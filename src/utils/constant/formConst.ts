@@ -3,6 +3,7 @@ import type { LoginInput, RegisterInput } from "@models/authModel";
 import type { BuildingInput } from "@models/buildingModel";
 import type { BuildingTypeInput } from "@models/buildingTypeModel";
 import type { DefectInput } from "@models/defectModel";
+import type { DefectTypeInput } from "@models/defectTypeModel";
 import type { ProjectInput } from "@models/projectModel";
 
 export const loginForm: AuthContentType<LoginInput> = {
@@ -337,10 +338,6 @@ export const buildingForm: FormType<BuildingInput> = {
                       required: true,
                       rules: {
                         required: "Orientation must be filled!",
-                        pattern: {
-                          value: /^-?\d+(\.\d+)?$/,
-                          message: "Orientation must be a number or decimal!",
-                        },
                       },
                     },
                     {
@@ -780,5 +777,22 @@ export const defectForm: FormType<DefectInput> = {
       description: "",
       highlight: "",
     },
+  },
+};
+
+export const defectTypeForm: FormType<DefectTypeInput> = {
+  inputs: [
+    [
+      {
+        type: "text",
+        name: "name",
+        label: "Name",
+        placeholder: "Input here...",
+        required: true,
+      },
+    ],
+  ],
+  defaultValues: {
+    name: "",
   },
 };
