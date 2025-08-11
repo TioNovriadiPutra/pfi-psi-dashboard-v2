@@ -1,17 +1,17 @@
 import { Form } from "@components/shared";
 import { defectForm } from "@utils/constant/formConst";
 import { useAnimate } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFieldArray, type Control } from "react-hook-form";
 
 type Props = {
   defectData: { title: string }[];
   control: Control<any, any>;
+  currPage: number;
+  onPage: (index: number) => void;
 };
 
-const AddDefectContent = ({ defectData, control }: Props) => {
-  const [currPage, setCurrPage] = useState(0);
-
+const AddDefectContent = ({ defectData, control, currPage, onPage }: Props) => {
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const AddDefectContent = ({ defectData, control }: Props) => {
           <button
             type="button"
             className="w-[120px] py-[16px]"
-            onClick={() => setCurrPage(index)}
+            onClick={() => onPage(index)}
           >
             <p
               key={index.toString()}
@@ -55,7 +55,12 @@ const AddDefectContent = ({ defectData, control }: Props) => {
           style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
         >
           <Form
-            listData={defectForm.inputs[0][0].tabData![0].inputs}
+            listData={defectForm.inputs[0][0].tabData![0].inputs.map(
+              (item) => ({
+                ...item,
+                name: `report.${item.name}`,
+              })
+            )}
             control={control}
           />
         </div>

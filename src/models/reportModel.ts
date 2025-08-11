@@ -1,6 +1,6 @@
 import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
-import { deleteReport, getReports } from "@services/reportService";
+import { addReport, deleteReport, getReports } from "@services/reportService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@utils/config/client";
 
@@ -39,13 +39,26 @@ export interface ReportDTO {
 }
 
 const useReportModel = () => {
-  const { confirmationModal, onMutate, onSettled, onError, onSuccess } =
+  const { confirmationModal, nav, onMutate, onSettled, onError, onSuccess } =
     useHelper();
 
   const useGetReports = () =>
     useQuery({
       queryKey: ["getReports"],
       queryFn: () => getReports(),
+    });
+
+  const useAddReport = () =>
+    useMutation({
+      mutationKey: ["addReport"],
+      mutationFn: (body: ReportInput) => addReport(body),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
+      onError,
+      onSuccess: (res) => {
+        nav("/building");
+        onSuccess(res.message);
+      },
     });
 
   const useDeleteReport = () =>
@@ -67,6 +80,7 @@ const useReportModel = () => {
 
   return {
     useGetReports,
+    useAddReport,
     useDeleteReport,
   };
 };
