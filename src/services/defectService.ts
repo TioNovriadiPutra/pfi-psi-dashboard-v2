@@ -3,7 +3,6 @@ import type { DefectDTO, DefectReqInput } from "@models/defectModel";
 import { API_ENDPOINT } from "@utils/config/api";
 import { axiosCloudinaryInstance, axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
-import axios from "axios";
 
 export const addDefect = async (
   body: DefectReqInput[]
@@ -22,7 +21,7 @@ export const addDefect = async (
         upload_preset: "pfi-psi-dashboard",
       });
 
-      const res2 = await axios.post("/image/upload", {
+      const res2 = await axiosCloudinaryInstance.post("/image/upload", {
         file: mapBody.image_detail,
         upload_preset: "pfi-psi-dashboard",
       });
