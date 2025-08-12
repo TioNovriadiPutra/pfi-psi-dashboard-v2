@@ -10,7 +10,6 @@ import { buildingForm } from "@utils/constant/formConst";
 import { BsBuildingGear } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { generateEncryption } from "@utils/helper/generator";
-import type { DefectInput } from "@models/defectModel";
 
 const useBuildingController = () => {
   const nav = useNavigate();
@@ -21,7 +20,6 @@ const useBuildingController = () => {
 
   const {
     useGetBuildings,
-    useGetBuildingDetailForm,
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
@@ -184,46 +182,6 @@ const useBuildingController = () => {
     };
   };
 
-  const useGetBuildingDetailFormService = (id: number) => {
-    const { data, isLoading, isError, error } = useGetBuildingDetailForm(id);
-
-    let finalData: { defaultValues: DefectInput; data: { title: string }[] } = {
-      defaultValues: {
-        defects: [],
-      },
-      data: [],
-    };
-
-    if (!isLoading) {
-      if (isError) {
-        onError(error);
-      } else if (data) {
-        finalData = {
-          defaultValues: {
-            defects: data.data.elevations.map(() => ({
-              image_elevation: "",
-              image_detail: "",
-              observation: "",
-              couse: "",
-              recommendation: "",
-              timeframe: "",
-              remedial: "",
-              defect_type_id: null,
-            })),
-          },
-          data: data.data.elevations.map((elevation) => ({
-            title: elevation.name,
-          })),
-        };
-      }
-    }
-
-    return {
-      finalData,
-      isLoading,
-    };
-  };
-
   const useGetBuildingFormDropdownService = () => {
     const responses = useGetBuildingFormDropdown();
 
@@ -282,7 +240,6 @@ const useBuildingController = () => {
 
   return {
     useGetBuildingsService,
-    useGetBuildingDetailFormService,
     useGetBuildingFormDropdownService,
     addBuildingService: (body: any) => addBuildingMutation.mutate(body),
   };

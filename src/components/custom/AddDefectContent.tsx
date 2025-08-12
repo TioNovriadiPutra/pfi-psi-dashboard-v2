@@ -1,18 +1,33 @@
-import { Form } from "@components/shared";
-import { defectForm } from "@utils/constant/formConst";
+import { AddHeader, Form } from "@components/shared";
+import useDefectController from "@controllers/defectController";
+import useReportController from "@controllers/reportController";
+import type { FormType } from "@interfaces/formInterface";
+import type { DefectInput } from "@models/defectModel";
 import { useAnimate } from "motion/react";
 import { useEffect } from "react";
-import { useFieldArray, type Control } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
 type Props = {
-  defectData: { title: string }[];
-  control: Control<any, any>;
+  defectData: { form: FormType<DefectInput>; data: { title: string }[] };
   currPage: number;
+  buildingId: number;
   onPage: (index: number) => void;
 };
 
-const AddDefectContent = ({ defectData, control, currPage, onPage }: Props) => {
+const AddDefectContent = ({
+  defectData,
+  currPage,
+  buildingId,
+  onPage,
+}: Props) => {
   const [scope, animate] = useAnimate();
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: defectData.form.defaultValues,
+  });
+
+  const { addDefectService } = useDefectController();
+  const { addReportService } = useReportController();
 
   useEffect(() => {
     animate(scope.current, { x: 120 * currPage }, { ease: "easeInOut" });
@@ -24,69 +39,101 @@ const AddDefectContent = ({ defectData, control, currPage, onPage }: Props) => {
   });
 
   return (
-    <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
-      <div className="relative !flex-row items-center">
-        {defectForm.inputs[0][0].tabData!.map((tab, index) => (
-          <button
-            type="button"
-            className="w-[120px] py-[16px]"
-            onClick={() => onPage(index)}
-          >
-            <p
+    <>
+      <AddHeader
+        title="Add Defect"
+        onSubmit={handleSubmit((body) => {
+          if (currPage === 0) {
+            addReportService({
+              ...body.report,
+              building_id: buildingId,
+            });
+          } else {
+            addDefectService(
+              body.defects.map((defect, index) => ({
+                building_id: buildingId,
+                location: defectData.data[index].title,
+                name: defect.name,
+                observation: defect.observation,
+                couse: defect.couse,
+                recommendation: defect.recommendation,
+                timeframe: defect.timeframe,
+                remedial: defect.remedial,
+                image_elevation: defect.image_elevation,
+                image_detail: defect.image_detail,
+                defect_type_id: defect.defect_type_id,
+              }))
+            );
+          }
+        })}
+      />
+
+      <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
+        <div className="relative !flex-row items-center">
+          {defectData.form.inputs[0][0].tabData!.map((tab, index) => (
+            <button
               key={index.toString()}
-              className={`text-body-sm font-medium ${
-                currPage === index ? "text-primary-400" : "text-neutral-400"
-              }`}
+              type="button"
+              className="w-[120px] py-[16px]"
+              onClick={() => onPage(index)}
             >
-              {tab.title}
-            </p>
-          </button>
-        ))}
+              <p
+                className={`text-body-sm font-medium ${
+                  currPage === index ? "text-primary-400" : "text-neutral-400"
+                }`}
+              >
+                {tab.title}
+              </p>
+            </button>
+          ))}
 
-        <div
-          ref={scope}
-          className="absolute w-[120px] h-[2px] bg-primary-400 rounded-full bottom-0"
-        />
-      </div>
-
-      {currPage === 0 ? (
-        <div
-          className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg"
-          style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
-        >
-          <Form
-            listData={defectForm.inputs[0][0].tabData![0].inputs.map(
-              (item) => ({
-                ...item,
-                name: `report.${item.name}`,
-              })
-            )}
-            control={control}
+          <div
+            ref={scope}
+            className="absolute w-[120px] h-[2px] bg-primary-400 rounded-full bottom-0"
           />
         </div>
-      ) : (
-        fields.map((field, index) => (
+
+        {currPage === 0 ? (
           <div
-            key={field.id}
-            className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg gap-md"
+            className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg"
             style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
           >
-            <h1 className="text-neutral-900">{defectData[index].title}</h1>
-
             <Form
-              key={field.id}
-              listData={defectForm.inputs[0][0].tabData![1].inputs.map(
+              listData={defectData.form.inputs[0][0].tabData![0].inputs.map(
                 (item) => ({
                   ...item,
-                  name: `defects.${index}.${item.name}`,
+                  name: `report.${item.name}`,
                 })
               )}
               control={control}
             />
           </div>
-        ))
-      )}
-    </div>
+        ) : (
+          fields.map((field, index) => (
+            <div
+              key={field.id}
+              className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg gap-md"
+              style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
+            >
+              <h1 className="text-neutral-900">
+                {defectData.data[index].title}
+              </h1>
+
+              <Form
+                key={field.id}
+                listData={defectData.form.inputs[0][0].tabData![1].inputs.map(
+                  (item) => ({
+                    ...item,
+                    name: `defects.${index}.${item.name}`,
+                  })
+                )}
+                control={control}
+              />
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 };
 

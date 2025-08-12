@@ -12,6 +12,17 @@ export const axiosOneInstance = axios.create({
   timeout: 60000,
 });
 
+export const axiosCloudinaryInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_CLOUDINARY_URL}/${
+    import.meta.env.VITE_CLOUDINARY_NAME
+  }`,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+  timeout: 60000,
+});
+
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {

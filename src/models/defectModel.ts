@@ -1,12 +1,13 @@
-import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
 import { getBuildingDetail } from "@services/buildingService";
-import { useMutation } from "@tanstack/react-query";
-import { generateEncryption } from "@utils/helper/generator";
-import { useNavigate } from "react-router";
+import { useMutation, useQueries } from "@tanstack/react-query";
 import type { ReportInput } from "./reportModel";
+import { getDefectTypes } from "@services/defectTypeService";
+import { addDefect } from "@services/defectService";
+import useHelper from "@hooks/useHelper";
 
 export interface DefectDataInput {
+  name: string;
   observation: string;
   couse: string;
   recommendation: string;
@@ -41,34 +42,38 @@ export interface DefectDTO {
 }
 
 const useDefectModel = () => {
-  const nav = useNavigate();
+  const { nav, onMutate, onSettled, onError, onSuccess } = useHelper();
 
-  const { onMutate, onSettled, onError } = useHelper();
+  const useGetDefectForm = (id: number) =>
+    useQueries({
+      queries: [
+        {
+          queryKey: ["getDefectForm"],
+          queryFn: () => getBuildingDetail(id),
+        },
+        {
+          queryKey: ["getDefectDropdown"],
+          queryFn: () => getDefectTypes(),
+        },
+      ],
+    });
 
-  const useGetDefectForm = () =>
+  const useAddDefect = () =>
     useMutation({
-      mutationKey: ["getDefectForm"],
-      mutationFn: (id: number) => getBuildingDetail(id),
-      onMutate: () => onMutate("modal"),
-      onSettled: () => onSettled("modal"),
+      mutationKey: ["addDefect"],
+      mutationFn: (body: DefectReqInput[]) => addDefect(body),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
       onError,
       onSuccess: (res) => {
-        nav(
-          `/building/defect-form?form=${encodeURIComponent(
-            generateEncryption(
-              JSON.stringify({
-                defects: res.data.elevations.map((elevation) => ({
-                  title: elevation.name,
-                })),
-              })
-            )
-          )}`
-        );
+        nav("/building");
+        onSuccess(res.message);
       },
     });
 
   return {
     useGetDefectForm,
+    useAddDefect,
   };
 };
 

@@ -585,6 +585,27 @@ export const defectForm: FormType<DefectInput> = {
               },
               {
                 type: "text",
+                name: "name",
+                label: "Name",
+                placeholder: "Input here...",
+                required: true,
+                rules: {
+                  required: "Name must be filled!",
+                },
+              },
+              {
+                type: "dropdown",
+                name: "defect_type_id",
+                label: "Defect Type",
+                placeholder: "Pick here",
+                required: true,
+                items: [],
+                rules: {
+                  required: "Defect pick must be filled!",
+                },
+              },
+              {
+                type: "text",
                 name: "observation",
                 label: "Observation",
                 placeholder: "Input here...",

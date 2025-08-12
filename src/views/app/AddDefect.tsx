@@ -1,12 +1,9 @@
 import { AddDefectContent } from "@components/custom";
-import { AddHeader } from "@components/shared";
 import { FormSkeleton } from "@components/skeleton";
 import MainContainer from "@containers/MainContainer";
-import useBuildingController from "@controllers/buildingController";
-import useReportController from "@controllers/reportController";
+import useDefectController from "@controllers/defectController";
 import { generateDecryption } from "@utils/helper/generator";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router";
 
 const AddDefect = () => {
@@ -14,40 +11,23 @@ const AddDefect = () => {
 
   const [searchParam] = useSearchParams();
 
-  const { useGetBuildingDetailFormService } = useBuildingController();
-  const { addReportService } = useReportController();
+  const { useGetDefectFormService } = useDefectController();
 
-  const { finalData, isLoading } = useGetBuildingDetailFormService(
+  const { finalData, isLoading } = useGetDefectFormService(
     JSON.parse(generateDecryption(decodeURIComponent(searchParam.get("form")!)))
   );
 
-  const { control, handleSubmit } = useForm({
-    defaultValues: finalData.defaultValues,
-  });
-
   return (
     <MainContainer>
-      <AddHeader
-        title="Add Defect"
-        onSubmit={handleSubmit((body) => {
-          if (currPage === 0) {
-            addReportService({
-              ...body.report,
-              building_id: JSON.parse(
-                generateDecryption(decodeURIComponent(searchParam.get("form")!))
-              ),
-            });
-          }
-        })}
-      />
-
       {isLoading ? (
         <FormSkeleton />
       ) : (
         <AddDefectContent
-          defectData={finalData.data}
-          control={control}
+          defectData={finalData}
           currPage={currPage}
+          buildingId={JSON.parse(
+            generateDecryption(decodeURIComponent(searchParam.get("form")!))
+          )}
           onPage={(index) => setCurrPage(index)}
         />
       )}

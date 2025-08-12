@@ -1,4 +1,4 @@
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries } from "@tanstack/react-query";
 import type { ProjectDTO } from "./projectModel";
 import {
   addBuilding,
@@ -79,12 +79,6 @@ const useBuildingModel = () => {
         { queryKey: ["getBuildings"], queryFn: () => getBuildings() },
         { queryKey: ["getBuildingTypes"], queryFn: () => getBuildingTypes() },
       ],
-    });
-
-  const useGetBuildingDetailForm = (id: number) =>
-    useQuery({
-      queryKey: ["getBuildingDetailForm"],
-      queryFn: () => getBuildingDetail(id),
     });
 
   const useGetBuildingFormDropdown = () =>
@@ -258,7 +252,6 @@ const useBuildingModel = () => {
 
   return {
     useGetBuildings,
-    useGetBuildingDetailForm,
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
