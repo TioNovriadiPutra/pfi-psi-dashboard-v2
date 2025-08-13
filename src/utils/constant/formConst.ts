@@ -541,6 +541,66 @@ export const defectForm: FormType<DefectInput> = {
             ],
           },
           {
+            title: "Plan",
+            inputs: [
+              {
+                type: "text",
+                name: "plan",
+                label: "Name",
+                placeholder: "Input here...",
+                required: true,
+                rules: {
+                  required: "Name must be filled!",
+                },
+              },
+              {
+                type: "image",
+                name: "plan_image",
+                label: "Plan Image",
+                placeholder: "Upload image",
+                required: false,
+                rules: {
+                  validate: (val) => {
+                    const base64 = val.split(",")[1] || val;
+                    const padding = (base64.match(/=+$/) || [""])[0].length;
+                    const sizeInBytes = (base64.length * 3) / 4 - padding;
+
+                    return (
+                      sizeInBytes <= 2 * 1024 * 1024 ||
+                      "Image to large (max 2mb)"
+                    );
+                  },
+                },
+              },
+              {
+                type: "image",
+                name: "plan_evelvation_image",
+                label: "Elevation Image",
+                placeholder: "Upload Image",
+                required: false,
+                rules: {
+                  validate: (val) => {
+                    const base64 = val.split(",")[1] || val;
+                    const padding = (base64.match(/=+$/) || [""])[0].length;
+                    const sizeInBytes = (base64.length * 3) / 4 - padding;
+
+                    return (
+                      sizeInBytes <= 2 * 1024 * 1024 ||
+                      "Image to large (max 2mb)"
+                    );
+                  },
+                },
+              },
+              {
+                type: "textarea",
+                name: "description",
+                label: "Description",
+                placeholder: "Input here...",
+                required: false,
+              },
+            ],
+          },
+          {
             title: "Defect",
             inputs: [
               {
@@ -663,6 +723,17 @@ export const defectForm: FormType<DefectInput> = {
                 cartData: {
                   inputs: [
                     {
+                      type: "dropdown",
+                      name: "level_id",
+                      label: "Level",
+                      placeholder: "Pick here",
+                      required: true,
+                      items: [],
+                      rules: {
+                        required: "Level must be filled!",
+                      },
+                    },
+                    {
                       type: "image",
                       name: "photograph",
                       label: "Photograph",
@@ -718,19 +789,15 @@ export const defectForm: FormType<DefectInput> = {
                       name: "description",
                       label: "Description",
                       placeholder: "Input here...",
-                      required: true,
-                      rules: {
-                        required: "Description must be filled!",
-                      },
+                      required: false,
                     },
                     {
                       type: "image",
                       name: "image_elevation",
                       label: "Elevation Image",
                       placeholder: "Upload image",
-                      required: true,
+                      required: false,
                       rules: {
-                        required: "Elevation image must be filled!",
                         validate: (val) => {
                           const base64 = val.split(",")[1] || val;
                           const padding = (base64.match(/=+$/) || [""])[0]
@@ -749,9 +816,8 @@ export const defectForm: FormType<DefectInput> = {
                       name: "image_defect",
                       label: "Defect Image",
                       placeholder: "Upload image",
-                      required: true,
+                      required: false,
                       rules: {
-                        required: "Defect image must be filled!",
                         validate: (val) => {
                           const base64 = val.split(",")[1] || val;
                           const padding = (base64.match(/=+$/) || [""])[0]
@@ -797,6 +863,12 @@ export const defectForm: FormType<DefectInput> = {
       facade_inspector: "",
       description: "",
       highlight: "",
+    },
+    plan: {
+      plan: "",
+      plan_image: "",
+      plan_evelvation_image: "",
+      description: "",
     },
   },
 };

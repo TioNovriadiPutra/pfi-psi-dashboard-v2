@@ -54,6 +54,19 @@ const DropdownInput = ({ inputData, control }: Props) => {
         <IoIosArrowDropdown size={18} className="text-neutral-500" />
 
         <AnimatePresence>
+          {error && (
+            <motion.p
+              className="absolute bottom-[-10px] text-body-sm font-normal text-red-600 bg-neutral-0 px-[2px]"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+            >
+              {error.message}
+            </motion.p>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
           {showDrop && (
             <motion.div
               className="absolute z-[999] left-0 right-0 top-[110%] max-w-[256px] bg-neutral-0 border border-neutral-200 rounded-md p-[5px] origin-top"

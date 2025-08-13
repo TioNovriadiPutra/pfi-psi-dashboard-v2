@@ -39,20 +39,26 @@ export const addDefect = async (
         let res3 = null;
         let res4 = null;
 
-        if (data2.image_elevation)
+        if (data2.image_elevation && data2.image_elevation !== "")
           res3 = await axiosCloudinaryInstance.post("/image/upload", {
             file: data2.image_elevation,
             upload_preset: "pfi-psi-dashboard",
           });
 
-        if (data2.image_defect)
+        if (data2.image_defect && data2.image_defect !== "")
           res4 = await axiosCloudinaryInstance.post("/image/upload", {
             file: data2.image_defect,
             upload_preset: "pfi-psi-dashboard",
           });
 
+        const res5 = await axiosCloudinaryInstance.post("/image/upload", {
+          file: data2.photograph,
+          upload_preset: "pfi-psi-dashboard",
+        });
+
         const mapBody2 = {
           ...data2,
+          photograph: res5.data.secure_url,
           image_elevation: res3?.data.secure_url ?? null,
           image_defect: res4?.data.secure_url ?? null,
         };

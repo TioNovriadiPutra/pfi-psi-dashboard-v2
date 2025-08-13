@@ -1,5 +1,6 @@
 import { AddHeader, Form } from "@components/shared";
 import useDefectController from "@controllers/defectController";
+import usePlanController from "@controllers/planController";
 import useReportController from "@controllers/reportController";
 import type { FormType } from "@interfaces/formInterface";
 import type { DefectInput } from "@models/defectModel";
@@ -24,6 +25,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
 
   const { addDefectService } = useDefectController();
   const { addReportService } = useReportController();
+  const { addPlanService } = usePlanController();
 
   useEffect(() => {
     animate(
@@ -48,6 +50,12 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
               ...body.report,
               building_id: buildingId,
             });
+          } else if (defectSlider.page === 1) {
+            addPlanService({
+              ...body.plan,
+              building_id: buildingId,
+              report_id: defectSlider.reportId!,
+            });
           } else {
             addDefectService(
               body.defects.map((defect, index) => ({
@@ -66,6 +74,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                   ...level,
                   building_id: buildingId,
                   report_id: defectSlider.reportId!,
+                  level_id: level.level_id,
                 })),
               }))
             );
@@ -98,18 +107,20 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
           />
         </div>
 
-        {defectSlider.page === 0 ? (
+        {defectSlider.page < 2 ? (
           <div
             className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg"
             style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
           >
             <Form
-              listData={defectData.form.inputs[0][0].tabData![0].inputs.map(
-                (item) => ({
-                  ...item,
-                  name: `report.${item.name}`,
-                })
-              )}
+              listData={defectData.form.inputs[0][0].tabData![
+                defectSlider.page
+              ].inputs.map((item) => ({
+                ...item,
+                name: `${defectSlider.page === 0 ? "report" : "plan"}.${
+                  item.name
+                }`,
+              }))}
               control={control}
             />
           </div>
@@ -126,7 +137,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
 
               <Form
                 key={field.id}
-                listData={defectData.form.inputs[0][0].tabData![1].inputs.map(
+                listData={defectData.form.inputs[0][0].tabData![2].inputs.map(
                   (item) => ({
                     ...item,
                     name: `defects.${index}.${item.name}`,

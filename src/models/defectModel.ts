@@ -6,6 +6,8 @@ import { getDefectTypes } from "@services/defectTypeService";
 import { addDefect } from "@services/defectService";
 import useHelper from "@hooks/useHelper";
 import type { InspectionInput } from "./inspectionModel";
+import { getBuildingLevels } from "@services/buildingLevelService";
+import type { PlanInput } from "./planModel";
 
 export interface DefectDataInput {
   name: string;
@@ -28,6 +30,7 @@ export interface DefectReqInput extends DefectDataInput {
 export interface DefectInput {
   defects: DefectDataInput[];
   report: ReportInput;
+  plan: PlanInput;
 }
 
 export interface DefectDTO {
@@ -54,8 +57,12 @@ const useDefectModel = () => {
           queryFn: () => getBuildingDetail(id),
         },
         {
-          queryKey: ["getDefectDropdown"],
+          queryKey: ["getDefectTypeDropdown"],
           queryFn: () => getDefectTypes(),
+        },
+        {
+          queryKey: ["getBuildingLevelDropdown"],
+          queryFn: () => getBuildingLevels(),
         },
       ],
     });

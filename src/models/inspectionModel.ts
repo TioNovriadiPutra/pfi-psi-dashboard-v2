@@ -1,6 +1,8 @@
+import type { DropdownType } from "@interfaces/formInterface";
 import { useMutation } from "@tanstack/react-query";
 
 export interface InspectionInput {
+  level_id: DropdownType | null;
   building_id: number;
   report_id: number;
   photograph: string;

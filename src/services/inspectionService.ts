@@ -8,7 +8,15 @@ export const addInspection = async (
   body: InspectionInput
 ): Promise<ResType<InspectionDTO>> => {
   try {
-    const response = await axiosInstance.post(API_ENDPOINT.addInspection, body);
+    const mapBody = {
+      ...body,
+      level_id: body.level_id?.value ?? null,
+    };
+
+    const response = await axiosInstance.post(
+      API_ENDPOINT.addInspection,
+      mapBody
+    );
 
     return successResponse<InspectionDTO>(response, "Inspection added!");
   } catch (error) {

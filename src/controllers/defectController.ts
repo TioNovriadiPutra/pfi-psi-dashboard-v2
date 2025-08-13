@@ -1,5 +1,5 @@
 import useHelper from "@hooks/useHelper";
-import type { FormType } from "@interfaces/formInterface";
+import type { FormType, InputType } from "@interfaces/formInterface";
 import useDefectModel, { type DefectInput } from "@models/defectModel";
 import { defectForm } from "@utils/constant/formConst";
 
@@ -33,33 +33,64 @@ const useDefectController = () => {
           form: {
             ...defectForm,
             inputs: defectForm.inputs.map((input) =>
-              input.map((input2) => ({
-                ...input2,
-                tabData: input2.tabData!.map((input3) => {
-                  if (input3.title === "Defect") {
-                    return {
-                      ...input3,
-                      inputs: input3.inputs.map((input4) => {
-                        if (input4.name === "defect_type_id") {
-                          return {
-                            ...input4,
-                            items: responses[1].data!.data.data.map((res) => ({
-                              label: res.name,
-                              value: res.id,
-                            })),
-                          };
-                        }
+              input.map(
+                (input2) =>
+                  ({
+                    ...input2,
+                    tabData: input2.tabData!.map((input3) => {
+                      if (input3.title === "Defect") {
+                        return {
+                          ...input3,
+                          inputs: input3.inputs.map((input4) => {
+                            if (input4.name === "defect_type_id") {
+                              return {
+                                ...input4,
+                                items: responses[1].data!.data.data.map(
+                                  (res) => ({
+                                    label: res.name,
+                                    value: res.id,
+                                  })
+                                ),
+                              };
+                            } else if (input4.name === "defect_levels") {
+                              return {
+                                ...input4,
+                                cartData: {
+                                  ...input4.cartData,
+                                  inputs: input4.cartData!.inputs.map(
+                                    (input5) => {
+                                      if (input5.name === "level_id") {
+                                        return {
+                                          ...input5,
+                                          items:
+                                            responses[2].data!.data.data.map(
+                                              (res) => ({
+                                                label: res.level_name,
+                                                value: res.id,
+                                              })
+                                            ),
+                                        };
+                                      }
 
-                        return input4;
-                      }),
-                    };
-                  }
+                                      return input5;
+                                    }
+                                  ),
+                                },
+                              };
+                            }
 
-                  return input3;
-                }),
-              }))
+                            return input4;
+                          }),
+                        };
+                      }
+
+                      return input3;
+                    }),
+                  } as InputType)
+              )
             ),
             defaultValues: {
+              ...defectForm.defaultValues,
               defects: responses[0].data!.data.elevations.map(() => ({
                 name: "",
                 image_elevation: "",
@@ -70,20 +101,8 @@ const useDefectController = () => {
                 timeframe: "",
                 remedial: "",
                 defect_type_id: null,
+                defect_levels: [],
               })),
-              report: {
-                report_no: "",
-                report_date: "",
-                time_inspection: "",
-                date_inspection: "",
-                duration_inspection: "",
-                location_inspection: "",
-                methodology_inspection: "",
-                name_providers: "",
-                facade_inspector: "",
-                description: "",
-                highlight: "",
-              },
             },
           },
           data: responses[0].data!.data.elevations.map((elevation) => ({

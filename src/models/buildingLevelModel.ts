@@ -5,6 +5,7 @@ export interface BuildingLevelInput {
 }
 
 export interface BuildingLevelDTO {
+  id: number;
   level_name: string;
   primary_usage: string | null;
   description: string | null;
