@@ -1,11 +1,11 @@
 import { Button, Form } from "@components/shared";
-import type { FormType } from "@interfaces/formInterface";
+import type { FormType, InputType } from "@interfaces/formInterface";
 import { useLoadingButton } from "@stores/pageStore";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 type Props = {
-  formData: FormType<any>;
+  formData: Omit<FormType<any>, "inputs"> & { inputs: InputType[] };
   isLogin?: boolean;
   onSubmit?: (body: any) => void;
 };

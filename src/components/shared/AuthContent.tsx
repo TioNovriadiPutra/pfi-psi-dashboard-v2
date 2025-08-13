@@ -9,7 +9,7 @@ type Props = {
 
 const AuthContent = ({ contentData, isLogin, onSubmit }: Props) => {
   return (
-    <div className="flex-1 w-full max-w-[512px] gap-[64px] overflow-hidden max-h-[calc(100dvh-72px)] justify-center">
+    <div className="flex-1 w-full max-w-[512px] gap-[64px] overflow-hidden max-h-[calc(100dvh-72px)] justify-center px-md">
       <div className="items-center self-center gap-sm max-w-[336px]">
         <img src="/favicon.ico" alt="MaxzRange" className="size-[30px]" />
 

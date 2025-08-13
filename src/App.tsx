@@ -1,9 +1,10 @@
-import { Sidebar, Toast } from "@components/custom";
+import { Sidebar, SidebarMobile, Toast } from "@components/custom";
 import {
   ConfirmationModal,
   DetailModal,
   LoadingModal,
 } from "@components/modal";
+import useResponsive from "@hooks/useResponsive";
 import AppRoute from "@routes/AppRoute";
 import AuthRoute from "@routes/AuthRoute";
 import { useAuth } from "@stores/authStore";
@@ -12,6 +13,8 @@ import { BrowserRouter } from "react-router";
 
 const App = () => {
   const auth = useAuth();
+
+  const { isTablet } = useResponsive();
 
   useEffect(() => {
     auth.checkIsLoggedIn();
@@ -22,7 +25,7 @@ const App = () => {
       <BrowserRouter>
         {auth.token ? (
           <div className="relative flex-1 !flex-row bg-neutral-50">
-            <Sidebar />
+            {isTablet ? <SidebarMobile /> : <Sidebar />}
 
             <AppRoute />
 

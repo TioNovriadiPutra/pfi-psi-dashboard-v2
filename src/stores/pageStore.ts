@@ -99,3 +99,9 @@ export const useMaster = create<SlideStateType>((set) => ({
   changePage: (page) => set({ page }),
   resetPage: () => set({ page: 0 }),
 }));
+
+export const useSidebar = create<LoadingStateType>((set) => ({
+  show: false,
+  showLoading: () => set({ show: true }),
+  hideLoading: () => set({ show: false }),
+}));
