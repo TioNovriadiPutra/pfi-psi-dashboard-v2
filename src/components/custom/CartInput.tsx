@@ -20,6 +20,7 @@ const CartInput = ({ inputData, control }: Props) => {
     <div className="gap-md">
       {fields.map((field, index) => (
         <div
+          key={field.id}
           className={`border border-neutral-200 pb-sm bg-neutral-50 px-xs rounded-md`}
           style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
         >
@@ -38,7 +39,6 @@ const CartInput = ({ inputData, control }: Props) => {
           </div>
 
           <Form
-            key={field.id}
             listData={inputData.cartData!.inputs.map((input) => ({
               ...input,
               name: `${inputData.name}.${index}.${input.name}`,

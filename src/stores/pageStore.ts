@@ -1,4 +1,5 @@
 import type {
+  DefectSlideStateType,
   LoadingStateType,
   OneThemeStateType,
   SlideStateType,
@@ -74,6 +75,17 @@ export const useOneTheme = create<OneThemeStateType>((set, get) => ({
 
     set({ data: mapData });
   },
+}));
+
+export const useDefectSlider = create<DefectSlideStateType>((set, get) => ({
+  page: 0,
+  reportId: null,
+  changePage: (page, reportId) => {
+    const id = get().reportId;
+
+    set({ page, reportId: reportId || id });
+  },
+  resetPage: () => set({ page: 0 }),
 }));
 
 export const useBuilding = create<SlideStateType>((set) => ({

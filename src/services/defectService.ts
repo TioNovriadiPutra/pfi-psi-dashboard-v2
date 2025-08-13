@@ -3,6 +3,7 @@ import type { DefectDTO, DefectReqInput } from "@models/defectModel";
 import { API_ENDPOINT } from "@utils/config/api";
 import { axiosCloudinaryInstance, axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
+import { addInspection } from "./inspectionService";
 
 export const addDefect = async (
   body: DefectReqInput[]
@@ -33,6 +34,31 @@ export const addDefect = async (
       };
 
       response = await axiosInstance.post(API_ENDPOINT.getDefects, mapBody);
+
+      for (const data2 of mapBody.defect_levels) {
+        let res3 = null;
+        let res4 = null;
+
+        if (data2.image_elevation)
+          res3 = await axiosCloudinaryInstance.post("/image/upload", {
+            file: data2.image_elevation,
+            upload_preset: "pfi-psi-dashboard",
+          });
+
+        if (data2.image_defect)
+          res4 = await axiosCloudinaryInstance.post("/image/upload", {
+            file: data2.image_defect,
+            upload_preset: "pfi-psi-dashboard",
+          });
+
+        const mapBody2 = {
+          ...data2,
+          image_elevation: res3?.data.secure_url ?? null,
+          image_defect: res4?.data.secure_url ?? null,
+        };
+
+        await addInspection(mapBody2);
+      }
     }
 
     return successResponse<DefectDTO>(response, "Defect added!");

@@ -1,6 +1,7 @@
 import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
 import { addReport, deleteReport, getReports } from "@services/reportService";
+import { useDefectSlider } from "@stores/pageStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@utils/config/client";
 
@@ -39,7 +40,9 @@ export interface ReportDTO {
 }
 
 const useReportModel = () => {
-  const { confirmationModal, nav, onMutate, onSettled, onError, onSuccess } =
+  const changeDefectSlider = useDefectSlider((state) => state.changePage);
+
+  const { confirmationModal, onMutate, onSettled, onError, onSuccess } =
     useHelper();
 
   const useGetReports = () =>
@@ -56,7 +59,7 @@ const useReportModel = () => {
       onSettled: () => onSettled("button"),
       onError,
       onSuccess: (res) => {
-        nav("/building");
+        changeDefectSlider(1, res.data.id);
         onSuccess(res.message);
       },
     });

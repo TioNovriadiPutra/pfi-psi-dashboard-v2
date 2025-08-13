@@ -41,6 +41,13 @@ export interface SlideStateType {
   resetPage: () => void;
 }
 
+export interface DefectSlideStateType {
+  page: number;
+  reportId: number | null;
+  changePage: (page: number, reportId?: number) => void;
+  resetPage: () => void;
+}
+
 export interface OneThemeDataType {
   label: string;
   value: string;

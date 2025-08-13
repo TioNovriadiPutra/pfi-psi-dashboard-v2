@@ -5,6 +5,7 @@ import type { ReportInput } from "./reportModel";
 import { getDefectTypes } from "@services/defectTypeService";
 import { addDefect } from "@services/defectService";
 import useHelper from "@hooks/useHelper";
+import type { InspectionInput } from "./inspectionModel";
 
 export interface DefectDataInput {
   name: string;
@@ -16,6 +17,7 @@ export interface DefectDataInput {
   image_elevation: string;
   image_detail: string;
   defect_type_id: DropdownType | null;
+  defect_levels: InspectionInput[];
 }
 
 export interface DefectReqInput extends DefectDataInput {

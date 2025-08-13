@@ -24,4 +24,5 @@ export const API_ENDPOINT = {
   getDefects: "/defect",
   getReports: "/reports",
   addReport: "/report",
+  addInspection: "/inspection",
 };

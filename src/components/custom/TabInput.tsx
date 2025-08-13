@@ -23,6 +23,7 @@ const TabInput = ({ inputData, control }: Props) => {
       <div className="relative !flex-row items-center">
         {inputData.tabData!.map((tab, index) => (
           <button
+            key={index.toString()}
             type="button"
             className="w-[120px] py-[16px]"
             onClick={() => setCurrPage(index)}
@@ -45,7 +46,10 @@ const TabInput = ({ inputData, control }: Props) => {
       </div>
 
       {inputData.tabData!.map((tab, index) => (
-        <div className={`${index !== currPage && "!hidden"}`}>
+        <div
+          key={index.toString()}
+          className={`${index !== currPage && "!hidden"}`}
+        >
           <Form
             key={index.toString()}
             listData={tab.inputs}
