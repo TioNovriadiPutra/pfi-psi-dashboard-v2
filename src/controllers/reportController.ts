@@ -5,11 +5,10 @@ import { paginationHandler } from "@utils/helper/responseHandler";
 import moment from "moment";
 
 const useReportController = () => {
-  const { useGetReports, useAddReport, useDeleteReport } = useReportModel();
+  const { useGetReports, useDeleteReport } = useReportModel();
 
   const { confirmationModal, onError } = useHelper();
 
-  const addReportMutation = useAddReport();
   const deleteReportMutation = useDeleteReport();
 
   const useGetReportsService = () => {
@@ -99,7 +98,6 @@ const useReportController = () => {
 
   return {
     useGetReportsService,
-    addReportService: (body: any) => addReportMutation.mutate(body),
   };
 };
 

@@ -9,6 +9,7 @@ import MapInputLayer from "./MapInputLayer";
 import useMapInput from "@hooks/useMapInput";
 import MapInputDetail from "./MapInputDetail";
 import { AnimatePresence, motion } from "motion/react";
+import SearchInput from "./SearchInput";
 
 type Props = {
   inputData: InputType;
@@ -20,11 +21,13 @@ const MapInput = ({ inputData, control }: Props) => {
     showDetail,
     mapRef,
     retrieveTheme,
+    searchAddress,
     field,
     error,
     onDetail,
-    onHideDetail,
     onMark,
+    onSearch,
+    onSelect,
   } = useMapInput(inputData, control);
 
   return (
@@ -36,6 +39,13 @@ const MapInput = ({ inputData, control }: Props) => {
           {inputData.required && <span className="text-red-600"> *</span>}
         </p>
       )}
+
+      <SearchInput
+        suggestions={searchAddress.finalData}
+        isLoading={searchAddress.isLoading}
+        onSearch={onSearch}
+        onSelect={onSelect}
+      />
 
       <div
         className={`relative h-[450px] rounded-md overflow-hidden border ${

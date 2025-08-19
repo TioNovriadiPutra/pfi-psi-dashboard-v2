@@ -544,59 +544,78 @@ export const defectForm: FormType<DefectInput> = {
             title: "Plan",
             inputs: [
               {
-                type: "text",
-                name: "plan",
-                label: "Name",
-                placeholder: "Input here...",
+                type: "cart",
+                name: "plans",
+                label: "Plan",
+                placeholder: "",
                 required: true,
-                rules: {
-                  required: "Name must be filled!",
-                },
-              },
-              {
-                type: "image",
-                name: "plan_image",
-                label: "Plan Image",
-                placeholder: "Upload image",
-                required: false,
-                rules: {
-                  validate: (val) => {
-                    const base64 = val.split(",")[1] || val;
-                    const padding = (base64.match(/=+$/) || [""])[0].length;
-                    const sizeInBytes = (base64.length * 3) / 4 - padding;
+                cartData: {
+                  inputs: [
+                    {
+                      type: "text",
+                      name: "plan",
+                      label: "Name",
+                      placeholder: "Input here...",
+                      required: true,
+                      rules: {
+                        required: "Name must be filled!",
+                      },
+                    },
+                    {
+                      type: "image",
+                      name: "plan_image",
+                      label: "Plan Image",
+                      placeholder: "Upload image",
+                      required: false,
+                      rules: {
+                        validate: (val) => {
+                          const base64 = val.split(",")[1] || val;
+                          const padding = (base64.match(/=+$/) || [""])[0]
+                            .length;
+                          const sizeInBytes = (base64.length * 3) / 4 - padding;
 
-                    return (
-                      sizeInBytes <= 2 * 1024 * 1024 ||
-                      "Image to large (max 2mb)"
-                    );
+                          return (
+                            sizeInBytes <= 2 * 1024 * 1024 ||
+                            "Image to large (max 2mb)"
+                          );
+                        },
+                      },
+                    },
+                    {
+                      type: "image",
+                      name: "plan_evelvation_image",
+                      label: "Elevation Image",
+                      placeholder: "Upload Image",
+                      required: false,
+                      rules: {
+                        validate: (val) => {
+                          const base64 = val.split(",")[1] || val;
+                          const padding = (base64.match(/=+$/) || [""])[0]
+                            .length;
+                          const sizeInBytes = (base64.length * 3) / 4 - padding;
+
+                          return (
+                            sizeInBytes <= 2 * 1024 * 1024 ||
+                            "Image to large (max 2mb)"
+                          );
+                        },
+                      },
+                    },
+                    {
+                      type: "textarea",
+                      name: "description",
+                      label: "Description",
+                      placeholder: "Input here...",
+                      required: false,
+                    },
+                  ],
+                  template: {
+                    plan: "",
+                    plan_image: "",
+                    plan_evelvation_image: "",
+                    description: "",
                   },
                 },
-              },
-              {
-                type: "image",
-                name: "plan_evelvation_image",
-                label: "Elevation Image",
-                placeholder: "Upload Image",
-                required: false,
-                rules: {
-                  validate: (val) => {
-                    const base64 = val.split(",")[1] || val;
-                    const padding = (base64.match(/=+$/) || [""])[0].length;
-                    const sizeInBytes = (base64.length * 3) / 4 - padding;
-
-                    return (
-                      sizeInBytes <= 2 * 1024 * 1024 ||
-                      "Image to large (max 2mb)"
-                    );
-                  },
-                },
-              },
-              {
-                type: "textarea",
-                name: "description",
-                label: "Description",
-                placeholder: "Input here...",
-                required: false,
               },
             ],
           },
@@ -850,7 +869,6 @@ export const defectForm: FormType<DefectInput> = {
     ],
   ],
   defaultValues: {
-    defects: [],
     report: {
       report_no: "",
       report_date: "",
@@ -864,12 +882,8 @@ export const defectForm: FormType<DefectInput> = {
       description: "",
       highlight: "",
     },
-    plan: {
-      plan: "",
-      plan_image: "",
-      plan_evelvation_image: "",
-      description: "",
-    },
+    plans: [],
+    defects: [],
   },
 };
 

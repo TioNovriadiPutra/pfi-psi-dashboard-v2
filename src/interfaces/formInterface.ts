@@ -5,6 +5,10 @@ export interface DropdownType {
   value: string | number;
 }
 
+export interface SuggestionType extends DropdownType {
+  description: string;
+}
+
 export interface MapType {
   lat: number;
   lng: number;

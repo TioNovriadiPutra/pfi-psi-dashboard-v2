@@ -83,6 +83,18 @@
   --radius-lg: 8px;
 }
 
+::-webkit-scrollbar {
+  @apply w-[6px] h-[6px];
+}
+
+::-webkit-scrollbar-track {
+  @apply w-[6px] h-[6px];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply w-[6px] h-[6px] bg-neutral-300 rounded-full;
+}
+
 body {
   overflow: hidden;
 }

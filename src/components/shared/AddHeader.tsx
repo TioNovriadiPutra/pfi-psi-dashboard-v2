@@ -7,9 +7,10 @@ type Props = {
   title: string;
   onSubmit?: () => void;
   onPreview?: () => void;
+  onBack?: () => void;
 };
 
-const AddHeader = ({ title, onSubmit, onPreview }: Props) => {
+const AddHeader = ({ title, onSubmit, onPreview, onBack }: Props) => {
   const loadingButton = useLoadingButton((state) => state.show);
 
   const nav = useNavigate();
@@ -20,7 +21,13 @@ const AddHeader = ({ title, onSubmit, onPreview }: Props) => {
         <button
           type="button"
           className="size-lg bg-neutral-0 hover:bg-primary-200 text-neutral-900 hover:text-primary-400 border border-neutral-200 hover:border-primary-400 transition-colors duration-300 items-center justify-center rounded-md"
-          onClick={() => nav(-1)}
+          onClick={() => {
+            if (onBack) {
+              onBack();
+            } else {
+              nav(-1);
+            }
+          }}
         >
           <GrFormPrevious size={16} />
         </button>

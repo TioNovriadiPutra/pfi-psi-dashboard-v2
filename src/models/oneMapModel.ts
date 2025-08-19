@@ -1,10 +1,30 @@
-import { retrieveTheme } from "@services/oneMapService";
-import { useOneTheme } from "@stores/pageStore";
+import { retrieveTheme, searchAddress } from "@services/oneMapService";
+import { useOneTheme, useSearchMap } from "@stores/pageStore";
 import { useQuery } from "@tanstack/react-query";
 
 export interface LoginOneMapDTO {
   access_token: string;
   expiry_timestamp: string;
+}
+
+export interface AddressDTO {
+  SEARCHVAL: string;
+  BLK_NO: string;
+  ROAD_NAME: string;
+  BUILDING: string;
+  ADDRESS: string;
+  POSTAL: string;
+  X: string;
+  Y: string;
+  LATITUDE: string;
+  LONGITUDE: string;
+}
+
+export interface SearchAddressDTO {
+  found: number;
+  totalNumPages: number;
+  pageNum: number;
+  results: AddressDTO[];
 }
 
 export interface GeometryDTO {
@@ -37,6 +57,7 @@ export interface ThemeDTO {
 
 const useOneMapModel = () => {
   const oneTheme = useOneTheme((state) => state.data);
+  const search = useSearchMap((state) => state.value);
 
   const useRetrieveTheme = () =>
     useQuery({
@@ -47,8 +68,15 @@ const useOneMapModel = () => {
         ),
     });
 
+  const useSearchAddress = () =>
+    useQuery({
+      queryKey: ["searchAddress", search],
+      queryFn: () => searchAddress(search),
+    });
+
   return {
     useRetrieveTheme,
+    useSearchAddress,
   };
 };
 

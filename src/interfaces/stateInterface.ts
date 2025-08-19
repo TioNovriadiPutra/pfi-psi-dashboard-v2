@@ -41,13 +41,6 @@ export interface SlideStateType {
   resetPage: () => void;
 }
 
-export interface DefectSlideStateType {
-  page: number;
-  reportId: number | null;
-  changePage: (page: number, reportId?: number) => void;
-  resetPage: () => void;
-}
-
 export interface OneThemeDataType {
   label: string;
   value: string;
@@ -82,3 +75,9 @@ export interface DetailStateType {
   showModal: (data: { title: string; data: DetailDataStateType[] }) => void;
   hideModal: () => void;
 }
+
+export type SearchType = {
+  value: string;
+  changeSearch: (val: string) => void;
+  resetSearch: () => void;
+};

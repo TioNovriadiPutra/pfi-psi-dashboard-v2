@@ -1,7 +1,7 @@
 import type {
-  DefectSlideStateType,
   LoadingStateType,
   OneThemeStateType,
+  SearchType,
   SlideStateType,
   ToastStateType,
 } from "@interfaces/stateInterface";
@@ -77,14 +77,9 @@ export const useOneTheme = create<OneThemeStateType>((set, get) => ({
   },
 }));
 
-export const useDefectSlider = create<DefectSlideStateType>((set, get) => ({
+export const useDefectSlider = create<SlideStateType>((set) => ({
   page: 0,
-  reportId: null,
-  changePage: (page, reportId) => {
-    const id = get().reportId;
-
-    set({ page, reportId: reportId || id });
-  },
+  changePage: (page) => set({ page }),
   resetPage: () => set({ page: 0 }),
 }));
 
@@ -104,4 +99,10 @@ export const useSidebar = create<LoadingStateType>((set) => ({
   show: false,
   showLoading: () => set({ show: true }),
   hideLoading: () => set({ show: false }),
+}));
+
+export const useSearchMap = create<SearchType>((set) => ({
+  value: "",
+  changeSearch: (val) => set({ value: val }),
+  resetSearch: () => set({ value: "default" }),
 }));

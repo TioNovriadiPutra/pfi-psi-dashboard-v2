@@ -12,8 +12,6 @@ import { IoMdClose } from "react-icons/io";
 const DetailModal = () => {
   const detailModal = useDetailModal();
 
-  console.log(detailModal.data);
-
   return (
     <ModalContainer show={detailModal.show} minWidth="min-w-[776px]">
       <div className="!flex-row items-center justify-between px-md py-[16px] border-b border-b-neutral-200">
@@ -50,13 +48,13 @@ const DetailModal = () => {
               />
             );
 
-          // return (
-          //   <DetailField
-          //     key={index.toString()}
-          //     label={item.label}
-          //     value={item.value as string}
-          //   />
-          // );
+          return (
+            <DetailField
+              key={index.toString()}
+              label={item.label}
+              value={item.value as string}
+            />
+          );
         })}
       </div>
     </ModalContainer>

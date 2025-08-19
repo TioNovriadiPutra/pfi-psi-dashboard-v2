@@ -1,13 +1,13 @@
 import type { DropdownType } from "@interfaces/formInterface";
 import { getBuildingDetail } from "@services/buildingService";
 import { useMutation, useQueries } from "@tanstack/react-query";
-import type { ReportInput } from "./reportModel";
+import type { ReportInput, ReportReqInput } from "./reportModel";
 import { getDefectTypes } from "@services/defectTypeService";
 import { addDefect } from "@services/defectService";
 import useHelper from "@hooks/useHelper";
 import type { InspectionInput } from "./inspectionModel";
 import { getBuildingLevels } from "@services/buildingLevelService";
-import type { PlanInput } from "./planModel";
+import type { PlanInput, PlanReqInput } from "./planModel";
 
 export interface DefectDataInput {
   name: string;
@@ -27,10 +27,16 @@ export interface DefectReqInput extends DefectDataInput {
   location: string;
 }
 
+export interface DefectAllReqInput {
+  report: ReportReqInput;
+  plans: PlanReqInput[];
+  defects: DefectReqInput[];
+}
+
 export interface DefectInput {
-  defects: DefectDataInput[];
   report: ReportInput;
-  plan: PlanInput;
+  plans: PlanInput[];
+  defects: DefectDataInput[];
 }
 
 export interface DefectDTO {
@@ -70,7 +76,7 @@ const useDefectModel = () => {
   const useAddDefect = () =>
     useMutation({
       mutationKey: ["addDefect"],
-      mutationFn: (body: DefectReqInput[]) => addDefect(body),
+      mutationFn: (body: DefectAllReqInput) => addDefect(body),
       onMutate: () => onMutate("button"),
       onSettled: () => onSettled("button"),
       onError,

@@ -1,7 +1,8 @@
+import type { SuggestionType } from "@interfaces/formInterface";
 import useOneMapModel from "@models/oneMapModel";
 
 const useOneMapController = () => {
-  const { useRetrieveTheme } = useOneMapModel();
+  const { useRetrieveTheme, useSearchAddress } = useOneMapModel();
 
   const useRetrieveThemeService = () => {
     const { data, isLoading } = useRetrieveTheme();
@@ -34,8 +35,31 @@ const useOneMapController = () => {
     };
   };
 
+  const useSearchAddressService = () => {
+    const { data, isLoading } = useSearchAddress();
+
+    let finalData: SuggestionType[] = [];
+
+    if (!isLoading && data) {
+      finalData = data.results.map(
+        (item) =>
+          ({
+            label: item.BUILDING,
+            value: `${item.LATITUDE}|${item.LONGITUDE}`,
+            description: item.ADDRESS,
+          } as SuggestionType)
+      );
+    }
+
+    return {
+      finalData,
+      isLoading,
+    };
+  };
+
   return {
     useRetrieveThemeService,
+    useSearchAddressService,
   };
 };
 

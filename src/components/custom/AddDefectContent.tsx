@@ -1,7 +1,5 @@
 import { AddHeader, Form } from "@components/shared";
 import useDefectController from "@controllers/defectController";
-import usePlanController from "@controllers/planController";
-import useReportController from "@controllers/reportController";
 import type { FormType } from "@interfaces/formInterface";
 import type { DefectInput } from "@models/defectModel";
 import { useDefectSlider } from "@stores/pageStore";
@@ -24,8 +22,6 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
   });
 
   const { addDefectService } = useDefectController();
-  const { addReportService } = useReportController();
-  const { addPlanService } = usePlanController();
 
   useEffect(() => {
     animate(
@@ -45,20 +41,17 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
       <AddHeader
         title="Add Defect"
         onSubmit={handleSubmit((body) => {
-          if (defectSlider.page === 0) {
-            addReportService({
-              ...body.report,
-              building_id: buildingId,
-            });
-          } else if (defectSlider.page === 1) {
-            addPlanService({
-              ...body.plan,
-              building_id: buildingId,
-              report_id: defectSlider.reportId!,
-            });
-          } else {
-            addDefectService(
-              body.defects.map((defect, index) => ({
+          if (defectSlider.page === 2) {
+            addDefectService({
+              report: {
+                ...body.report,
+                building_id: buildingId,
+              },
+              plans: body.plans.map((plan) => ({
+                ...plan,
+                building_id: buildingId,
+              })),
+              defects: body.defects.map((defect, index) => ({
                 building_id: buildingId,
                 location: defectData.data[index].title,
                 name: defect.name,
@@ -73,13 +66,15 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                 defect_levels: defect.defect_levels.map((level) => ({
                   ...level,
                   building_id: buildingId,
-                  report_id: defectSlider.reportId!,
                   level_id: level.level_id,
                 })),
-              }))
-            );
+              })),
+            });
+          } else {
+            defectSlider.changePage(defectSlider.page + 1);
           }
         })}
+        onBack={() => defectSlider.changePage(defectSlider.page - 1)}
       />
 
       <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
@@ -117,9 +112,8 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                 defectSlider.page
               ].inputs.map((item) => ({
                 ...item,
-                name: `${defectSlider.page === 0 ? "report" : "plan"}.${
-                  item.name
-                }`,
+                name:
+                  defectSlider.page === 0 ? `report.${item.name}` : item.name,
               }))}
               control={control}
             />

@@ -1,7 +1,6 @@
 import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
-import { addReport, deleteReport, getReports } from "@services/reportService";
-import { useDefectSlider } from "@stores/pageStore";
+import { deleteReport, getReports } from "@services/reportService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@utils/config/client";
 
@@ -17,6 +16,10 @@ export interface ReportInput {
   facade_inspector: string;
   description?: string;
   highlight?: string;
+}
+
+export interface ReportReqInput extends ReportInput {
+  building_id: number;
 }
 
 export interface ReportDTO {
@@ -40,8 +43,6 @@ export interface ReportDTO {
 }
 
 const useReportModel = () => {
-  const changeDefectSlider = useDefectSlider((state) => state.changePage);
-
   const { confirmationModal, onMutate, onSettled, onError, onSuccess } =
     useHelper();
 
@@ -49,19 +50,6 @@ const useReportModel = () => {
     useQuery({
       queryKey: ["getReports"],
       queryFn: () => getReports(),
-    });
-
-  const useAddReport = () =>
-    useMutation({
-      mutationKey: ["addReport"],
-      mutationFn: (body: ReportInput) => addReport(body),
-      onMutate: () => onMutate("button"),
-      onSettled: () => onSettled("button"),
-      onError,
-      onSuccess: (res) => {
-        changeDefectSlider(1, res.data.id);
-        onSuccess(res.message);
-      },
     });
 
   const useDeleteReport = () =>
@@ -83,7 +71,6 @@ const useReportModel = () => {
 
   return {
     useGetReports,
-    useAddReport,
     useDeleteReport,
   };
 };

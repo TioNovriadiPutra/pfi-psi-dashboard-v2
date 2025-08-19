@@ -1,5 +1,6 @@
 import type {
   LoginOneMapDTO,
+  SearchAddressDTO,
   ThemeDataDTO,
   ThemeDTO,
 } from "@models/oneMapModel";
@@ -45,6 +46,20 @@ export const retrieveTheme = async (params: string[]): Promise<ThemeDTO[]> => {
     }
 
     return resultData;
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};
+
+export const searchAddress = async (
+  search: string
+): Promise<SearchAddressDTO> => {
+  try {
+    const response = await axiosOneInstance.get(
+      `${ONE_API_ENDPOINT.search}?searchVal=${search}&returnGeom=Y&getAddrDetails=Y&pageNum=1`
+    );
+
+    return response.data as SearchAddressDTO;
   } catch (error) {
     throw errorResponse(error);
   }
