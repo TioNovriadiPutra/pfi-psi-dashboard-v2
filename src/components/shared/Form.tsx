@@ -17,7 +17,7 @@ type Props = {
 
 const Form = ({ listData, control }: Props) => {
   return (
-    <div className="gap-md">
+    <div className="flex-1 gap-md">
       {listData.map((item, index) => {
         if (item.type === "textarea")
           return (

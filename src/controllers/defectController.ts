@@ -17,70 +17,81 @@ const useDefectController = () => {
     const isError = responses.some((res) => res.isError);
     const error = responses.find((res) => res.error !== undefined);
 
-    let finalData: { form: FormType<DefectInput>; data: { title: string }[] } =
-      {
-        form: {
-          ...defectForm,
-        },
-        data: [],
-      };
+    let formData: FormType<DefectInput> = {
+      ...defectForm,
+    };
 
     if (!isLoading) {
       if (isError) {
         onError(error!.error!);
       } else {
-        finalData = {
-          form: {
-            ...defectForm,
-            inputs: defectForm.inputs.map((input) =>
-              input.map(
-                (input2) =>
+        formData = {
+          ...defectForm,
+          inputs: defectForm.inputs.map((input) =>
+            input.map((input2) =>
+              input2.map(
+                (input25) =>
                   ({
-                    ...input2,
-                    tabData: input2.tabData!.map((input3) => {
+                    ...input25,
+                    tabData: input25.tabData!.map((input3) => {
                       if (input3.title === "Defect") {
                         return {
                           ...input3,
-                          inputs: input3.inputs.map((input4) => {
-                            if (input4.name === "defect_type_id") {
-                              return {
-                                ...input4,
-                                items: responses[1].data!.data.data.map(
-                                  (res) => ({
-                                    label: res.name,
-                                    value: res.id,
-                                  })
+                          inputs: input3.inputs.map((input4) =>
+                            input4.map((input45) => ({
+                              ...input45,
+                              cartData: {
+                                ...input45.cartData!,
+                                labels: responses[0].data!.data.elevations.map(
+                                  (elevation) => elevation.name
                                 ),
-                              };
-                            } else if (input4.name === "defect_levels") {
-                              return {
-                                ...input4,
-                                cartData: {
-                                  ...input4.cartData,
-                                  inputs: input4.cartData!.inputs.map(
-                                    (input5) => {
-                                      if (input5.name === "level_id") {
-                                        return {
-                                          ...input5,
-                                          items:
-                                            responses[2].data!.data.data.map(
-                                              (res) => ({
-                                                label: res.level_name,
-                                                value: res.id,
-                                              })
-                                            ),
-                                        };
-                                      }
+                                inputs: input45.cartData!.inputs.map(
+                                  (input5) => {
+                                    if (input5.name === "defect_type_id") {
+                                      return {
+                                        ...input5,
+                                        items: responses[1].data!.data.data.map(
+                                          (res) => ({
+                                            label: res.name,
+                                            value: res.id,
+                                          })
+                                        ),
+                                      };
+                                    } else if (
+                                      input5.name === "defect_levels"
+                                    ) {
+                                      return {
+                                        ...input5,
+                                        cartData: {
+                                          ...input5.cartData,
+                                          inputs: input5.cartData!.inputs.map(
+                                            (input6) => {
+                                              if (input6.name === "level_id") {
+                                                return {
+                                                  ...input6,
+                                                  items:
+                                                    responses[2].data!.data.data.map(
+                                                      (res) => ({
+                                                        label: res.level_name,
+                                                        value: res.id,
+                                                      })
+                                                    ),
+                                                };
+                                              }
 
-                                      return input5;
+                                              return input6;
+                                            }
+                                          ),
+                                        },
+                                      };
                                     }
-                                  ),
-                                },
-                              };
-                            }
 
-                            return input4;
-                          }),
+                                    return input5;
+                                  }
+                                ),
+                              },
+                            }))
+                          ),
                         };
                       }
 
@@ -88,32 +99,29 @@ const useDefectController = () => {
                     }),
                   } as InputType)
               )
-            ),
-            defaultValues: {
-              ...defectForm.defaultValues,
-              defects: responses[0].data!.data.elevations.map(() => ({
-                name: "",
-                image_elevation: "",
-                image_detail: "",
-                observation: "",
-                couse: "",
-                recommendation: "",
-                timeframe: "",
-                remedial: "",
-                defect_type_id: null,
-                defect_levels: [],
-              })),
-            },
+            )
+          ),
+          defaultValues: {
+            ...defectForm.defaultValues,
+            defects: responses[0].data!.data.elevations.map(() => ({
+              name: "",
+              image_elevation: "",
+              image_detail: "",
+              observation: "",
+              couse: "",
+              recommendation: "",
+              timeframe: "",
+              remedial: "",
+              defect_type_id: null,
+              defect_levels: [],
+            })),
           },
-          data: responses[0].data!.data.elevations.map((elevation) => ({
-            title: elevation.name,
-          })),
         };
       }
     }
 
     return {
-      finalData,
+      formData,
       isLoading,
     };
   };

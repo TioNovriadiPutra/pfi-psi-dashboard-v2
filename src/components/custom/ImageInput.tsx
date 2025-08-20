@@ -1,4 +1,5 @@
 import type { InputType } from "@interfaces/formInterface";
+import { AnimatePresence, motion } from "motion/react";
 import { useRef, type ChangeEvent } from "react";
 import { useController, type Control } from "react-hook-form";
 import { MdUploadFile } from "react-icons/md";
@@ -11,9 +12,13 @@ type Props = {
 const ImageInput = ({ inputData, control }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { field } = useController({
+  const {
+    field,
+    fieldState: { error },
+  } = useController({
     name: inputData.name,
     control,
+    rules: inputData.rules,
   });
 
   const toBase64 = (file: Blob) =>
@@ -44,7 +49,9 @@ const ImageInput = ({ inputData, control }: Props) => {
 
       <button
         type="button"
-        className="!flex-col w-full h-[200px] border-2 border-neutral-200 border-dashed rounded-md gap-xs bg-neutral-0"
+        className={`relative !flex-col w-full h-[200px] border-2 ${
+          error ? "border-red-600" : "border-neutral-200"
+        } border-dashed rounded-md gap-xs bg-neutral-0`}
         onClick={() => fileInputRef.current?.click()}
       >
         {field.value ? (
@@ -62,6 +69,19 @@ const ImageInput = ({ inputData, control }: Props) => {
             </p>
           </>
         )}
+
+        <AnimatePresence>
+          {error && (
+            <motion.p
+              className="absolute bottom-[-10px] text-body-sm font-normal text-red-600 bg-neutral-0 px-[2px]"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+            >
+              {error.message}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </button>
 
       <input

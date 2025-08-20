@@ -200,33 +200,49 @@ const useBuildingController = () => {
         formData = {
           ...buildingForm,
           inputs: buildingForm.inputs.map((input1) =>
-            input1.map((input2) => {
-              if (input2.name === "building_type") {
-                return {
-                  ...input2,
-                  items: responses[0].data!.data.data.map(
-                    (item) =>
-                      ({
-                        label: item.name,
-                        value: item.id,
-                      } as DropdownType)
-                  ),
-                };
-              } else if (input2.name === "project_id") {
-                return {
-                  ...input2,
-                  items: responses[1].data!.data.data.map(
-                    (item) =>
-                      ({
-                        label: item.name,
-                        value: item.id,
-                      } as DropdownType)
-                  ),
-                };
-              }
+            input1.map((input2) =>
+              input2.map((input3) => ({
+                ...input3,
+                tabData: input3.tabData!.map((input4) => {
+                  if (input4.title === "Detail") {
+                    return {
+                      ...input4,
+                      inputs: input4.inputs.map((input5) =>
+                        input5.map((input6) => {
+                          if (input6.name === "building_type") {
+                            return {
+                              ...input6,
+                              items: responses[0].data!.data.data.map(
+                                (item) =>
+                                  ({
+                                    label: item.name,
+                                    value: item.id,
+                                  } as DropdownType)
+                              ),
+                            };
+                          } else if (input6.name === "project_id") {
+                            return {
+                              ...input6,
+                              items: responses[1].data!.data.data.map(
+                                (item) =>
+                                  ({
+                                    label: item.name,
+                                    value: item.id,
+                                  } as DropdownType)
+                              ),
+                            };
+                          }
 
-              return input2;
-            })
+                          return input6;
+                        })
+                      ),
+                    };
+                  }
+
+                  return input4;
+                }),
+              }))
+            )
           ),
         };
       }

@@ -1,59 +1,60 @@
-import { AddHeader, Form } from "@components/shared";
+import { AddContent, AddHeader } from "@components/shared";
 import useDefectController from "@controllers/defectController";
 import type { FormType } from "@interfaces/formInterface";
 import type { DefectInput } from "@models/defectModel";
-import { useDefectSlider } from "@stores/pageStore";
-import { useAnimate } from "motion/react";
+import { useFormSlider } from "@stores/pageStore";
 import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 type Props = {
-  defectData: { form: FormType<DefectInput>; data: { title: string }[] };
+  defectData: FormType<DefectInput>;
   buildingId: number;
 };
 
 const AddDefectContent = ({ defectData, buildingId }: Props) => {
-  const defectSlider = useDefectSlider();
+  const formSlider = useFormSlider();
 
-  const [scope, animate] = useAnimate();
+  const nav = useNavigate();
 
   const { control, handleSubmit } = useForm({
-    defaultValues: defectData.form.defaultValues,
+    defaultValues: defectData.defaultValues,
   });
 
   const { addDefectService } = useDefectController();
 
   useEffect(() => {
-    animate(
-      scope.current,
-      { x: 120 * defectSlider.page },
-      { ease: "easeInOut" }
-    );
-  }, [defectSlider.page]);
-
-  const { fields } = useFieldArray({
-    name: "defects",
-    control,
-  });
+    formSlider.resetPage();
+  }, []);
 
   return (
     <>
       <AddHeader
         title="Add Defect"
         onSubmit={handleSubmit((body) => {
-          if (defectSlider.page === 2) {
+          if (formSlider.page === 2) {
             addDefectService({
               report: {
-                ...body.report,
+                report_no: body.report_no,
+                report_date: body.report_date,
+                time_inspection: body.time_inspection,
+                date_inspection: body.date_inspection,
+                duration_inspection: body.duration_inspection,
+                location_inspection: body.location_inspection,
+                methodology_inspection: body.methodology_inspection,
+                name_providers: body.name_providers,
+                facade_inspector: body.facade_inspector,
+                description: body.description,
+                highlight: body.highlight,
                 building_id: buildingId,
               },
               plans: body.plans.map((plan) => ({
                 ...plan,
                 building_id: buildingId,
               })),
-              defects: body.defects.map((defect, index) => ({
+              defects: body.defects.map((defect) => ({
                 building_id: buildingId,
-                location: defectData.data[index].title,
+                location: "",
                 name: defect.name,
                 observation: defect.observation,
                 couse: defect.couse,
@@ -71,13 +72,31 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
               })),
             });
           } else {
-            defectSlider.changePage(defectSlider.page + 1);
+            formSlider.changePage(formSlider.page + 1);
           }
         })}
-        onBack={() => defectSlider.changePage(defectSlider.page - 1)}
+        onBack={() => {
+          if (formSlider.page === 0) {
+            nav(-1);
+          } else {
+            formSlider.changePage(formSlider.page - 1);
+          }
+        }}
       />
 
-      <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
+      <AddContent
+        contentData={defectData.inputs}
+        control={control}
+        size={formSlider.page === 1 ? "normal" : "large"}
+      />
+    </>
+  );
+};
+
+export default AddDefectContent;
+
+{
+  /* <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
         <div className="relative !flex-row items-center">
           {defectData.form.inputs[0][0].tabData!.map((tab, index) => (
             <div
@@ -142,9 +161,5 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
             </div>
           ))
         )}
-      </div>
-    </>
-  );
-};
-
-export default AddDefectContent;
+      </div> */
+}

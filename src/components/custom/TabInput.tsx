@@ -1,8 +1,9 @@
 import type { InputType } from "@interfaces/formInterface";
 import { useAnimate } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { type Control } from "react-hook-form";
 import { Form } from "@components/shared";
+import { useFormSlider } from "@stores/pageStore";
 
 type Props = {
   inputData: InputType;
@@ -10,13 +11,13 @@ type Props = {
 };
 
 const TabInput = ({ inputData, control }: Props) => {
-  const [currPage, setCurrPage] = useState(0);
+  const formSlider = useFormSlider();
 
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
-    animate(scope.current, { x: 120 * currPage }, { ease: "easeInOut" });
-  }, [currPage]);
+    animate(scope.current, { x: 120 * formSlider.page }, { ease: "easeInOut" });
+  }, [formSlider.page]);
 
   return (
     <div className="gap-[16px]">
@@ -26,12 +27,14 @@ const TabInput = ({ inputData, control }: Props) => {
             key={index.toString()}
             type="button"
             className="w-[120px] py-[16px]"
-            onClick={() => setCurrPage(index)}
+            onClick={() => formSlider.changePage(index)}
           >
             <p
               key={index.toString()}
               className={`text-body-sm font-medium ${
-                currPage === index ? "text-primary-400" : "text-neutral-400"
+                formSlider.page === index
+                  ? "text-primary-400"
+                  : "text-neutral-400"
               }`}
             >
               {tab.title}
@@ -48,13 +51,13 @@ const TabInput = ({ inputData, control }: Props) => {
       {inputData.tabData!.map((tab, index) => (
         <div
           key={index.toString()}
-          className={`${index !== currPage && "!hidden"}`}
+          className={`${
+            index !== formSlider.page && "!hidden"
+          } !flex-row gap-md`}
         >
-          <Form
-            key={index.toString()}
-            listData={tab.inputs}
-            control={control}
-          />
+          {tab.inputs.map((input, index2) => (
+            <Form key={index2.toString()} listData={input} control={control} />
+          ))}
         </div>
       ))}
     </div>

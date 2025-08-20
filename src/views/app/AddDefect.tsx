@@ -10,7 +10,7 @@ const AddDefect = () => {
 
   const { useGetDefectFormService } = useDefectController();
 
-  const { finalData, isLoading } = useGetDefectFormService(
+  const { formData, isLoading } = useGetDefectFormService(
     JSON.parse(generateDecryption(decodeURIComponent(searchParam.get("form")!)))
   );
 
@@ -20,7 +20,7 @@ const AddDefect = () => {
         <FormSkeleton />
       ) : (
         <AddDefectContent
-          defectData={finalData}
+          defectData={formData}
           buildingId={JSON.parse(
             generateDecryption(decodeURIComponent(searchParam.get("form")!))
           )}

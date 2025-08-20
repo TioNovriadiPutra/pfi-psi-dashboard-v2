@@ -33,8 +33,7 @@ export interface DefectAllReqInput {
   defects: DefectReqInput[];
 }
 
-export interface DefectInput {
-  report: ReportInput;
+export interface DefectInput extends ReportInput {
   plans: PlanInput[];
   defects: DefectDataInput[];
 }

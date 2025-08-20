@@ -83,6 +83,12 @@ export const useDefectSlider = create<SlideStateType>((set) => ({
   resetPage: () => set({ page: 0 }),
 }));
 
+export const useFormSlider = create<SlideStateType>((set) => ({
+  page: 0,
+  changePage: (page) => set({ page }),
+  resetPage: () => set({ page: 0 }),
+}));
+
 export const useBuilding = create<SlideStateType>((set) => ({
   page: 0,
   changePage: (page) => set({ page }),

@@ -18,11 +18,14 @@ export interface MapType {
 
 export interface TabInputType {
   title: string;
-  inputs: InputType[];
+  inputs: InputType[][];
 }
 
 export interface CartInputType {
-  inputs: InputType[];
+  inputs: InputType[][];
+  withAdd?: boolean;
+  labels?: string[];
+  isGrey?: boolean;
   template: any;
 }
 
@@ -54,7 +57,7 @@ export interface InputType {
 }
 
 export interface FormType<T> {
-  inputs: InputType[][];
+  inputs: InputType[][][];
   defaultValues: T;
   buttonLabel?: string;
 }
