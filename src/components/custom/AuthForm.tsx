@@ -42,7 +42,7 @@ const AuthForm = ({ formData, isLogin = false, onSubmit }: Props) => {
       <div className={`${isLogin ? "gap-md" : "gap-xs"}`}>
         <Button
           buttonData={{
-            label: formData.buttonLabel,
+            label: formData.buttonLabel!,
             color: "bg-primary-500",
             hover: "hover:bg-primary-600",
           }}

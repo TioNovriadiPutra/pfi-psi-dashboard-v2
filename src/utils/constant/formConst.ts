@@ -194,121 +194,125 @@ export const buildingForm: FormType<BuildingInput> = {
   inputs: [
     [
       {
-        type: "text",
-        name: "name",
-        label: "Name",
-        placeholder: "Input here...",
-        required: true,
-        rules: {
-          required: "Name must be filled!",
-        },
-      },
-      {
-        type: "text",
-        name: "address",
-        label: "Address",
-        placeholder: "Input here...",
-        required: true,
-        rules: {
-          required: "Address must be filled!",
-        },
-      },
-      {
-        type: "number",
-        name: "year_built",
-        label: "Year Built",
-        placeholder: "0",
-        required: true,
-        rules: {
-          required: "Year built must be filled!",
-          pattern: {
-            value: /^[0-9]+$/,
-            message: "Year built must be a number!",
-          },
-        },
-      },
-      {
-        type: "dropdown",
-        name: "building_type",
-        label: "Building Type",
-        placeholder: "Pick here",
-        required: true,
-        items: [],
-        rules: {
-          required: "Building type must be chosen!",
-        },
-      },
-      {
-        type: "number",
-        name: "area_sq_meters",
-        label: "Area (sq meter)",
-        placeholder: "0",
-        required: true,
-        rules: {
-          required: "Area must be filled!",
-          pattern: {
-            value: /^-?\d+(\.\d+)?$/,
-            message: "Area must be a number or decimal!",
-          },
-        },
-      },
-      {
-        type: "dropdown",
-        name: "project_id",
-        label: "Project",
-        placeholder: "Pick here",
-        required: false,
-        items: [],
-      },
-    ],
-    [
-      {
-        type: "number",
-        name: "status_construction",
-        label: "Status Construction (%)",
-        placeholder: "0",
-        required: false,
-        rules: {
-          pattern: {
-            value: /^-?\d+(\.\d+)?$/,
-            message: "Status construction must be a number or decimal!",
-          },
-        },
-      },
-      {
-        type: "date",
-        name: "construction_start_date",
-        label: "Start Date",
-        placeholder: "DD-MM-YYYY",
-        required: false,
-      },
-      {
-        type: "date",
-        name: "construction_end_date",
-        label: "End Date",
-        placeholder: "DD-MM-YYYY",
-        required: false,
-      },
-    ],
-    [
-      {
-        type: "map",
-        name: "location",
-        label: "Location",
-        placeholder: "-",
-        required: true,
-        rules: {
-          required: "Location must be chosen!",
-        },
-      },
-    ],
-    [
-      {
         type: "tab",
         name: "building_tabs",
         placeholder: "",
-        required: false,
+        required: true,
         tabData: [
+          {
+            title: "Detail",
+            inputs: [
+              {
+                type: "text",
+                name: "name",
+                label: "Name",
+                placeholder: "Input here...",
+                required: true,
+                rules: {
+                  required: "Name must be filled!",
+                },
+              },
+              {
+                type: "text",
+                name: "address",
+                label: "Address",
+                placeholder: "Input here...",
+                required: true,
+                rules: {
+                  required: "Address must be filled!",
+                },
+              },
+              {
+                type: "number",
+                name: "year_built",
+                label: "Year Built",
+                placeholder: "0",
+                required: true,
+                rules: {
+                  required: "Year built must be filled!",
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Year built must be a number!",
+                  },
+                },
+              },
+              {
+                type: "dropdown",
+                name: "building_type",
+                label: "Building Type",
+                placeholder: "Pick here",
+                required: true,
+                items: [],
+                rules: {
+                  required: "Building type must be chosen!",
+                },
+              },
+              {
+                type: "number",
+                name: "area_sq_meters",
+                label: "Area (sq meter)",
+                placeholder: "0",
+                required: true,
+                rules: {
+                  required: "Area must be filled!",
+                  pattern: {
+                    value: /^-?\d+(\.\d+)?$/,
+                    message: "Area must be a number or decimal!",
+                  },
+                },
+              },
+              {
+                type: "dropdown",
+                name: "project_id",
+                label: "Project",
+                placeholder: "Pick here",
+                required: false,
+                items: [],
+              },
+              {
+                type: "map",
+                name: "location",
+                label: "Location",
+                placeholder: "-",
+                required: true,
+                rules: {
+                  required: "Location must be chosen!",
+                },
+              },
+            ],
+          },
+          {
+            title: "Progress",
+            inputs: [
+              {
+                type: "number",
+                name: "status_construction",
+                label: "Status Construction (%)",
+                placeholder: "0",
+                required: false,
+                rules: {
+                  pattern: {
+                    value: /^-?\d+(\.\d+)?$/,
+                    message: "Status construction must be a number or decimal!",
+                  },
+                },
+              },
+              {
+                type: "date",
+                name: "construction_start_date",
+                label: "Start Date",
+                placeholder: "DD-MM-YYYY",
+                required: false,
+              },
+              {
+                type: "date",
+                name: "construction_end_date",
+                label: "End Date",
+                placeholder: "DD-MM-YYYY",
+                required: false,
+              },
+            ],
+          },
           {
             title: "Elevations",
             inputs: [
