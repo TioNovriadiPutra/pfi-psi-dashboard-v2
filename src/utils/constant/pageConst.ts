@@ -72,13 +72,8 @@ export const buildingPageData: AppType[] = [
       tableHeader: [
         { flex: "flex-2", label: "Name" },
         { flex: "flex-2", label: "Address" },
-        { flex: "flex-1", label: "Year Built" },
-        { flex: "flex-1", label: "Area (m²)" },
         { flex: "flex-1", label: "Number of Levels" },
         { flex: "flex-1", label: "Number of Sides" },
-        { flex: "flex-1", label: "Status Construction (%)" },
-        { flex: "flex-1", label: "Start At" },
-        { flex: "flex-1", label: "End At" },
       ],
     },
   },

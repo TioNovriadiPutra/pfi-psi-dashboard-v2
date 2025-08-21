@@ -2,7 +2,6 @@ import useHelper from "@hooks/useHelper";
 import type { FetchDataType } from "@interfaces/pageInterface";
 import useBuildingModel, { type BuildingInput } from "@models/buildingModel";
 import { paginationHandler } from "@utils/helper/responseHandler";
-import moment from "moment";
 import useBuildingTypeController from "./buildingTypeController";
 import { useConfirmationModal } from "@stores/modalStore";
 import type { DropdownType, FormType } from "@interfaces/formInterface";
@@ -66,45 +65,12 @@ const useBuildingController = () => {
                 {
                   flex: "flex-1",
                   type: "text",
-                  label: item.year_built.toString(),
-                },
-                {
-                  flex: "flex-1",
-                  type: "text",
-                  label: item.area_sq_meters.toString(),
-                },
-                {
-                  flex: "flex-1",
-                  type: "text",
                   label: item.levels_count.toString(),
                 },
                 {
                   flex: "flex-1",
                   type: "text",
                   label: item.sides_count.toString(),
-                },
-                {
-                  flex: "flex-1",
-                  type: "text",
-                  label: item.status_construction?.toString() ?? "-",
-                },
-                {
-                  flex: "flex-1",
-                  type: "text",
-                  label: item.construction_start_date
-                    ? moment(
-                        item.construction_start_date.replace("Z", "")
-                      ).format("ddd, DD MMM YYYY")
-                    : "-",
-                },
-                {
-                  flex: "flex-1",
-                  type: "text",
-                  label: item.construction_end_date
-                    ? moment(
-                        item.construction_end_date.replace("Z", "")
-                      ).format("ddd, DD MMM YYYY")
-                    : "-",
                 },
               ],
               functions: [

@@ -589,6 +589,15 @@ export const defectForm: FormType<DefectInput> = {
                             },
                           },
                           {
+                            type: "textarea",
+                            name: "description",
+                            label: "Description",
+                            placeholder: "Input here...",
+                            required: false,
+                          },
+                        ],
+                        [
+                          {
                             type: "image",
                             name: "plan_image",
                             label: "Plan Image",
@@ -629,13 +638,6 @@ export const defectForm: FormType<DefectInput> = {
                                 );
                               },
                             },
-                          },
-                          {
-                            type: "textarea",
-                            name: "description",
-                            label: "Description",
-                            placeholder: "Input here...",
-                            required: false,
                           },
                         ],
                       ],

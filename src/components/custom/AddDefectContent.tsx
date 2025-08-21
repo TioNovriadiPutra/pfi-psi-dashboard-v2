@@ -87,7 +87,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
       <AddContent
         contentData={defectData.inputs}
         control={control}
-        size={formSlider.page === 1 ? "normal" : "large"}
+        size="large"
       />
     </>
   );
