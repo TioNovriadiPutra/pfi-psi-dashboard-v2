@@ -22,6 +22,8 @@ const useBuildingController = () => {
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
+    useGetBuildingEdit,
+    useUpdateBuilding,
     useDeleteBuilding,
   } = useBuildingModel();
 
@@ -30,8 +32,10 @@ const useBuildingController = () => {
 
   const { onError } = useHelper();
 
-  const addBuildingMutation = useAddBuilding();
   const getBuildingDetailMutation = useGetBuildingDetail();
+  const addBuildingMutation = useAddBuilding();
+  const getBuildingEditMutation = useGetBuildingEdit();
+  const updateBuildingMutation = useUpdateBuilding();
   const deleteBuildingMutation = useDeleteBuilding();
 
   const useGetBuildingsService = () => {
@@ -91,7 +95,7 @@ const useBuildingController = () => {
                 },
                 {
                   type: "edit",
-                  onClick: () => console.log("Edit"),
+                  onClick: () => getBuildingEditMutation.mutate(item.id),
                 },
                 {
                   type: "delete",
@@ -148,7 +152,7 @@ const useBuildingController = () => {
     };
   };
 
-  const useGetBuildingFormDropdownService = () => {
+  const useGetBuildingFormDropdownService = (params: string | null) => {
     const responses = useGetBuildingFormDropdown();
 
     const isLoading = responses.some((response) => response.isLoading);
@@ -175,7 +179,12 @@ const useBuildingController = () => {
                       ...input4,
                       inputs: input4.inputs.map((input5) =>
                         input5.map((input6) => {
-                          if (input6.name === "building_type") {
+                          if (input6.name === "name" && params) {
+                            return {
+                              ...input6,
+                              disabled: true,
+                            };
+                          } else if (input6.name === "building_type") {
                             return {
                               ...input6,
                               items: responses[0].data!.data.data.map(
@@ -203,6 +212,54 @@ const useBuildingController = () => {
                         })
                       ),
                     };
+                  } else if (input4.title === "Elevations") {
+                    return {
+                      ...input4,
+                      inputs: input4.inputs.map((input7) =>
+                        input7.map((input8) => ({
+                          ...input8,
+                          cartData: {
+                            ...input8.cartData!,
+                            inputs: input8.cartData!.inputs.map((input9) =>
+                              input9.map((input10) => {
+                                if (input10.name === "name" && params) {
+                                  return {
+                                    ...input10,
+                                    disabled: true,
+                                  };
+                                }
+
+                                return input10;
+                              })
+                            ),
+                          },
+                        }))
+                      ),
+                    };
+                  } else if (input4.title === "Levels") {
+                    return {
+                      ...input4,
+                      inputs: input4.inputs.map((input9) =>
+                        input9.map((input10) => ({
+                          ...input10,
+                          cartData: {
+                            ...input10.cartData!,
+                            inputs: input10.cartData!.inputs.map((input11) =>
+                              input11.map((input12) => {
+                                if (input12.name === "level_name" && params) {
+                                  return {
+                                    ...input12,
+                                    disabled: true,
+                                  };
+                                }
+
+                                return input12;
+                              })
+                            ),
+                          },
+                        }))
+                      ),
+                    };
                   }
 
                   return input4;
@@ -224,6 +281,7 @@ const useBuildingController = () => {
     useGetBuildingsService,
     useGetBuildingFormDropdownService,
     addBuildingService: (body: any) => addBuildingMutation.mutate(body),
+    updateBuildingService: (body: any) => updateBuildingMutation.mutate(body),
   };
 };
 

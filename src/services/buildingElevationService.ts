@@ -30,3 +30,27 @@ export const addBuildingElevations = async (
     throw errorResponse(error);
   }
 };
+
+export const updateBuildingElevation = async (
+  buildingId: number,
+  body: BuildingElevationInput
+): Promise<{ message: string }> => {
+  try {
+    const mapBody = {
+      ...body,
+      building_id: buildingId,
+    };
+
+    const response = await axiosInstance.patch(
+      `${API_ENDPOINT.addBuildingSide}/${encodeURIComponent(mapBody.name)}`,
+      mapBody
+    );
+
+    return successResponse<{ message: string }>(
+      response,
+      "Building elevation updated!"
+    );
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};

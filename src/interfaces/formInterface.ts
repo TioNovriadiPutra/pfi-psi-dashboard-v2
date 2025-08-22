@@ -50,6 +50,7 @@ export interface InputType {
   items?: DropdownType[];
   tabData?: TabInputType[];
   cartData?: CartInputType;
+  disabled?: boolean;
   rules?: Omit<
     RegisterOptions<any, string>,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"

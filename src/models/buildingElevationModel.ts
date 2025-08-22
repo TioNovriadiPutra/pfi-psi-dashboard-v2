@@ -1,6 +1,6 @@
 export interface BuildingElevationInput {
   name: string;
-  description?: string;
+  description?: string | null;
   orientation_degrees: string;
 }
 

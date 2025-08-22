@@ -5,6 +5,7 @@ import {
   deleteBuilding,
   getBuildingDetail,
   getBuildings,
+  updateBuilding,
 } from "@services/buildingService";
 import { getBuildingTypes } from "@services/buildingTypeService";
 import type { DropdownType, MapType } from "@interfaces/formInterface";
@@ -21,6 +22,7 @@ import type {
 } from "./buildingLevelModel";
 import { useConfirmationModal, useDetailModal } from "@stores/modalStore";
 import moment from "moment";
+import { generateEncryption } from "@utils/helper/generator";
 
 export interface BuildingInput {
   name: string;
@@ -31,8 +33,8 @@ export interface BuildingInput {
   project_id: DropdownType | null;
   location: MapType | null;
   status_construction?: string;
-  construction_start_date: string;
-  construction_end_date: string;
+  construction_start_date?: string;
+  construction_end_date?: string;
   elevations: BuildingElevationInput[];
   levels: BuildingLevelInput[];
 }
@@ -233,6 +235,70 @@ const useBuildingModel = () => {
       },
     });
 
+  const useGetBuildingEdit = () =>
+    useMutation({
+      mutationKey: ["getBuildingEdit"],
+      mutationFn: (id: number) => getBuildingDetail(id),
+      onMutate: () => onMutate("modal"),
+      onSettled: () => onSettled("modal"),
+      onError,
+      onSuccess: (res) => {
+        const defaultValues: BuildingInput = {
+          name: res.data.name,
+          address: res.data.address,
+          year_built: res.data.year_built.toString(),
+          building_type: {
+            label: "",
+            value: "",
+          },
+          area_sq_meters: res.data.area_sq_meters.toString(),
+          project_id: {
+            label: res.data.project!.name,
+            value: res.data.project!.id,
+          },
+          location: {
+            lat: res.data.latitude,
+            lng: res.data.longitude,
+            area: "-",
+            description: "-",
+          },
+          status_construction: res.data.status_construction?.toString() ?? "-",
+          construction_start_date: res.data.construction_start_date || "-",
+          construction_end_date: res.data.construction_end_date || "-",
+          elevations: res.data.elevations.map((elevation) => ({
+            name: elevation.name,
+            orientation_degrees: elevation.orientation_degrees.toString(),
+            description: elevation.description,
+          })),
+          levels: res.data.levels.map((level) => ({
+            level_name: level.level_name,
+            primary_usage: level.primary_usage,
+            description: level.description,
+          })),
+        };
+
+        nav(
+          `/building/form?data=${encodeURIComponent(
+            generateEncryption(JSON.stringify(defaultValues))
+          )}`
+        );
+      },
+    });
+
+  const useUpdateBuilding = () =>
+    useMutation({
+      mutationKey: ["updateBuilding"],
+      mutationFn: (body: BuildingInput) => updateBuilding(body),
+      onMutate: () => onMutate("button"),
+      onSettled: () => onSettled("button"),
+      onError,
+      onSuccess: (res) => {
+        nav("/building");
+        queryClient.invalidateQueries({ queryKey: ["getBuildings"] });
+        onSuccess(res.message);
+      },
+    });
+
   const useDeleteBuilding = () =>
     useMutation({
       mutationKey: ["deleteBuilding"],
@@ -255,6 +321,8 @@ const useBuildingModel = () => {
     useGetBuildingFormDropdown,
     useGetBuildingDetail,
     useAddBuilding,
+    useGetBuildingEdit,
+    useUpdateBuilding,
     useDeleteBuilding,
   };
 };

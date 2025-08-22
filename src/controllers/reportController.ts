@@ -74,6 +74,10 @@ const useReportController = () => {
               ],
               functions: [
                 {
+                  type: "detail",
+                  onClick: () => console.log("Detail"),
+                },
+                {
                   type: "delete",
                   onClick: () =>
                     confirmationModal.showModal({

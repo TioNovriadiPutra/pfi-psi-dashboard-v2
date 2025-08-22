@@ -15,13 +15,19 @@ const AddBuilding = () => {
       ? JSON.parse(
           generateDecryption(decodeURIComponent(searchParams.get("pick")!))
         )
+      : searchParams.get("data")
+      ? JSON.parse(
+          generateDecryption(decodeURIComponent(searchParams.get("data")!))
+        )
       : buildingForm.defaultValues,
   });
 
   const { useGetBuildingFormDropdownService, addBuildingService } =
     useBuildingController();
 
-  const { formData, isLoading } = useGetBuildingFormDropdownService();
+  const { formData, isLoading } = useGetBuildingFormDropdownService(
+    searchParams.get("data")
+  );
 
   return (
     <MainContainer>

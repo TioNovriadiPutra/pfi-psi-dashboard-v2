@@ -1,7 +1,7 @@
 export interface BuildingLevelInput {
   level_name: string;
-  primary_usage?: string;
-  description?: string;
+  primary_usage?: string | null;
+  description?: string | null;
 }
 
 export interface BuildingLevelDTO {

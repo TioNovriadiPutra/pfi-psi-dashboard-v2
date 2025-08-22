@@ -44,3 +44,27 @@ export const addBuildingLevel = async (
     throw errorResponse(error);
   }
 };
+
+export const updateBuildingLevel = async (
+  buildingId: number,
+  body: BuildingLevelInput
+): Promise<{ message: string }> => {
+  try {
+    const mapBody = {
+      ...body,
+      building_id: buildingId,
+    };
+
+    const response = await axiosInstance.patch(
+      `${API_ENDPOINT.addBuildingLevel}/${mapBody.level_name}`,
+      mapBody
+    );
+
+    return successResponse<{ message: string }>(
+      response,
+      "Building level updated!"
+    );
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};

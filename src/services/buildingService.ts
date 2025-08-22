@@ -7,8 +7,11 @@ import type {
 import { API_ENDPOINT } from "@utils/config/api";
 import { axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
-import { addBuildingElevations } from "./buildingElevationService";
-import { addBuildingLevel } from "./buildingLevelService";
+import {
+  addBuildingElevations,
+  updateBuildingElevation,
+} from "./buildingElevationService";
+import { addBuildingLevel, updateBuildingLevel } from "./buildingLevelService";
 
 export const getBuildings = async (): Promise<
   ResType<PaginationType<BuildingAddDTO[]>>
@@ -58,21 +61,59 @@ export const addBuilding = async (
     };
 
     delete (mapBody as any).elevations;
+    delete (mapBody as any).levels;
 
-    const responseBuilding = await axiosInstance.post(
+    const response = await axiosInstance.post(
       API_ENDPOINT.addBuilding,
       mapBody
     );
 
     for (const elevation of body.elevations) {
-      await addBuildingElevations(responseBuilding.data.id, elevation);
+      await addBuildingElevations(response.data.id, elevation);
     }
 
     for (const level of body.levels) {
-      await addBuildingLevel(responseBuilding.data.id, level);
+      await addBuildingLevel(response.data.id, level);
     }
 
-    return successResponse<BuildingAddDTO>(responseBuilding, "Building added!");
+    return successResponse<BuildingAddDTO>(response, "Building added!");
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};
+
+export const updateBuilding = async (
+  body: BuildingInput
+): Promise<{ message: string }> => {
+  try {
+    const mapBody = {
+      ...body,
+      levels_count: body.levels.length,
+      sides_count: body.elevations.length,
+      building_type: body.building_type?.value ?? null,
+      project_id: body.project_id?.value ?? null,
+      owner_id: 1,
+      latitude: body.location?.lat ?? null,
+      longitude: body.location?.lng ?? null,
+    };
+
+    delete (mapBody as any).elevations;
+    delete (mapBody as any).levels;
+
+    const response = await axiosInstance.patch(
+      `${API_ENDPOINT.addBuilding}/${body.name}`,
+      mapBody
+    );
+
+    for (const elevation of body.elevations) {
+      await updateBuildingElevation(response.data.id, elevation);
+    }
+
+    for (const level of body.levels) {
+      await updateBuildingLevel(response.data.id, level);
+    }
+
+    return successResponse<{ message: string }>(response, "Building updated!");
   } catch (error) {
     throw errorResponse(error);
   }

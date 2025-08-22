@@ -56,7 +56,7 @@ const TextInput = ({ inputData, control }: Props) => {
       <div
         className={`relative !flex-row px-[12px] py-[8px] border ${
           error ? "border-red-600" : "border-neutral-200"
-        } rounded-md bg-neutral-0`}
+        } rounded-md ${inputData.disabled ? "bg-neutral-100" : "bg-neutral-0"}`}
       >
         <input
           {...field}
@@ -74,6 +74,8 @@ const TextInput = ({ inputData, control }: Props) => {
           }
           inputMode={inputData.type === "number" ? "numeric" : "text"}
           onChange={onHandleChange}
+          className={`${inputData.disabled && "!text-neutral-400"}`}
+          disabled={inputData.disabled}
         />
 
         {(inputData.type === "password" || inputData.type === "confirm") &&
