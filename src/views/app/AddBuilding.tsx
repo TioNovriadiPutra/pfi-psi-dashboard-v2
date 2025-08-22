@@ -22,8 +22,11 @@ const AddBuilding = () => {
       : buildingForm.defaultValues,
   });
 
-  const { useGetBuildingFormDropdownService, addBuildingService } =
-    useBuildingController();
+  const {
+    useGetBuildingFormDropdownService,
+    addBuildingService,
+    updateBuildingService,
+  } = useBuildingController();
 
   const { formData, isLoading } = useGetBuildingFormDropdownService(
     searchParams.get("data")
@@ -33,7 +36,17 @@ const AddBuilding = () => {
     <MainContainer>
       <AddHeader
         title="Add Building"
-        onSubmit={handleSubmit((body) => addBuildingService(body))}
+        onSubmit={handleSubmit((body) => {
+          if (searchParams.get("data")) {
+            const param = JSON.parse(
+              generateDecryption(decodeURIComponent(searchParams.get("data")!))
+            );
+
+            updateBuildingService(param);
+          } else {
+            addBuildingService(body);
+          }
+        })}
       />
 
       {isLoading ? (
