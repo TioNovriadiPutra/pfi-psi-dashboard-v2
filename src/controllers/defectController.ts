@@ -27,79 +27,74 @@ const useDefectController = () => {
       } else {
         formData = {
           ...defectForm,
-          inputs: defectForm.inputs.map((input) =>
-            input.map((input2) =>
-              input2.map(
-                (input25) =>
-                  ({
-                    ...input25,
-                    tabData: input25.tabData!.map((input3) => {
-                      if (input3.title === "Defect") {
-                        return {
-                          ...input3,
-                          inputs: input3.inputs.map((input4) =>
-                            input4.map((input45) => ({
-                              ...input45,
-                              cartData: {
-                                ...input45.cartData!,
-                                labels: responses[0].data!.data.elevations.map(
-                                  (elevation) => elevation.name
-                                ),
-                                inputs: input45.cartData!.inputs.map(
-                                  (input5) => {
-                                    if (input5.name === "defect_type_id") {
-                                      return {
-                                        ...input5,
-                                        items: responses[1].data!.data.data.map(
-                                          (res) => ({
-                                            label: res.name,
-                                            value: res.id,
-                                          })
-                                        ),
-                                      };
-                                    } else if (
-                                      input5.name === "defect_levels"
-                                    ) {
-                                      return {
-                                        ...input5,
-                                        cartData: {
-                                          ...input5.cartData,
-                                          inputs: input5.cartData!.inputs.map(
-                                            (input6) => {
-                                              if (input6.name === "level_id") {
-                                                return {
-                                                  ...input6,
-                                                  items:
-                                                    responses[2].data!.data.data.map(
-                                                      (res) => ({
-                                                        label: res.level_name,
-                                                        value: res.id,
-                                                      })
-                                                    ),
-                                                };
-                                              }
-
-                                              return input6;
+          inputs: defectForm.inputs.map(
+            (input) =>
+              ({
+                ...input,
+                tabData: input.tabData!.map((input3) => {
+                  if (input3.title === "Defect") {
+                    return {
+                      ...input3,
+                      inputs: input3.inputs.map((input4) =>
+                        input4.map((input45) => ({
+                          ...input45,
+                          cartData: {
+                            ...input45.cartData!,
+                            labels: responses[0].data!.data.elevations.map(
+                              (elevation) => elevation.name
+                            ),
+                            inputs: input45.cartData!.inputs.map((input5) =>
+                              input5.map((input6) => {
+                                if (input6.name === "defect_type_id") {
+                                  return {
+                                    ...input6,
+                                    items: responses[1].data!.data.data.map(
+                                      (res) => ({
+                                        label: res.name,
+                                        value: res.id,
+                                      })
+                                    ),
+                                  };
+                                } else if (input6.name === "defect_levels") {
+                                  return {
+                                    ...input6,
+                                    cartData: {
+                                      ...input6.cartData,
+                                      inputs: input6.cartData!.inputs.map(
+                                        (input7) =>
+                                          input7.map((input8) => {
+                                            if (input8.name === "level_id") {
+                                              return {
+                                                ...input8,
+                                                items:
+                                                  responses[2].data!.data.data.map(
+                                                    (res) => ({
+                                                      label: res.level_name,
+                                                      value: res.id,
+                                                    })
+                                                  ),
+                                              };
                                             }
-                                          ),
-                                        },
-                                      };
-                                    }
 
-                                    return input5;
-                                  }
-                                ),
-                              },
-                            }))
-                          ),
-                        };
-                      }
+                                            return input8;
+                                          })
+                                      ),
+                                    },
+                                  };
+                                }
 
-                      return input3;
-                    }),
-                  } as InputType)
-              )
-            )
+                                return input6;
+                              })
+                            ),
+                          },
+                        }))
+                      ),
+                    };
+                  }
+
+                  return input3;
+                }),
+              } as InputType)
           ),
           defaultValues: {
             ...defectForm.defaultValues,

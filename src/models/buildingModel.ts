@@ -242,7 +242,7 @@ const useBuildingModel = () => {
       onMutate: () => onMutate("modal"),
       onSettled: () => onSettled("modal"),
       onError,
-      onSuccess: (res) => {
+      onSuccess: (res, variables) => {
         const defaultValues: BuildingInput = {
           name: res.data.name,
           address: res.data.address,
@@ -279,7 +279,12 @@ const useBuildingModel = () => {
 
         nav(
           `/building/form?data=${encodeURIComponent(
-            generateEncryption(JSON.stringify(defaultValues))
+            generateEncryption(
+              JSON.stringify({
+                id: variables,
+                defaultValues,
+              })
+            )
           )}`
         );
       },
@@ -288,7 +293,8 @@ const useBuildingModel = () => {
   const useUpdateBuilding = () =>
     useMutation({
       mutationKey: ["updateBuilding"],
-      mutationFn: (body: BuildingInput) => updateBuilding(body),
+      mutationFn: (data: { id: number; body: BuildingInput }) =>
+        updateBuilding(data.id, data.body),
       onMutate: () => onMutate("button"),
       onSettled: () => onSettled("button"),
       onError,

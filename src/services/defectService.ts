@@ -16,8 +16,6 @@ export const addDefect = async (
     /* Add Report */
     const response1 = await addReport(body.report);
 
-    console.log(body.plans);
-
     /* Add Plans */
     for (const plan of body.plans) {
       const mapBody = {

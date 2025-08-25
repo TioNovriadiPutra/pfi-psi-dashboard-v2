@@ -169,104 +169,100 @@ const useBuildingController = () => {
       } else {
         formData = {
           ...buildingForm,
-          inputs: buildingForm.inputs.map((input1) =>
-            input1.map((input2) =>
-              input2.map((input3) => ({
-                ...input3,
-                tabData: input3.tabData!.map((input4) => {
-                  if (input4.title === "Detail") {
-                    return {
-                      ...input4,
-                      inputs: input4.inputs.map((input5) =>
-                        input5.map((input6) => {
-                          if (input6.name === "name" && params) {
-                            return {
-                              ...input6,
-                              disabled: true,
-                            };
-                          } else if (input6.name === "building_type") {
-                            return {
-                              ...input6,
-                              items: responses[0].data!.data.data.map(
-                                (item) =>
-                                  ({
-                                    label: item.name,
-                                    value: item.id,
-                                  } as DropdownType)
-                              ),
-                            };
-                          } else if (input6.name === "project_id") {
-                            return {
-                              ...input6,
-                              items: responses[1].data!.data.data.map(
-                                (item) =>
-                                  ({
-                                    label: item.name,
-                                    value: item.id,
-                                  } as DropdownType)
-                              ),
-                            };
-                          }
+          inputs: buildingForm.inputs.map((input1) => ({
+            ...input1,
+            tabData: input1.tabData!.map((input4) => {
+              if (input4.title === "Detail") {
+                return {
+                  ...input4,
+                  inputs: input4.inputs.map((input5) =>
+                    input5.map((input6) => {
+                      if (input6.name === "name" && params) {
+                        return {
+                          ...input6,
+                          disabled: true,
+                        };
+                      } else if (input6.name === "building_type") {
+                        return {
+                          ...input6,
+                          items: responses[0].data!.data.data.map(
+                            (item) =>
+                              ({
+                                label: item.name,
+                                value: item.id,
+                              } as DropdownType)
+                          ),
+                        };
+                      } else if (input6.name === "project_id") {
+                        return {
+                          ...input6,
+                          items: responses[1].data!.data.data.map(
+                            (item) =>
+                              ({
+                                label: item.name,
+                                value: item.id,
+                              } as DropdownType)
+                          ),
+                        };
+                      }
 
-                          return input6;
-                        })
-                      ),
-                    };
-                  } else if (input4.title === "Elevations") {
-                    return {
-                      ...input4,
-                      inputs: input4.inputs.map((input7) =>
-                        input7.map((input8) => ({
-                          ...input8,
-                          cartData: {
-                            ...input8.cartData!,
-                            inputs: input8.cartData!.inputs.map((input9) =>
-                              input9.map((input10) => {
-                                if (input10.name === "name" && params) {
-                                  return {
-                                    ...input10,
-                                    disabled: true,
-                                  };
-                                }
+                      return input6;
+                    })
+                  ),
+                };
+              } else if (input4.title === "Elevations") {
+                return {
+                  ...input4,
+                  inputs: input4.inputs.map((input7) =>
+                    input7.map((input8) => ({
+                      ...input8,
+                      cartData: {
+                        ...input8.cartData!,
+                        inputs: input8.cartData!.inputs.map((input9) =>
+                          input9.map((input10) => {
+                            if (input10.name === "name" && params) {
+                              return {
+                                ...input10,
+                                disabled: true,
+                              };
+                            }
 
-                                return input10;
-                              })
-                            ),
-                          },
-                        }))
-                      ),
-                    };
-                  } else if (input4.title === "Levels") {
-                    return {
-                      ...input4,
-                      inputs: input4.inputs.map((input9) =>
-                        input9.map((input10) => ({
-                          ...input10,
-                          cartData: {
-                            ...input10.cartData!,
-                            inputs: input10.cartData!.inputs.map((input11) =>
-                              input11.map((input12) => {
-                                if (input12.name === "level_name" && params) {
-                                  return {
-                                    ...input12,
-                                    disabled: true,
-                                  };
-                                }
+                            return input10;
+                          })
+                        ),
+                      },
+                    }))
+                  ),
+                };
+              } else if (input4.title === "Levels") {
+                return {
+                  ...input4,
+                  inputs: input4.inputs.map((input9) =>
+                    input9.map((input10) => ({
+                      ...input10,
+                      cartData: {
+                        ...input10.cartData!,
+                        inputs: input10.cartData!.inputs.map((input11) =>
+                          input11.map((input12) => {
+                            if (input12.name === "level_name" && params) {
+                              return {
+                                ...input12,
+                                disabled: true,
+                              };
+                            }
 
-                                return input12;
-                              })
-                            ),
-                          },
-                        }))
-                      ),
-                    };
-                  }
+                            return input12;
+                          })
+                        ),
+                      },
+                    }))
+                  ),
+                };
+              }
 
-                  return input4;
-                }),
-              }))
-            )
-          ),
+              return input4;
+            }),
+          })),
         };
       }
     }
@@ -281,7 +277,8 @@ const useBuildingController = () => {
     useGetBuildingsService,
     useGetBuildingFormDropdownService,
     addBuildingService: (body: any) => addBuildingMutation.mutate(body),
-    updateBuildingService: (body: any) => updateBuildingMutation.mutate(body),
+    updateBuildingService: (data: { id: number; body: any }) =>
+      updateBuildingMutation.mutate(data),
   };
 };
 

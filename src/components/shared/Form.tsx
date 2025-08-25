@@ -8,14 +8,15 @@ import {
   TextInput,
 } from "@components/custom";
 import type { InputType } from "@interfaces/formInterface";
-import type { Control } from "react-hook-form";
+import type { Control, FieldErrors } from "react-hook-form";
 
 type Props = {
   listData: InputType[];
   control: Control<any, any>;
+  errors: FieldErrors<any>;
 };
 
-const Form = ({ listData, control }: Props) => {
+const Form = ({ listData, control, errors }: Props) => {
   return (
     <div className="flex-1 gap-md">
       {listData.map((item, index) => {
@@ -52,6 +53,7 @@ const Form = ({ listData, control }: Props) => {
               key={index.toString()}
               inputData={item}
               control={control}
+              errors={errors}
             />
           );
 
@@ -61,6 +63,7 @@ const Form = ({ listData, control }: Props) => {
               key={index.toString()}
               inputData={item}
               control={control}
+              errors={errors}
             />
           );
 

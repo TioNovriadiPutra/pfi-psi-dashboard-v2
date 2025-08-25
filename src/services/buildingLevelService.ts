@@ -24,6 +24,24 @@ export const getBuildingLevels = async (): Promise<
   }
 };
 
+export const getBuildingLevelsByBuilding = async (
+  id: number
+): Promise<ResType<PaginationType<BuildingLevelDTO[]>>> => {
+  try {
+    const response = await axiosInstance.get(
+      `${API_ENDPOINT.addBuildingLevel}/${id}`,
+      { skipAuth: true }
+    );
+
+    return successResponse<PaginationType<BuildingLevelDTO[]>>(
+      response,
+      "Data fetched!"
+    );
+  } catch (error) {
+    throw errorResponse(error);
+  }
+};
+
 export const addBuildingLevel = async (
   buildingId: number,
   body: BuildingLevelInput

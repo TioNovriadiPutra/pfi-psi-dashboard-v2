@@ -58,7 +58,7 @@ export interface InputType {
 }
 
 export interface FormType<T> {
-  inputs: InputType[][][];
+  inputs: InputType[];
   defaultValues: T;
   buttonLabel?: string;
 }

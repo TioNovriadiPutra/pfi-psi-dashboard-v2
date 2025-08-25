@@ -11,7 +11,10 @@ import {
   addBuildingElevations,
   updateBuildingElevation,
 } from "./buildingElevationService";
-import { addBuildingLevel, updateBuildingLevel } from "./buildingLevelService";
+import {
+  addBuildingLevel,
+  // updateBuildingLevel
+} from "./buildingLevelService";
 
 export const getBuildings = async (): Promise<
   ResType<PaginationType<BuildingAddDTO[]>>
@@ -58,6 +61,9 @@ export const addBuilding = async (
       owner_id: 1,
       latitude: body.location?.lat ?? null,
       longitude: body.location?.lng ?? null,
+      status_construction: body.status_construction || 0.0,
+      construction_start_date: body.construction_start_date || null,
+      construction_end_date: body.construction_end_date || null,
     };
 
     delete (mapBody as any).elevations;
@@ -83,6 +89,7 @@ export const addBuilding = async (
 };
 
 export const updateBuilding = async (
+  id: number,
   body: BuildingInput
 ): Promise<{ message: string }> => {
   try {
@@ -106,12 +113,12 @@ export const updateBuilding = async (
     );
 
     for (const elevation of body.elevations) {
-      await updateBuildingElevation(response.data.id, elevation);
+      await updateBuildingElevation(id, elevation);
     }
 
-    for (const level of body.levels) {
-      await updateBuildingLevel(response.data.id, level);
-    }
+    // for (const level of body.levels) {
+    //   await updateBuildingLevel(id, level);
+    // }
 
     return successResponse<{ message: string }>(response, "Building updated!");
   } catch (error) {

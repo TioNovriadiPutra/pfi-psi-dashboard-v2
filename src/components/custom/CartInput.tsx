@@ -1,32 +1,36 @@
 import { Button, Form } from "@components/shared";
 import type { InputType } from "@interfaces/formInterface";
-import { useFieldArray, type Control } from "react-hook-form";
+import { AnimatePresence, motion } from "motion/react";
+import { useFieldArray, type Control, type FieldErrors } from "react-hook-form";
 import { BiTrash } from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 type Props = {
   inputData: InputType;
   control: Control<any, any>;
+  errors: FieldErrors<any>;
 };
 
-const CartInput = ({ inputData, control }: Props) => {
+const CartInput = ({ inputData, control, errors }: Props) => {
   const { fields, append, remove } = useFieldArray({
     name: inputData.name,
     control,
-    rules: inputData.rules,
+    rules: {
+      ...inputData.rules,
+    },
   });
 
   return (
     <div className="gap-md">
       {fields.map((field, index) => (
         <div
+          key={field.id}
           className={`${
             index < fields.length - 1 &&
             "pb-md border-b-2 border-b-neutral-200 border-dashed"
           }`}
         >
           <div
-            key={field.id}
             className={`border border-neutral-200 pb-sm ${
               inputData.cartData!.isGrey === false
                 ? "bg-neutral-0"
@@ -66,29 +70,33 @@ const CartInput = ({ inputData, control }: Props) => {
 
             <div className="gap-md">
               <div className="!flex-row gap-md">
-                {inputData.cartData!.inputs.map((input) => {
+                {inputData.cartData!.inputs.map((input, index) => {
                   if (input.length > 1)
                     return (
                       <Form
+                        key={index.toString()}
                         listData={input.map((input2) => ({
                           ...input2,
                           name: `${inputData.name}.${index}.${input2.name}`,
                         }))}
                         control={control}
+                        errors={errors}
                       />
                     );
                 })}
               </div>
 
-              {inputData.cartData!.inputs.map((input) => {
+              {inputData.cartData!.inputs.map((input, index) => {
                 if (input.length === 1)
                   return (
                     <Form
+                      key={index.toString()}
                       listData={input.map((input2) => ({
                         ...input2,
                         name: `${inputData.name}.${index}.${input2.name}`,
                       }))}
                       control={control}
+                      errors={errors}
                     />
                   );
               })}
@@ -98,7 +106,13 @@ const CartInput = ({ inputData, control }: Props) => {
       ))}
 
       {inputData.cartData!.withAdd !== false && (
-        <div className="items-center py-[12px] border-t border-t-neutral-200">
+        <div
+          className={`relative items-center py-[12px] border-t ${
+            errors[inputData.name] && errors[inputData.name]?.root
+              ? "border-t-red-600"
+              : "border-t-neutral-200"
+          }`}
+        >
           <Button
             buttonData={{
               label: `Add ${inputData.placeholder}`,
@@ -108,6 +122,19 @@ const CartInput = ({ inputData, control }: Props) => {
             icon={IoIosAddCircleOutline}
             onClick={() => append(inputData.cartData!.template)}
           />
+
+          <AnimatePresence>
+            {errors[inputData.name] && errors[inputData.name]?.root && (
+              <motion.p
+                className="absolute top-[-8.5px] text-body-sm font-normal text-red-600 bg-neutral-0 px-[2px]"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+              >
+                {errors[inputData.name]?.root?.message as string}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </div>
       )}
     </div>

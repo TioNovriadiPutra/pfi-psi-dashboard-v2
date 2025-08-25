@@ -1,16 +1,17 @@
 import type { InputType } from "@interfaces/formInterface";
 import { useAnimate } from "motion/react";
 import { useEffect } from "react";
-import { type Control } from "react-hook-form";
+import { type Control, type FieldErrors } from "react-hook-form";
 import { Form } from "@components/shared";
 import { useFormSlider } from "@stores/pageStore";
 
 type Props = {
   inputData: InputType;
   control: Control<any, any>;
+  errors: FieldErrors<any>;
 };
 
-const TabInput = ({ inputData, control }: Props) => {
+const TabInput = ({ inputData, control, errors }: Props) => {
   const formSlider = useFormSlider();
 
   const [scope, animate] = useAnimate();
@@ -56,7 +57,12 @@ const TabInput = ({ inputData, control }: Props) => {
           } !flex-row gap-md`}
         >
           {tab.inputs.map((input, index2) => (
-            <Form key={index2.toString()} listData={input} control={control} />
+            <Form
+              key={index2.toString()}
+              listData={input}
+              control={control}
+              errors={errors}
+            />
           ))}
         </div>
       ))}

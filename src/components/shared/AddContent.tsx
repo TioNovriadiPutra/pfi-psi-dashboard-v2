@@ -1,16 +1,22 @@
 import type { InputType } from "@interfaces/formInterface";
-import type { Control } from "react-hook-form";
+import type { Control, FieldErrors } from "react-hook-form";
 import Form from "./Form";
 import { useEffect } from "react";
 import { useFormSlider } from "@stores/pageStore";
 
 type Props = {
-  contentData: InputType[][][];
+  contentData: InputType[];
   control: Control<any, any>;
   size?: "normal" | "large";
+  errors: FieldErrors<any>;
 };
 
-const AddContent = ({ contentData, control, size = "normal" }: Props) => {
+const AddContent = ({
+  contentData,
+  control,
+  size = "normal",
+  errors,
+}: Props) => {
   const resetFormSlider = useFormSlider((state) => state.resetPage);
 
   useEffect(() => {
@@ -19,21 +25,14 @@ const AddContent = ({ contentData, control, size = "normal" }: Props) => {
 
   return (
     <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
-      {contentData.map((item, index) => (
-        <div
-          key={index.toString()}
-          className={`w-full ${
-            size === "normal" && "max-w-[712px]"
-          } bg-neutral-0 p-md border border-neutral-200 rounded-lg`}
-          style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
-        >
-          {item.map((item2, index2) => (
-            <div key={index2.toString()} className="!flex-row">
-              <Form listData={item2} control={control} />
-            </div>
-          ))}
-        </div>
-      ))}
+      <div
+        className={`w-full ${
+          size === "normal" && "max-w-[712px]"
+        } bg-neutral-0 p-md border border-neutral-200 rounded-lg`}
+        style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
+      >
+        <Form listData={contentData} control={control} errors={errors} />
+      </div>
     </div>
   );
 };

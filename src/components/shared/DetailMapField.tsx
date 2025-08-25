@@ -105,7 +105,7 @@ const DetailMapField = ({ label, value }: Props) => {
           <AnimatePresence>
             {showDetail && (
               <motion.div
-                className="absolute top-[45px] right-0 bg-neutral-0 p-xs rounded-lg w-[400px] origin-top-right"
+                className="absolute top-[45px] right-0 bg-neutral-0 p-xs rounded-lg w-[400px] origin-top-right gap-xs"
                 style={{ boxShadow: "rgba(13, 26, 38, 0.25) 0px 4px 12px 0px" }}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -17,7 +17,11 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
 
   const nav = useNavigate();
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
     defaultValues: defectData.defaultValues,
   });
 
@@ -27,12 +31,33 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
     formSlider.resetPage();
   }, []);
 
+  useEffect(() => {
+    const errorKeys = Object.keys(errors);
+
+    if (errorKeys.length > 0) {
+      if (
+        errorKeys.filter((key) => key !== "plans" && key !== "defects").length >
+        0
+      ) {
+        formSlider.changePage(0);
+      } else {
+        if (errorKeys.filter((key) => key === "plans").length > 0) {
+          formSlider.changePage(1);
+        } else if (errorKeys.filter((key) => key === "defects").length > 0) {
+          formSlider.changePage(2);
+        }
+      }
+    }
+  }, [isSubmitting]);
+
   return (
     <>
       <AddHeader
         title="Add Defect"
         onSubmit={handleSubmit((body) => {
           if (formSlider.page === 2) {
+            console.log(body);
+
             addDefectService({
               report: {
                 report_no: body.report_no,
@@ -88,6 +113,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
         contentData={defectData.inputs}
         control={control}
         size="large"
+        errors={errors}
       />
     </>
   );

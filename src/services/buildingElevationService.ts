@@ -51,6 +51,8 @@ export const updateBuildingElevation = async (
       "Building elevation updated!"
     );
   } catch (error) {
+    console.log(JSON.stringify(error));
+
     throw errorResponse(error);
   }
 };
