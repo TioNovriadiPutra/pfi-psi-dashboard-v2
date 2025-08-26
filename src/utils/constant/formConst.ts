@@ -337,11 +337,11 @@ export const buildingForm: FormType<BuildingInput> = {
                       {
                         type: "text",
                         name: "orientation_degrees",
-                        label: "Orientation (°)",
+                        label: "Directions",
                         placeholder: "0",
                         required: true,
                         rules: {
-                          required: "Orientation must be filled!",
+                          required: "Directons must be filled!",
                         },
                       },
                       {

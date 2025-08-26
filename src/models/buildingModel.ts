@@ -195,7 +195,7 @@ const useBuildingModel = () => {
                 data: [
                   { label: "Name", value: elevation.name },
                   {
-                    label: "Orientation Degrees (°)",
+                    label: "Directions",
                     value: elevation.orientation_degrees.toString(),
                   },
                   {
