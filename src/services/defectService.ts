@@ -13,6 +13,8 @@ export const addDefect = async (
   try {
     let response: any;
 
+    console.log(body);
+
     /* Add Report */
     const response1 = await addReport(body.report);
 
