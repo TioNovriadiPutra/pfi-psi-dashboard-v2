@@ -70,11 +70,11 @@ const CartInput = ({ inputData, control, errors }: Props) => {
 
             <div className="gap-md">
               <div className="!flex-row gap-md">
-                {inputData.cartData!.inputs.map((input, index) => {
+                {inputData.cartData!.inputs.map((input, index2) => {
                   if (input.length > 1)
                     return (
                       <Form
-                        key={index.toString()}
+                        key={index2.toString()}
                         listData={input.map((input2) => ({
                           ...input2,
                           name: `${inputData.name}.${index}.${input2.name}`,
@@ -86,11 +86,11 @@ const CartInput = ({ inputData, control, errors }: Props) => {
                 })}
               </div>
 
-              {inputData.cartData!.inputs.map((input, index) => {
+              {inputData.cartData!.inputs.map((input, index2) => {
                 if (input.length === 1)
                   return (
                     <Form
-                      key={index.toString()}
+                      key={index2.toString()}
                       listData={input.map((input2) => ({
                         ...input2,
                         name: `${inputData.name}.${index}.${input2.name}`,
