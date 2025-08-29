@@ -23,7 +23,7 @@ const SearchInput = ({ suggestions, isLoading, onSearch, onSelect }: Props) => {
   });
 
   return (
-    <div className="relative !flex-row items-center w-[320px] px-[12px] py-[7px] bg-neutral-0 border border-neutral-200 rounded-md gap-[8px]">
+    <div className="relative flex-1 !flex-row items-center lg:w-[320px] px-[12px] py-[7px] bg-neutral-0 border border-neutral-200 rounded-md gap-[8px]">
       {isLoading ? (
         <Reuleaux
           size="15"

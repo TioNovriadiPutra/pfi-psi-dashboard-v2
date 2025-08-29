@@ -1,4 +1,9 @@
-import { Sidebar, SidebarMobile, Toast } from "@components/custom";
+import {
+  LayoutHeader,
+  Sidebar,
+  SidebarMobile,
+  Toast,
+} from "@components/custom";
 import {
   ConfirmationModal,
   DetailModal,
@@ -24,8 +29,10 @@ const App = () => {
     <div className="main">
       <BrowserRouter>
         {auth.token ? (
-          <div className="relative flex-1 !flex-row bg-neutral-50">
+          <div className="relative flex-1 lg:!flex-row bg-neutral-50">
             {isTablet ? <SidebarMobile /> : <Sidebar />}
+
+            {isTablet && <LayoutHeader />}
 
             <AppRoute />
 

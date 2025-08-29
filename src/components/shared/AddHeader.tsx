@@ -2,6 +2,7 @@ import { GrFormPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router";
 import Button from "./Button";
 import { useLoadingButton } from "@stores/pageStore";
+import useResponsive from "@hooks/useResponsive";
 
 type Props = {
   title: string;
@@ -14,6 +15,8 @@ const AddHeader = ({ title, onSubmit, onPreview, onBack }: Props) => {
   const loadingButton = useLoadingButton((state) => state.show);
 
   const nav = useNavigate();
+
+  const { isTablet } = useResponsive();
 
   return (
     <div className="!flex-row items-center justify-between">
@@ -35,33 +38,35 @@ const AddHeader = ({ title, onSubmit, onPreview, onBack }: Props) => {
         <h2 className="text-neutral-900">{title}</h2>
       </div>
 
-      <div className="!flex-row items-center gap-[8px]">
-        <Button
-          buttonData={{
-            label: onPreview ? "Preview" : "Cancel",
-            color: "bg-neutral-0",
-            hover: "hover:bg-primary-200",
-          }}
-          onClick={() => {
-            if (onPreview) {
-              onPreview();
-            } else {
-              nav(-1);
-            }
-          }}
-        />
+      {!isTablet && (
+        <div className="!flex-row items-center gap-[8px]">
+          <Button
+            buttonData={{
+              label: onPreview ? "Preview" : "Cancel",
+              color: "bg-neutral-0",
+              hover: "hover:bg-primary-200",
+            }}
+            onClick={() => {
+              if (onPreview) {
+                onPreview();
+              } else {
+                nav(-1);
+              }
+            }}
+          />
 
-        <Button
-          buttonData={{
-            label: "Submit",
-            color: "bg-primary-500",
-            hover: "hover:bg-primary-600",
-          }}
-          type="submit"
-          isLoading={loadingButton}
-          onClick={onSubmit}
-        />
-      </div>
+          <Button
+            buttonData={{
+              label: "Submit",
+              color: "bg-primary-500",
+              hover: "hover:bg-primary-600",
+            }}
+            type="submit"
+            isLoading={loadingButton}
+            onClick={onSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 };

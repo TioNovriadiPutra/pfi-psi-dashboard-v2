@@ -21,3 +21,4 @@ export { default as CartInput } from "./CartInput";
 export { default as AddDefectContent } from "./AddDefectContent";
 export { default as ImageInput } from "./ImageInput";
 export { default as SidebarMobile } from "./SidebarMobile";
+export { default as LayoutHeader } from "./LayoutHeader";

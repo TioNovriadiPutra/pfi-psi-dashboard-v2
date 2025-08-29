@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { type Control, type FieldErrors } from "react-hook-form";
 import { Form } from "@components/shared";
 import { useFormSlider } from "@stores/pageStore";
+import useResponsive from "@hooks/useResponsive";
 
 type Props = {
   inputData: InputType;
@@ -16,18 +17,26 @@ const TabInput = ({ inputData, control, errors }: Props) => {
 
   const [scope, animate] = useAnimate();
 
+  const { isTablet } = useResponsive();
+
   useEffect(() => {
-    animate(scope.current, { x: 120 * formSlider.page }, { ease: "easeInOut" });
+    if (!isTablet) {
+      animate(
+        scope.current,
+        { x: 120 * formSlider.page },
+        { ease: "easeInOut" }
+      );
+    }
   }, [formSlider.page]);
 
   return (
     <div className="gap-[16px]">
-      <div className="relative !flex-row items-center">
+      <div className="relative !flex-row items-center gap-md lg:gap-0">
         {inputData.tabData!.map((tab, index) => (
           <button
             key={index.toString()}
             type="button"
-            className="w-[120px] py-[16px]"
+            className="lg:w-[120px] py-[16px]"
             onClick={() => formSlider.changePage(index)}
           >
             <p
@@ -43,10 +52,12 @@ const TabInput = ({ inputData, control, errors }: Props) => {
           </button>
         ))}
 
-        <div
-          ref={scope}
-          className="absolute w-[120px] h-[2px] bg-primary-400 rounded-full bottom-0"
-        />
+        {!isTablet && (
+          <div
+            ref={scope}
+            className="absolute w-[120px] h-[2px] bg-primary-400 rounded-full bottom-0"
+          />
+        )}
       </div>
 
       {inputData.tabData!.map((tab, index) => (

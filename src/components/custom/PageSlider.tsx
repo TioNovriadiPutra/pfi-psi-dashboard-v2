@@ -15,7 +15,7 @@ const PageSlider = ({ sliderData, pageData }: Props) => {
   }, [pageData.page]);
 
   return (
-    <div className="mb-xs px-md self-start">
+    <div className="mb-xs px-xs lg:px-md self-start">
       <div className="relative !flex-row p-[5px] bg-neutral-100 rounded-md">
         <div
           ref={scope}

@@ -35,8 +35,8 @@ const AppTableContent = ({
 
       {tabData && <PageSlider sliderData={tabData} pageData={pageData!} />}
 
-      <div className="flex-1 px-md pb-xs">
-        <div className="flex-1 border border-neutral-200 rounded-lg overflow-x-auto">
+      <div className="flex-1 px-xs lg:px-md lg:pb-xs">
+        <div className="flex-1 lg:border border-neutral-200 lg:rounded-lg overflow-x-auto">
           <TableHeader headerData={contentData.tableHeader} />
 
           {isLoading ? (

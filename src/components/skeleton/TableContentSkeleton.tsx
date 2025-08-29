@@ -3,8 +3,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const TableContentSkeleton = () => {
   return (
-    <div>
-      <Skeleton count={10} className="h-[56px] w-full" />
+    <div className="flex-1">
+      <Skeleton count={10} className="h-[56px] w-full !rounded-none" />
     </div>
   );
 };

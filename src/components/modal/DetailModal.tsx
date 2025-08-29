@@ -4,6 +4,7 @@ import {
   DetailMapField,
 } from "@components/shared";
 import ModalContainer from "@containers/ModalContainer";
+import useResponsive from "@hooks/useResponsive";
 import type { MapType } from "@interfaces/formInterface";
 import type { DetailAccordionStateType } from "@interfaces/stateInterface";
 import { useDetailModal } from "@stores/modalStore";
@@ -12,8 +13,15 @@ import { IoMdClose } from "react-icons/io";
 const DetailModal = () => {
   const detailModal = useDetailModal();
 
+  const { isTablet } = useResponsive();
+
   return (
-    <ModalContainer show={detailModal.show} minWidth="min-w-[776px]">
+    <ModalContainer
+      show={detailModal.show}
+      withMin={!isTablet}
+      minWidth="min-w-[776px]"
+      onClose={detailModal.hideModal}
+    >
       <div className="!flex-row items-center justify-between px-md py-[16px] border-b border-b-neutral-200">
         <p className="text-body-md font-semibold text-neutral-900">
           {detailModal.title}

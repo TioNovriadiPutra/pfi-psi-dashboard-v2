@@ -9,3 +9,4 @@ export { default as DetailField } from "./DetailField";
 export { default as DetailMapField } from "./DetailMapField";
 export { default as AccordionField } from "./AccordionField";
 export { default as AccordionMenuField } from "./AccordionMenuField";
+export { default as AddFooter } from "./AddFooter";
