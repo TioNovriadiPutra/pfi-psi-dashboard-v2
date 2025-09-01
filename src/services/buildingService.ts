@@ -16,13 +16,17 @@ import {
   // updateBuildingLevel
 } from "./buildingLevelService";
 
-export const getBuildings = async (): Promise<
-  ResType<PaginationType<BuildingAddDTO[]>>
-> => {
+export const getBuildings = async (
+  page: number,
+  itemPerPage: number
+): Promise<ResType<PaginationType<BuildingAddDTO[]>>> => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINT.getBuildings, {
-      skipAuth: true,
-    });
+    const response = await axiosInstance.get(
+      `${API_ENDPOINT.getBuildings}?page=${page}&items_per_page=${itemPerPage}`,
+      {
+        skipAuth: true,
+      }
+    );
 
     return successResponse<PaginationType<BuildingDTO[]>>(
       response,

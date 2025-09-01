@@ -81,3 +81,11 @@ export type SearchType = {
   changeSearch: (val: string) => void;
   resetSearch: () => void;
 };
+
+export type PaginationStateType = {
+  page: number;
+  items_per_page: number;
+  nextPage: () => void;
+  prevPage: () => void;
+  resetPage: () => void;
+};

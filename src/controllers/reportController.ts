@@ -81,7 +81,7 @@ const useReportController = () => {
                   type: "delete",
                   onClick: () =>
                     confirmationModal.showModal({
-                      title: "Delete Project",
+                      title: "Delete Report",
                       description: `Are you sure you want to delete |"${item.report_no}"| report? This action cannot be undo!`,
                       onConfirm: () =>
                         deleteReportMutation.mutate(item.report_no),

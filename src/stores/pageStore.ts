@@ -1,6 +1,7 @@
 import type {
   LoadingStateType,
   OneThemeStateType,
+  PaginationStateType,
   SearchType,
   SlideStateType,
   ToastStateType,
@@ -111,4 +112,18 @@ export const useSearchMap = create<SearchType>((set) => ({
   value: "",
   changeSearch: (val) => set({ value: val }),
   resetSearch: () => set({ value: "default" }),
+}));
+
+export const usePagination = create<PaginationStateType>((set, get) => ({
+  page: 1,
+  items_per_page: 10,
+  nextPage: () => {
+    const curr = get().page;
+    set({ page: curr + 1 });
+  },
+  prevPage: () => {
+    const curr = get().page;
+    set({ page: curr - 1 });
+  },
+  resetPage: () => set({ page: 1 }),
 }));

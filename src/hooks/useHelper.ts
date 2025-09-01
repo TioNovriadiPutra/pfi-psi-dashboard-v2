@@ -5,7 +5,7 @@ import {
   useDetailModal,
   useLoadingModal,
 } from "@stores/modalStore";
-import { useLoadingButton, useToast } from "@stores/pageStore";
+import { useLoadingButton, usePagination, useToast } from "@stores/pageStore";
 import { useNavigate } from "react-router";
 
 const useHelper = () => {
@@ -13,6 +13,7 @@ const useHelper = () => {
   const loadingModal = useLoadingModal();
   const auth = useAuth();
   const confirmationModal = useConfirmationModal();
+  const pagination = usePagination();
 
   const showToast = useToast((state) => state.showToast);
   const showDetailModal = useDetailModal((state) => state.showModal);
@@ -44,6 +45,7 @@ const useHelper = () => {
   return {
     auth,
     confirmationModal,
+    pagination,
     showDetailModal,
     nav,
     onMutate,

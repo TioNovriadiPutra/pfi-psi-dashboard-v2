@@ -7,13 +7,17 @@ import { API_ENDPOINT } from "@utils/config/api";
 import { axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
 
-export const getBuildingTypes = async (): Promise<
-  ResType<PaginationType<BuildingTypeDTO[]>>
-> => {
+export const getBuildingTypes = async (
+  page: number,
+  itemsPerPage: number
+): Promise<ResType<PaginationType<BuildingTypeDTO[]>>> => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINT.getBuildingTypes, {
-      skipAuth: true,
-    });
+    const response = await axiosInstance.get(
+      `${API_ENDPOINT.getBuildingTypes}?page=${page}&items_per_page=${itemsPerPage}`,
+      {
+        skipAuth: true,
+      }
+    );
 
     return successResponse<PaginationType<BuildingTypeDTO[]>>(
       response,

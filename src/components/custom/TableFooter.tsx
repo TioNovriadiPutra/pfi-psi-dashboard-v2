@@ -1,4 +1,5 @@
 import type { FetchPaginationType } from "@interfaces/pageInterface";
+import { usePagination } from "@stores/pageStore";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 type Props = {
@@ -6,6 +7,8 @@ type Props = {
 };
 
 const TableFooter = ({ footerData }: Props) => {
+  const pagination = usePagination();
+
   return (
     <div className="!flex-row items-center justify-between px-md py-xs bg-neutral-50">
       <p className="text-body-xs font-normal text-neutral-500">
@@ -25,9 +28,11 @@ const TableFooter = ({ footerData }: Props) => {
           type="button"
           className={`size-lg ${
             footerData.from === 1 || footerData.total === 0
-              ? "bg-neutral-200 text-neutral-400"
+              ? "bg-neutral-200 text-neutral-400 !cursor-default"
               : "bg-neutral-0 hover:bg-primary-200 text-neutral-900 hover:text-primary-400 hover:border-primary-400"
           } transition-colors duration-300 border border-neutral-200 rounded-md items-center justify-center`}
+          onClick={pagination.prevPage}
+          disabled={footerData.from === 1 || footerData.total === 0}
         >
           <GrFormPrevious size={16} />
         </button>
@@ -36,9 +41,13 @@ const TableFooter = ({ footerData }: Props) => {
           type="button"
           className={`size-lg ${
             footerData.to === footerData.total || footerData.total === 0
-              ? "bg-neutral-200 text-neutral-400"
+              ? "bg-neutral-200 text-neutral-400 !cursor-default"
               : "bg-neutral-0 hover:bg-primary-200 text-neutral-900 hover:text-primary-400 hover:border-primary-400"
           }  transition-colors duration-300 border border-neutral-200 rounded-md items-center justify-center`}
+          onClick={pagination.nextPage}
+          disabled={
+            footerData.to === footerData.total || footerData.total === 0
+          }
         >
           <GrFormNext size={16} />
         </button>

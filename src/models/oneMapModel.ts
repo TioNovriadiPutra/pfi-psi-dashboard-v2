@@ -72,6 +72,7 @@ const useOneMapModel = () => {
     useQuery({
       queryKey: ["searchAddress", search],
       queryFn: () => searchAddress(search),
+      retry: false,
     });
 
   return {

@@ -20,7 +20,6 @@ import type {
   BuildingLevelDTO,
   BuildingLevelInput,
 } from "./buildingLevelModel";
-import { useConfirmationModal, useDetailModal } from "@stores/modalStore";
 import moment from "moment";
 import { generateEncryption } from "@utils/helper/generator";
 
@@ -68,18 +67,30 @@ export interface BuildingDTO extends BuildingAddDTO {
 }
 
 const useBuildingModel = () => {
-  const showDetailModal = useDetailModal((state) => state.showModal);
-  const hideConfirmationModal = useConfirmationModal(
-    (state) => state.hideModal
-  );
-
-  const { nav, onMutate, onSettled, onError, onSuccess } = useHelper();
+  const {
+    confirmationModal,
+    pagination,
+    showDetailModal,
+    nav,
+    onMutate,
+    onSettled,
+    onError,
+    onSuccess,
+  } = useHelper();
 
   const useGetBuildings = () =>
     useQueries({
       queries: [
-        { queryKey: ["getBuildings"], queryFn: () => getBuildings() },
-        { queryKey: ["getBuildingTypes"], queryFn: () => getBuildingTypes() },
+        {
+          queryKey: ["getBuildings", pagination.page],
+          queryFn: () =>
+            getBuildings(pagination.page, pagination.items_per_page),
+        },
+        {
+          queryKey: ["getBuildingTypes", pagination.page],
+          queryFn: () =>
+            getBuildingTypes(pagination.page, pagination.items_per_page),
+        },
       ],
     });
 
@@ -87,8 +98,9 @@ const useBuildingModel = () => {
     useQueries({
       queries: [
         {
-          queryKey: ["getBuilding1Dropdown"],
-          queryFn: () => getBuildingTypes(),
+          queryKey: ["getBuilding1Dropdown", pagination.page],
+          queryFn: () =>
+            getBuildingTypes(pagination.page, pagination.items_per_page),
         },
         { queryKey: ["getBuilding2Dropdown"], queryFn: () => getProjects() },
       ],
@@ -312,11 +324,11 @@ const useBuildingModel = () => {
       onMutate: () => onMutate("button"),
       onSettled: () => onSettled("button"),
       onError: (err) => {
-        hideConfirmationModal();
+        confirmationModal.hideModal();
         onError(err);
       },
       onSuccess: (res) => {
-        hideConfirmationModal();
+        confirmationModal.hideModal();
         queryClient.invalidateQueries({ queryKey: ["getBuildings"] });
         onSuccess(res.message);
       },

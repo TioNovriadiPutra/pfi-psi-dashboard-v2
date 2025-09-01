@@ -1,4 +1,5 @@
 import type { SlideStateType } from "@interfaces/stateInterface";
+import { usePagination } from "@stores/pageStore";
 import { useAnimate } from "motion/react";
 import { useEffect } from "react";
 
@@ -8,6 +9,8 @@ type Props = {
 };
 
 const PageSlider = ({ sliderData, pageData }: Props) => {
+  const resetPagination = usePagination((state) => state.resetPage);
+
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
@@ -27,7 +30,10 @@ const PageSlider = ({ sliderData, pageData }: Props) => {
             key={index.toString()}
             type="button"
             className="z-20 px-[12px] py-[6px] w-[120px]"
-            onClick={() => pageData.changePage(index)}
+            onClick={() => {
+              resetPagination();
+              pageData.changePage(index);
+            }}
           >
             <p
               className={`text-body-sm font-medium ${
