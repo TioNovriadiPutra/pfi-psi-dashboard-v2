@@ -7,7 +7,6 @@ import {
   getProjects,
   updateProject,
 } from "@services/projectService";
-import { useConfirmationModal } from "@stores/modalStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@utils/config/client";
 import { generateEncryption } from "@utils/helper/generator";
@@ -25,16 +24,20 @@ export interface ProjectDTO extends Omit<ProjectInput, "status"> {
 }
 
 const useProjectModel = () => {
-  const hideConfirmationModal = useConfirmationModal(
-    (state) => state.hideModal
-  );
-
-  const { nav, onMutate, onSettled, onError, onSuccess } = useHelper();
+  const {
+    confirmationModal,
+    pagination,
+    nav,
+    onMutate,
+    onSettled,
+    onError,
+    onSuccess,
+  } = useHelper();
 
   const useGetProjects = () =>
     useQuery({
       queryKey: ["getProjects"],
-      queryFn: () => getProjects(),
+      queryFn: () => getProjects(pagination.page, pagination.items_per_page),
     });
 
   const useAddProject = () =>
@@ -100,11 +103,11 @@ const useProjectModel = () => {
       onMutate: () => onMutate("button"),
       onSettled: () => onSettled("button"),
       onError: (error) => {
-        hideConfirmationModal();
+        confirmationModal.hideModal();
         onError(error);
       },
       onSuccess: async (res) => {
-        hideConfirmationModal();
+        confirmationModal.hideModal();
         queryClient.invalidateQueries({ queryKey: ["getProjects"] });
         onSuccess(res.message);
       },

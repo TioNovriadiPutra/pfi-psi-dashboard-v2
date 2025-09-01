@@ -4,11 +4,17 @@ import { API_ENDPOINT } from "@utils/config/api";
 import { axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
 
-export const getProjects = async (): Promise<
-  ResType<PaginationType<ProjectDTO[]>>
-> => {
+export const getProjects = async (
+  page: number,
+  itemsPerPage: number
+): Promise<ResType<PaginationType<ProjectDTO[]>>> => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINT.getProjects);
+    const response = await axiosInstance.get(
+      `${API_ENDPOINT.getProjects}?page=${page}&items_per_page=${itemsPerPage}`,
+      {
+        skipAuth: true,
+      }
+    );
 
     return successResponse<PaginationType<ProjectDTO[]>>(
       response,
