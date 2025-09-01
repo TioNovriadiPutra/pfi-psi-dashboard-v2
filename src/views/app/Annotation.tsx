@@ -69,7 +69,7 @@ const AnnotationForm = () => {
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!canvasRef.current) return;
 
-    if (e.button === 1 || e.ctrlKey) { 
+    if (e.button === 1 || e.ctrlKey) {
       // Middle click or Ctrl + click -> Pan
       setIsPanning(true);
       setPanStart({ x: e.clientX, y: e.clientY });
@@ -86,10 +86,10 @@ const AnnotationForm = () => {
     const y = (e.clientY - rect.top - offset.y) / scale;
 
     if (tool === "square" || tool === "line") {
-  setIsDrawing(true);
-  setStartPoint({ x, y });
-  setCurrentEndPoint({ x, y });
-}else if (tool === "text") {
+      setIsDrawing(true);
+      setStartPoint({ x, y });
+      setCurrentEndPoint({ x, y });
+    } else if (tool === "text") {
       const text = prompt("Enter text annotation:") || "Text";
       const newAnnotation: Annotation = {
         id: Date.now().toString(),
@@ -111,46 +111,46 @@ const AnnotationForm = () => {
       return;
     }
 
-   if (!canvasRef.current || !startPoint) return;
+    if (!canvasRef.current || !startPoint) return;
 
-const rect = canvasRef.current.getBoundingClientRect();
-const endX = (e.clientX - rect.left - offset.x) / scale;
-const endY = (e.clientY - rect.top - offset.y) / scale;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const endX = (e.clientX - rect.left - offset.x) / scale;
+    const endY = (e.clientY - rect.top - offset.y) / scale;
 
-let newAnnotation: Annotation | null = null;
+    let newAnnotation: Annotation | null = null;
 
-if (tool === "square") {
-  const label = prompt("Enter label for this box:") || `Box ${annotations.length + 1}`;
-  newAnnotation = {
-    id: Date.now().toString(),
-    type: "square",
-    x: startPoint.x,
-    y: startPoint.y,
-    width: endX - startPoint.x,
-    height: endY - startPoint.y,
-    text: label,
-  };
-} else if (tool === "line") {
-  const label = prompt("Enter label for this line:") || `Line ${annotations.length + 1}`;
-  newAnnotation = {
-    id: Date.now().toString(),
-    type: "line",
-    x: startPoint.x,
-    y: startPoint.y,
-    width: endX - startPoint.x,
-    height: endY - startPoint.y,
-    text: label,
-  };
-}
+    if (tool === "square") {
+      const label = prompt("Enter label for this box:") || `Box ${annotations.length + 1}`;
+      newAnnotation = {
+        id: Date.now().toString(),
+        type: "square",
+        x: startPoint.x,
+        y: startPoint.y,
+        width: endX - startPoint.x,
+        height: endY - startPoint.y,
+        text: label,
+      };
+    } else if (tool === "line") {
+      const label = prompt("Enter label for this line:") || `Line ${annotations.length + 1}`;
+      newAnnotation = {
+        id: Date.now().toString(),
+        type: "line",
+        x: startPoint.x,
+        y: startPoint.y,
+        width: endX - startPoint.x,
+        height: endY - startPoint.y,
+        text: label,
+      };
+    }
 
-if (newAnnotation) {
-  updateAnnotations([...annotations, newAnnotation]);
-}
+    if (newAnnotation) {
+      updateAnnotations([...annotations, newAnnotation]);
+    }
 
-// Reset drawing
-setIsDrawing(false);
-setStartPoint(null);
-setCurrentEndPoint(null);
+    // Reset drawing
+    setIsDrawing(false);
+    setStartPoint(null);
+    setCurrentEndPoint(null);
 
   };
 
@@ -169,7 +169,7 @@ setCurrentEndPoint(null);
     const rect = canvasRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left - offset.x) / scale;
     const y = (e.clientY - rect.top - offset.y) / scale;
-    
+
     setCurrentEndPoint({ x, y });
     drawAnnotations();
   };
@@ -180,21 +180,21 @@ setCurrentEndPoint(null);
     const zoomIntensity = 0.1;
     const wheel = e.deltaY < 0 ? 1 : -1;
     const zoom = Math.exp(wheel * zoomIntensity);
-    
+
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
-      
+
       // Calculate the new scale
       const newScale = Math.max(0.1, Math.min(5, scale * zoom));
-      
+
       // Adjust offset to zoom towards mouse position
       setOffset(prev => ({
         x: prev.x - (mouseX - prev.x) * (zoom - 1),
         y: prev.y - (mouseY - prev.y) * (zoom - 1)
       }));
-      
+
       setScale(newScale);
     }
   };
@@ -239,52 +239,52 @@ setCurrentEndPoint(null);
 
     // Draw existing annotations
     annotations.forEach((ann) => {
-  if (ann.type === "square" && ann.width && ann.height) {
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 2 / scale;
-    ctx.strokeRect(ann.x, ann.y, ann.width, ann.height);
-    ctx.fillStyle = "red";
-    ctx.font = `${14 / scale}px Arial`;
-    ctx.fillText(ann.text, ann.x, ann.y - 5);
-  } else if (ann.type === "text") {
-    ctx.fillStyle = "blue";
-    ctx.font = `${16 / scale}px Arial`;
-    ctx.fillText(ann.text, ann.x, ann.y);
-  } else if (ann.type === "line" && ann.width !== undefined && ann.height !== undefined) {
-    ctx.strokeStyle = "green";
-    ctx.lineWidth = 2 / scale;
-    ctx.beginPath();
-    ctx.moveTo(ann.x, ann.y);
-    ctx.lineTo(ann.x + ann.width, ann.y + ann.height);
-    ctx.stroke();
-    
-    ctx.fillStyle = "green";
-    ctx.font = `${14 / scale}px Arial`;
-    ctx.fillText(ann.text, ann.x + ann.width / 2, ann.y + ann.height / 2 - 5);
-  }
-});
+      if (ann.type === "square" && ann.width && ann.height) {
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2 / scale;
+        ctx.strokeRect(ann.x, ann.y, ann.width, ann.height);
+        ctx.fillStyle = "red";
+        ctx.font = `${14 / scale}px Arial`;
+        ctx.fillText(ann.text, ann.x, ann.y - 5);
+      } else if (ann.type === "text") {
+        ctx.fillStyle = "blue";
+        ctx.font = `${16 / scale}px Arial`;
+        ctx.fillText(ann.text, ann.x, ann.y);
+      } else if (ann.type === "line" && ann.width !== undefined && ann.height !== undefined) {
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 2 / scale;
+        ctx.beginPath();
+        ctx.moveTo(ann.x, ann.y);
+        ctx.lineTo(ann.x + ann.width, ann.y + ann.height);
+        ctx.stroke();
 
-// Draw the current line while drawing
-if (isDrawing && startPoint && currentEndPoint) {
-  if (tool === "line") {
-    ctx.strokeStyle = "#00ff00";
-    ctx.lineWidth = 2 / scale;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.moveTo(startPoint.x, startPoint.y);
-    ctx.lineTo(currentEndPoint.x, currentEndPoint.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  } else if (tool === "square") {
-    const width = currentEndPoint.x - startPoint.x;
-    const height = currentEndPoint.y - startPoint.y;
-    ctx.strokeStyle = "#00ff00";
-    ctx.lineWidth = 2 / scale;
-    ctx.setLineDash([5, 5]);
-    ctx.strokeRect(startPoint.x, startPoint.y, width, height);
-    ctx.setLineDash([]);
-  }
-}
+        ctx.fillStyle = "green";
+        ctx.font = `${14 / scale}px Arial`;
+        ctx.fillText(ann.text, ann.x + ann.width / 2, ann.y + ann.height / 2 - 5);
+      }
+    });
+
+    // Draw the current line while drawing
+    if (isDrawing && startPoint && currentEndPoint) {
+      if (tool === "line") {
+        ctx.strokeStyle = "#00ff00";
+        ctx.lineWidth = 2 / scale;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(startPoint.x, startPoint.y);
+        ctx.lineTo(currentEndPoint.x, currentEndPoint.y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      } else if (tool === "square") {
+        const width = currentEndPoint.x - startPoint.x;
+        const height = currentEndPoint.y - startPoint.y;
+        ctx.strokeStyle = "#00ff00";
+        ctx.lineWidth = 2 / scale;
+        ctx.setLineDash([5, 5]);
+        ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+        ctx.setLineDash([]);
+      }
+    }
 
 
     ctx.restore();
@@ -297,51 +297,51 @@ if (isDrawing && startPoint && currentEndPoint) {
   }, [image, annotations, scale, offset, isDrawing, startPoint, currentEndPoint]);
 
   /** ---- Submit ---- */
- const onHandleSubmit = handleSubmit(async (body) => {
-  try {
-    // Merge annotations into form data
-    const payload = {
-      ...body,
-      annotations: annotations.map((ann) => ({
-        type: ann.type,
-        x: ann.x,
-        y: ann.y,
-        width: ann.width || null,
-        height: ann.height || null,
-        text: ann.text,
-      })),
-    };
+  const onHandleSubmit = handleSubmit(async (body) => {
+    try {
+      // Merge annotations into form data
+      const payload = {
+        ...body,
+        annotations: annotations.map((ann) => ({
+          type: ann.type,
+          x: ann.x,
+          y: ann.y,
+          width: ann.width || null,
+          height: ann.height || null,
+          text: ann.text,
+        })),
+      };
 
-    const response = await fetch("http://localhost:8000/annotations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+      const response = await fetch("http://localhost:8000/annotations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    if (!response.ok) {
-      const err = await response.json();
-      console.error("Failed to save annotations:", err);
-      alert("Failed to save annotations");
-      return;
+      if (!response.ok) {
+        const err = await response.json();
+        console.error("Failed to save annotations:", err);
+        alert("Failed to save annotations");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Saved successfully:", data);
+      alert("Annotations saved successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Error saving annotations");
     }
-
-    const data = await response.json();
-    console.log("Saved successfully:", data);
-    alert("Annotations saved successfully!");
-  } catch (error) {
-    console.error(error);
-    alert("Error saving annotations");
-  }
-});
+  });
 
 
   // Add movement buttons
   const moveCanvas = (direction: 'up' | 'down' | 'left' | 'right') => {
     const moveAmount = 30;
     setOffset(prev => {
-      switch(direction) {
+      switch (direction) {
         case 'up': return { ...prev, y: prev.y + moveAmount };
         case 'down': return { ...prev, y: prev.y - moveAmount };
         case 'left': return { ...prev, x: prev.x + moveAmount };
@@ -354,34 +354,34 @@ if (isDrawing && startPoint && currentEndPoint) {
   return (
     <MainContainer type="add">
       <AddHeader title="Image Annotation" onSubmit={onHandleSubmit} />
-      
-      {/* Scrollable form container */}
-      <div 
+
+
+      <div
         ref={formRef}
         className="overflow-y-auto pb-20"
         style={{ maxHeight: 'calc(100vh - 150px)' }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Left Column - Form Fields */}
+
           <div className="lg:col-span-1 space-y-4">
-            {/* Upload */}
+
             <div className="p-4 bg-white rounded-lg shadow">
               <h3 className="font-semibold mb-3 text-gray-800">Upload Image</h3>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-gray-300 bg-gray-50 hover:bg-gray-100">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg className="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                     <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 5MB)</p>
                   </div>
-                  <input 
-                    id="dropzone-file" 
-                    type="file" 
-                    accept="image/*" 
-                    onChange={onUploadImage} 
-                    className="hidden" 
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    accept="image/*"
+                    onChange={onUploadImage}
+                    className="hidden"
                   />
                 </label>
               </div>
@@ -393,8 +393,8 @@ if (isDrawing && startPoint && currentEndPoint) {
               <div className="space-y-3">
                 <div>
                   <label className="block text-sm font-medium mb-1 text-gray-700">Project Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     {...register("projectName")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter project name"
@@ -402,7 +402,7 @@ if (isDrawing && startPoint && currentEndPoint) {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1 text-gray-700">Category</label>
-                  <select 
+                  <select
                     {...register("category")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
@@ -415,7 +415,7 @@ if (isDrawing && startPoint && currentEndPoint) {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1 text-gray-700">Description</label>
-                  <textarea 
+                  <textarea
                     {...register("description")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     rows={3}
@@ -426,13 +426,13 @@ if (isDrawing && startPoint && currentEndPoint) {
             </div>
           </div>
 
-          {/* Canvas Area */}
+
           <div className="lg:col-span-2 space-y-4">
-            {/* Canvas Header with Instructions */}
+
             {image && (
               <div className="bg-white rounded-lg shadow p-4">
                 <h3 className="font-semibold mb-3 text-gray-800">Annotation Canvas</h3>
-                
+
                 {/* Instructions */}
                 <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
                   <p className="font-medium text-sm text-blue-800 mb-1">Instructions:</p>
@@ -446,125 +446,117 @@ if (isDrawing && startPoint && currentEndPoint) {
               </div>
             )}
 
-            {/* Canvas */}
+
             {image && (
-  <div className="bg-white rounded-lg shadow p-4 relative">
-    {/* Toolbar floating on left */}
-    <div className="absolute top-4 left-4 z-50 bg-white/90 backdrop-blur-md rounded-lg shadow-md flex flex-col items-center gap-2 p-2 border border-gray-200">
-      {/* Drawing Tools */}
-      <button
-        type="button"
-        onClick={() => setTool("square")}
-        className={`p-2 rounded-md text-lg ${
-          tool === "square" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
-        }`}
-        title="Rectangle Tool"
-      >
-        ▭
-      </button>
+              <div className="bg-white rounded-lg shadow p-4 relative">
 
-      <button
-  type="button"
-  onClick={() => setTool("line")}
-  className={`p-2 rounded-md text-lg ${
-    tool === "line" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
-  }`}
-  title="Line Tool"
->
-  ─
-</button>
+                <div className="absolute top-4 left-4 z-50 bg-white/90 backdrop-blur-md rounded-lg shadow-md flex flex-col items-center gap-2 p-2 border border-gray-200">
 
-      <button
-        type="button"
-        onClick={() => setTool("text")}
-        className={`p-2 rounded-md text-lg ${
-          tool === "text" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
-        }`}
-        title="Text Tool"
-      >
-        T
-      </button>
+                  <button
+                    type="button"
+                    onClick={() => setTool("square")}
+                    className={`p-2 rounded-md text-lg ${tool === "square" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    title="Rectangle Tool"
+                  >
+                    ▭
+                  </button>
 
-      {/* Divider */}
-      <div className="w-6 border-t border-gray-300 my-1"></div>
+                  <button
+                    type="button"
+                    onClick={() => setTool("line")}
+                    className={`p-2 rounded-md text-lg ${tool === "line" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    title="Line Tool"
+                  >
+                    ─
+                  </button>
 
-      {/* Zoom Controls */}
-      <button
-        type="button"
-        onClick={() => setScale(scale + 0.1)}
-        className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
-        title="Zoom In"
-      >
-        +
-      </button>
+                  <button
+                    type="button"
+                    onClick={() => setTool("text")}
+                    className={`p-2 rounded-md text-lg ${tool === "text" ? "bg-blue-600 text-white shadow-md" : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    title="Text Tool"
+                  >
+                    T
+                  </button>
 
-      <button
-        type="button"
-        onClick={() => setScale(scale > 0.2 ? scale - 0.1 : scale)}
-        className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
-        title="Zoom Out"
-      >
-        -
-      </button>
+                  {/* Divider */}
+                  <div className="w-6 border-t border-gray-300 my-1"></div>
 
-      <button
-        type="button"
-        onClick={() => { setOffset({ x: 0, y: 0 }); setScale(1); }}
-        className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
-        title="Reset View"
-      >
-        ⟳
-      </button>
+                  {/* Zoom Controls */}
+                  <button
+                    type="button"
+                    onClick={() => setScale(scale + 0.1)}
+                    className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
+                    title="Zoom In"
+                  >
+                    +
+                  </button>
 
-      {/* Divider */}
-      <div className="w-6 border-t border-gray-300 my-1"></div>
+                  <button
+                    type="button"
+                    onClick={() => setScale(scale > 0.2 ? scale - 0.1 : scale)}
+                    className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
+                    title="Zoom Out"
+                  >
+                    -
+                  </button>
 
-      {/* Navigation Controls */}
-      {["up", "down", "left", "right"].map((dir) => (
-        <button
-          key={dir}
-          type="button"
-          onClick={() => moveCanvas(dir as any)}
-          className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
-          title={`Move ${dir.charAt(0).toUpperCase() + dir.slice(1)}`}
-        >
-          {dir === "up" ? "↑" : dir === "down" ? "↓" : dir === "left" ? "←" : "→"}
-        </button>
-      ))}
-    </div>
+                  <button
+                    type="button"
+                    onClick={() => { setOffset({ x: 0, y: 0 }); setScale(1); }}
+                    className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
+                    title="Reset View"
+                  >
+                    ⟳
+                  </button>
 
-    {/* Canvas */}
-    <div className="relative overflow-auto max-w-full border rounded-lg bg-gray-100 flex justify-center items-center min-h-[400px]">
-      <img
-        ref={imageRef}
-        src={image}
-        alt="to annotate"
-        style={{ display: "none" }}
-        onLoad={drawAnnotations}
-      />
-      <canvas
-        ref={canvasRef}
-        width={800}
-        height={600}
-        style={{ cursor: tool ? "crosshair" : "default" }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        onWheel={handleWheel}
-        onContextMenu={(e) => e.preventDefault()} // disable right click menu
-      />
-    </div>
-  </div>
-)}
+                  
+                  <div className="w-6 border-t border-gray-300 my-1"></div>
 
+                  
+                  {["up", "down", "left", "right"].map((dir) => (
+                    <button
+                      key={dir}
+                      type="button"
+                      onClick={() => moveCanvas(dir as any)}
+                      className="p-2 rounded-md hover:bg-gray-100 text-gray-700"
+                      title={`Move ${dir.charAt(0).toUpperCase() + dir.slice(1)}`}
+                    >
+                      {dir === "up" ? "↑" : dir === "down" ? "↓" : dir === "left" ? "←" : "→"}
+                    </button>
+                  ))}
+                </div>
 
-            {/* Horizontal Toolbar Below Canvas */}
-            
-            
+                
+                <div className="relative overflow-auto max-w-full border rounded-lg bg-gray-100 flex justify-center items-center min-h-[400px]">
+                  <img
+                    ref={imageRef}
+                    src={image}
+                    alt="to annotate"
+                    style={{ display: "none" }}
+                    onLoad={drawAnnotations}
+                  />
+                  <canvas
+                    ref={canvasRef}
+                    width={800}
+                    height={600}
+                    style={{ cursor: tool ? "crosshair" : "default" }}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                    onWheel={handleWheel}
+                    onContextMenu={(e) => e.preventDefault()} 
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Annotation List - Full width below */}
+        
         {image && annotations.length > 0 && (
           <div className="mt-4 bg-white rounded-lg shadow p-4">
             <h3 className="font-semibold mb-3 text-gray-800">Annotation List</h3>
@@ -573,7 +565,7 @@ if (isDrawing && startPoint && currentEndPoint) {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                   <tr>
                     <th scope="col" className="px-4 py-3">Type</th>
-                    <th scope="col" className="px-4 py-3">Label</th>
+                    <th scope="col" className="px-4 py-3">Detail</th>
                     <th scope="col" className="px-4 py-3">Position</th>
                     <th scope="col" className="px-4 py-3">Actions</th>
                   </tr>
@@ -602,8 +594,8 @@ if (isDrawing && startPoint && currentEndPoint) {
                         />
                       </td>
                       <td className="px-4 py-2">
-                        {ann.type === 'square' 
-                          ? `(${Math.round(ann.x)}, ${Math.round(ann.y)}) - (${Math.round(ann.x + (ann.width || 0))}, ${Math.round(ann.y + (ann.height || 0))})` 
+                        {ann.type === 'square'
+                          ? `(${Math.round(ann.x)}, ${Math.round(ann.y)}) - (${Math.round(ann.x + (ann.width || 0))}, ${Math.round(ann.y + (ann.height || 0))})`
                           : `(${Math.round(ann.x)}, ${Math.round(ann.y)})`}
                       </td>
                       <td className="px-4 py-2">
