@@ -353,7 +353,7 @@ const AnnotationForm = () => {
 
   return (
     <MainContainer type="add">
-      <AddHeader title="Image Annotation" onSubmit={onHandleSubmit} />
+      <AddHeader title="Annotation" onSubmit={onHandleSubmit} />
 
 
       <div
@@ -392,25 +392,27 @@ const AnnotationForm = () => {
               <h3 className="font-semibold mb-3 text-gray-800">Project Details</h3>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700">Project Name</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">Building Name</label>
                   <input
                     type="text"
                     {...register("projectName")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter project name"
+                    value="Ang Mo Kio"
                   />
+
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700">Category</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">Elevation</label>
                   <select
                     {...register("category")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">Select a category</option>
-                    <option value="objects">Objects</option>
-                    <option value="text">Text</option>
-                    <option value="faces">Faces</option>
-                    <option value="other">Other</option>
+                    <option value="objects">E1</option>
+                    <option value="text">E2</option>
+                    <option value="faces">E3</option>
+                    <option value="other">E4</option>
                   </select>
                 </div>
                 <div>
