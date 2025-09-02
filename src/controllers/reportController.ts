@@ -1,10 +1,14 @@
 import useHelper from "@hooks/useHelper";
 import type { FetchDataType } from "@interfaces/pageInterface";
 import useReportModel from "@models/reportModel";
+import { generateEncryption } from "@utils/helper/generator";
 import { paginationHandler } from "@utils/helper/responseHandler";
 import moment from "moment";
+import { BsBuildingGear } from "react-icons/bs";
+import { useNavigate } from "react-router";
 
 const useReportController = () => {
+  const nav = useNavigate();
   const { useGetReports, useDeleteReport } = useReportModel();
 
   const { confirmationModal, onError } = useHelper();
@@ -76,6 +80,14 @@ const useReportController = () => {
                 {
                   type: "detail",
                   onClick: () => console.log("Detail"),
+                },
+                {
+                  type: "custom",
+                  icon: BsBuildingGear,
+                  label: "Download Report",
+                  onClick: () => {
+    window.open("uploads/defect_report_pfi.docx", "_blank");
+  },
                 },
                 {
                   type: "delete",

@@ -52,17 +52,17 @@ const AnnotationForm = () => {
 
   /** ---- Upload ---- */
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-        // Reset pan and zoom when new image is uploaded
-        setOffset({ x: 0, y: 0 });
-        setScale(1);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-      setValue("image", e.target.files[0]);
-    }
+   if (e.target.files?.[0]) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      setImage(base64String);        // for <img> + preview
+      setValue("image", base64String); // for API
+      setOffset({ x: 0, y: 0 });
+      setScale(1);
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  }
   };
 
   /** ---- Mouse Events ---- */
@@ -298,44 +298,44 @@ const AnnotationForm = () => {
 
   /** ---- Submit ---- */
   const onHandleSubmit = handleSubmit(async (body) => {
-    try {
-      // Merge annotations into form data
-      const payload = {
-        ...body,
-        annotations: annotations.map((ann) => ({
-          type: ann.type,
-          x: ann.x,
-          y: ann.y,
-          width: ann.width || null,
-          height: ann.height || null,
-          text: ann.text,
-        })),
-      };
+  try {
+    const payload = {
+      projectName: body.projectName,
+      category: body.category,
+      description: body.description,
+      image: body.image, // now base64 string
+      annotations: annotations.map((ann) => ({
+        type: ann.type,
+        x: Math.round(ann.x),
+        y: Math.round(ann.y),
+        width: ann.width ?? 0,
+        height: ann.height ?? 0,
+        text: ann.text,
+      })),
+    };
 
-      const response = await fetch("http://localhost:8000/annotations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch("http://localhost:8000/annotations", {
+      method: "POST",
+      headers: { "Content-Type": "multipart/form-data" },
+      
+      body: JSON.stringify(payload),
+    });
 
-      if (!response.ok) {
-        const err = await response.json();
-        console.error("Failed to save annotations:", err);
-        alert("Failed to save annotations");
-        return;
-      }
-
-      const data = await response.json();
-      console.log("Saved successfully:", data);
-      alert("Annotations saved successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Error saving annotations");
+    if (!response.ok) {
+      const err = await response.json();
+      console.error("Failed to save annotations:", err);
+      alert("Failed to save annotations");
+      return;
     }
-  });
 
+    const data = await response.json();
+    console.log("Saved successfully:", data);
+    alert("Annotations saved successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Error saving annotations");
+  }
+});
 
   // Add movement buttons
   const moveCanvas = (direction: 'up' | 'down' | 'left' | 'right') => {
@@ -398,7 +398,7 @@ const AnnotationForm = () => {
                     {...register("projectName")}
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter project name"
-                    value="Ang Mo Kio"
+                    
                   />
 
                 </div>
@@ -409,10 +409,10 @@ const AnnotationForm = () => {
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">Select a category</option>
-                    <option value="objects">E1</option>
-                    <option value="text">E2</option>
-                    <option value="faces">E3</option>
-                    <option value="other">E4</option>
+                    <option value="E1">E1</option>
+                    <option value="E2">E2</option>
+                    <option value="E3">E3</option>
+                    <option value="E4">E4</option>
                   </select>
                 </div>
                 <div>
