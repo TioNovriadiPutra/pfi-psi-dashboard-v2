@@ -3,7 +3,7 @@ import MainContainer from "@containers/MainContainer";
 import { annotationForm } from "@utils/constant/formConst";
 import { useForm } from "react-hook-form";
 
-const Annotation = () => {
+const AddAnnotation = () => {
   const {
     control,
     handleSubmit,
@@ -29,4 +29,4 @@ const Annotation = () => {
   );
 };
 
-export default Annotation;
+export default AddAnnotation;

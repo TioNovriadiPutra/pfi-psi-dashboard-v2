@@ -731,6 +731,38 @@ export const defectForm: FormType<DefectInput> = {
                             inputs: [
                               [
                                 {
+                                  type: "dropdown",
+                                  name: "level_start",
+                                  label: "Start",
+                                  placeholder: "Pick here",
+                                  required: true,
+                                  items: Array.from({ length: 50 }).map(
+                                    (_, i) => ({
+                                      label: `Level ${i + 1}`,
+                                      value: i + 1,
+                                    })
+                                  ),
+                                  rules: {
+                                    required: "Level start must be filled!",
+                                  },
+                                },
+                                {
+                                  type: "dropdown",
+                                  name: "level_end",
+                                  label: "End",
+                                  placeholder: "Pick here",
+                                  required: true,
+                                  items: Array.from({ length: 50 }).map(
+                                    (_, i) => ({
+                                      label: `Level ${i + 1}`,
+                                      value: i + 1,
+                                    })
+                                  ),
+                                  rules: {
+                                    required: "Level end must be filled!",
+                                  },
+                                },
+                                {
                                   type: "text",
                                   name: "observation",
                                   label: "Observation",
@@ -761,6 +793,8 @@ export const defectForm: FormType<DefectInput> = {
                                     required: "Recommendation must be filled!",
                                   },
                                 },
+                              ],
+                              [
                                 {
                                   type: "textarea",
                                   name: "description",
@@ -768,8 +802,6 @@ export const defectForm: FormType<DefectInput> = {
                                   placeholder: "Input here...",
                                   required: false,
                                 },
-                              ],
-                              [
                                 {
                                   type: "image",
                                   name: "image_defect",
@@ -797,6 +829,8 @@ export const defectForm: FormType<DefectInput> = {
                             ],
                             isGrey: false,
                             template: {
+                              level_start: undefined,
+                              level_end: undefined,
                               image_defect: "",
                               observation: "",
                               nature_of_defect: "",
@@ -825,7 +859,7 @@ export const defectForm: FormType<DefectInput> = {
               [
                 {
                   type: "cart",
-                  name: "plans",
+                  name: "appendixes",
                   placeholder: "Appendix",
                   required: true,
                   cartData: {
@@ -833,13 +867,10 @@ export const defectForm: FormType<DefectInput> = {
                       [
                         {
                           type: "text",
-                          name: "plan",
+                          name: "name",
                           label: "Name",
                           placeholder: "Input here...",
-                          required: true,
-                          rules: {
-                            required: "Name must be filled!",
-                          },
+                          required: false,
                         },
                         {
                           type: "textarea",
@@ -848,64 +879,19 @@ export const defectForm: FormType<DefectInput> = {
                           placeholder: "Input here...",
                           required: false,
                         },
-                      ],
-                      [
                         {
-                          type: "image",
-                          name: "plan_image",
-                          label: "Appendix Image",
-                          placeholder: "Upload image",
+                          type: "gallery",
+                          name: "appendix_images",
+                          label: "Images",
+                          placeholder: "Image",
                           required: false,
-                          rules: {
-                            validate: (val) => {
-                              const base64 = val.split(",")[1] || val;
-                              const padding = (base64.match(/=+$/) || [""])[0]
-                                .length;
-                              const sizeInBytes =
-                                (base64.length * 3) / 4 - padding;
-
-                              return (
-                                sizeInBytes <= 5 * 1024 * 1024 ||
-                                "Image to large (max 5mb)"
-                              );
-                            },
-                          },
-                        },
-                        {
-                          type: "image",
-                          name: "plan_evelvation_image",
-                          label: "Appendix Image",
-                          placeholder: "Upload Image",
-                          required: false,
-                          rules: {
-                            validate: (val) => {
-                              const base64 = val.split(",")[1] || val;
-                              const padding = (base64.match(/=+$/) || [""])[0]
-                                .length;
-                              const sizeInBytes =
-                                (base64.length * 3) / 4 - padding;
-
-                              return (
-                                sizeInBytes <= 5 * 1024 * 1024 ||
-                                "Image to large (max 5mb)"
-                              );
-                            },
-                          },
                         },
                       ],
                     ],
                     template: {
-                      plan: "",
-                      plan_image: "",
-                      plan_evelvation_image: "",
+                      name: "",
                       description: "",
-                    },
-                  },
-                  rules: {
-                    required: "Plans must be filled!",
-                    minLength: {
-                      value: 1,
-                      message: "Plans must be filled!",
+                      appendix_images: [],
                     },
                   },
                 },

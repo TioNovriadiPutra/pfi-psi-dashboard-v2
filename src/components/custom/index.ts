@@ -25,3 +25,4 @@ export { default as LayoutHeader } from "./LayoutHeader";
 export { default as AnnotationInput } from "./AnnotationInput";
 export { default as AnnotationTool } from "./AnnotationTool";
 export { default as AnnotationTable } from "./AnnotationTable";
+export { default as GalleryInput } from "./GalleryInput";

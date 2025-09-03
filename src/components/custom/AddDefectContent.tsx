@@ -75,12 +75,9 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                 observation: defect.observation,
                 recommendation: defect.recommendation,
                 image_elevation: defect.image_elevation,
-                image_detail: defect.image_detail,
-                defect_type_id: defect.defect_type_id,
                 defect_levels: defect.defect_levels.map((level) => ({
                   ...level,
                   building_id: buildingId,
-                  level_id: level.level_id,
                 })),
               })),
             });

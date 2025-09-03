@@ -69,7 +69,7 @@ const DropdownInput = ({ inputData, control }: Props) => {
         <AnimatePresence>
           {showDrop && (
             <motion.div
-              className="absolute z-[999] left-0 right-0 top-[110%] max-w-[256px] bg-neutral-0 border border-neutral-200 rounded-md p-[5px] origin-top"
+              className="absolute z-[999] left-0 right-0 top-[110%] max-w-[256px] bg-neutral-0 border border-neutral-200 rounded-md p-[5px] origin-top max-h-[300px] overflow-y-auto"
               style={{ boxShadow: "0px 2px 4px -2px rgba(0, 0, 0, 0.1)" }}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}

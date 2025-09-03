@@ -8,14 +8,7 @@ export const addInspection = async (
   body: InspectionInput
 ): Promise<ResType<InspectionDTO>> => {
   try {
-    let res1 = null;
     let res2 = null;
-
-    if (body.image_elevation && body.image_elevation !== "")
-      res1 = await axiosCloudinaryInstance.post("/image/upload", {
-        file: body.image_elevation,
-        upload_preset: "pfi-psi-dashboard",
-      });
 
     if (body.image_defect && body.image_defect !== "")
       res2 = await axiosCloudinaryInstance.post("/image/upload", {
@@ -23,17 +16,10 @@ export const addInspection = async (
         upload_preset: "pfi-psi-dashboard",
       });
 
-    const res3 = await axiosCloudinaryInstance.post("/image/upload", {
-      file: body.photograph,
-      upload_preset: "pfi-psi-dashboard",
-    });
-
     const mapBody = {
       ...body,
-      photograph: res3.data.secure_url,
-      image_elevation: res1?.data.secure_url ?? null,
       image_defect: res2?.data.secure_url ?? null,
-      level_id: body.level_id?.value ?? null,
+      level_name: `${body.level_start?.label} - ${body.level_end?.label}`,
     };
 
     const response = await axiosInstance.post(

@@ -53,7 +53,8 @@ export interface InputType {
     | "cart"
     | "image"
     | "time"
-    | "annotation";
+    | "annotation"
+    | "gallery";
   name: string;
   label?: string;
   placeholder: string;
