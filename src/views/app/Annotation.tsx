@@ -297,7 +297,62 @@ const AnnotationForm = () => {
   }, [image, annotations, scale, offset, isDrawing, startPoint, currentEndPoint]);
 
   /** ---- Submit ---- */
-  const onHandleSubmit = handleSubmit(async (body) => {
+const onHandleSubmit = handleSubmit(async (body) => {
+  try {
+    let finalImage = body.image;
+
+    // If canvas exists, capture with annotations
+    if (canvasRef.current) {
+      finalImage = canvasRef.current.toDataURL("image/png");
+    }
+
+    const blob: Blob = await new Promise((resolve) =>
+      canvasRef.current!.toBlob((b) => resolve(b as Blob), "image/png")
+    );
+if (!canvasRef.current) {
+      alert("No canvas to save!");
+      return;
+    }
+    const payload = {
+      projectName: body.projectName,
+      category: body.category,
+      description: body.description,
+      image: finalImage, // <-- use canvas capture here
+      annotations: annotations.map((ann) => ({
+        type: ann.type,
+        x: Math.round(ann.x),
+        y: Math.round(ann.y),
+        width: ann.width ?? 0,
+        height: ann.height ?? 0,
+        text: ann.text,
+      })),
+    };
+
+    const response = await fetch("http://localhost:8000/annotations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }, // ✅ fix content-type
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      console.error("Failed to save annotations:", err);
+      alert("Failed to save annotations");
+      return;
+    }
+
+    const data = await response.json();
+    console.log("Saved successfully:", data);
+    alert("Annotations saved successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Error saving annotations");
+  }
+});
+
+  
+  /** ---- Submit ---- */
+  const onHandleSubmit2 = handleSubmit(async (body) => {
   try {
     const payload = {
       projectName: body.projectName,
