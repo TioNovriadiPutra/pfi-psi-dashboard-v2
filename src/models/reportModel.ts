@@ -11,11 +11,6 @@ export interface ReportInput {
   date_inspection: string;
   duration_inspection: string;
   location_inspection: string;
-  methodology_inspection: string;
-  name_providers: string;
-  facade_inspector: string;
-  description?: string;
-  highlight?: string;
 }
 
 export interface ReportReqInput extends ReportInput {

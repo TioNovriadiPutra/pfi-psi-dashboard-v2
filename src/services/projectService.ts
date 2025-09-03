@@ -10,10 +10,7 @@ export const getProjects = async (
 ): Promise<ResType<PaginationType<ProjectDTO[]>>> => {
   try {
     const response = await axiosInstance.get(
-      `${API_ENDPOINT.getProjects}?page=${page}&items_per_page=${itemsPerPage}`,
-      {
-        skipAuth: true,
-      }
+      `${API_ENDPOINT.getProjects}?page=${page}&items_per_page=${itemsPerPage}`
     );
 
     return successResponse<PaginationType<ProjectDTO[]>>(

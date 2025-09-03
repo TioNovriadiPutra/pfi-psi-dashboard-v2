@@ -71,7 +71,7 @@ const CartInput = ({ inputData, control, errors }: Props) => {
             <div className="gap-md">
               <div className="!flex-row gap-md">
                 {inputData.cartData!.inputs.map((input, index2) => {
-                  if (input.length > 1)
+                  if (input[0].type !== "cart")
                     return (
                       <Form
                         key={index2.toString()}
@@ -87,7 +87,7 @@ const CartInput = ({ inputData, control, errors }: Props) => {
               </div>
 
               {inputData.cartData!.inputs.map((input, index2) => {
-                if (input.length === 1)
+                if (input[0].type === "cart")
                   return (
                     <Form
                       key={index2.toString()}

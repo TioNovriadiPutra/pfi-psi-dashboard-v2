@@ -56,8 +56,6 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
         title="Add Defect"
         onSubmit={handleSubmit((body) => {
           if (formSlider.page === 2) {
-            console.log(body);
-
             addDefectService({
               report: {
                 report_no: body.report_no,
@@ -66,11 +64,6 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                 date_inspection: body.date_inspection,
                 duration_inspection: body.duration_inspection,
                 location_inspection: body.location_inspection,
-                methodology_inspection: body.methodology_inspection,
-                name_providers: body.name_providers,
-                facade_inspector: body.facade_inspector,
-                description: body.description,
-                highlight: body.highlight,
                 building_id: buildingId,
               },
               plans: body.plans.map((plan) => ({
@@ -79,13 +72,8 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
               })),
               defects: body.defects.map((defect) => ({
                 building_id: buildingId,
-                location: "",
-                name: defect.name,
                 observation: defect.observation,
-                couse: defect.couse,
                 recommendation: defect.recommendation,
-                timeframe: defect.timeframe,
-                remedial: defect.remedial,
                 image_elevation: defect.image_elevation,
                 image_detail: defect.image_detail,
                 defect_type_id: defect.defect_type_id,
@@ -120,72 +108,3 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
 };
 
 export default AddDefectContent;
-
-{
-  /* <div className="grow basis-0 overflow-y-auto items-center gap-[16px]">
-        <div className="relative !flex-row items-center">
-          {defectData.form.inputs[0][0].tabData!.map((tab, index) => (
-            <div
-              key={index.toString()}
-              className="w-[120px] py-[16px] items-center justify-center"
-            >
-              <p
-                className={`text-body-sm font-medium ${
-                  defectSlider.page === index
-                    ? "text-primary-400"
-                    : "text-neutral-400"
-                }`}
-              >
-                {tab.title}
-              </p>
-            </div>
-          ))}
-
-          <div
-            ref={scope}
-            className="absolute w-[120px] h-[2px] bg-primary-400 rounded-full bottom-0"
-          />
-        </div>
-
-        {defectSlider.page < 2 ? (
-          <div
-            className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg"
-            style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
-          >
-            <Form
-              listData={defectData.form.inputs[0][0].tabData![
-                defectSlider.page
-              ].inputs.map((item) => ({
-                ...item,
-                name:
-                  defectSlider.page === 0 ? `report.${item.name}` : item.name,
-              }))}
-              control={control}
-            />
-          </div>
-        ) : (
-          fields.map((field, index) => (
-            <div
-              key={field.id}
-              className="w-full max-w-[712px] bg-neutral-0 p-md border border-neutral-200 rounded-lg gap-md"
-              style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
-            >
-              <h1 className="text-neutral-900">
-                {defectData.data[index].title}
-              </h1>
-
-              <Form
-                key={field.id}
-                listData={defectData.form.inputs[0][0].tabData![2].inputs.map(
-                  (item) => ({
-                    ...item,
-                    name: `defects.${index}.${item.name}`,
-                  })
-                )}
-                control={control}
-              />
-            </div>
-          ))
-        )}
-      </div> */
-}

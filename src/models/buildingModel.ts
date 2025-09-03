@@ -102,7 +102,11 @@ const useBuildingModel = () => {
           queryFn: () =>
             getBuildingTypes(pagination.page, pagination.items_per_page),
         },
-        { queryKey: ["getBuilding2Dropdown"], queryFn: () => getProjects() },
+        {
+          queryKey: ["getBuilding2Dropdown", pagination.page],
+          queryFn: () =>
+            getProjects(pagination.page, pagination.items_per_page),
+        },
       ],
     });
 

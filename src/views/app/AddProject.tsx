@@ -40,10 +40,14 @@ const AddProject = () => {
 
   return (
     <MainContainer type="add">
-      <AddHeader title="Add Project" onSubmit={onHandleSubmit} />
+      <AddHeader
+        title={searchParams.get("data") ? "Edit Project" : "Add Project"}
+        onSubmit={onHandleSubmit}
+      />
 
       <AddContent
         contentData={projectForm.inputs}
+        size="large"
         control={control}
         errors={errors}
       />

@@ -16,6 +16,10 @@ export interface ProjectInput {
   description: string;
   address_detail?: string;
   status: DropdownType | null;
+  methodology_inspection: string;
+  name_providers: string;
+  facade_inspector: string;
+  highlight?: string;
 }
 
 export interface ProjectDTO extends Omit<ProjectInput, "status"> {
@@ -36,7 +40,7 @@ const useProjectModel = () => {
 
   const useGetProjects = () =>
     useQuery({
-      queryKey: ["getProjects"],
+      queryKey: ["getProjects", pagination.page],
       queryFn: () => getProjects(pagination.page, pagination.items_per_page),
     });
 
@@ -71,6 +75,10 @@ const useProjectModel = () => {
             { label: "Rejected", value: 2 },
             { label: "Accepted", value: 3 },
           ].find((item) => item.value === res.data.status)!,
+          methodology_inspection: "",
+          name_providers: "",
+          facade_inspector: "",
+          highlight: "",
         };
 
         nav(
