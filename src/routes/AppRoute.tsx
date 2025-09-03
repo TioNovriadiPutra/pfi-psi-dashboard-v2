@@ -7,7 +7,9 @@ import {
   Dashboard,
   Master,
   Project,
+  
 } from "@views/app";
+import AddAnnotationForm from "@views/app/AddAnnotation";
 import AddDefectType from "@views/app/AddDefectType";
 import Annotation from "@views/app/Annotation";
 import Report from "@views/app/Report";
@@ -72,8 +74,8 @@ const AnnotationRoute = () => {
   return (
     <Routes>
       <Route index element={<Annotation />} />
-      <Route path="/annotation" element={<Annotation />} />
-      
+      <Route path="/form" element={<AddAnnotationForm />} />
+      <Route path="*" element={<Navigate to="/project" />} />
     </Routes>
   );
 };

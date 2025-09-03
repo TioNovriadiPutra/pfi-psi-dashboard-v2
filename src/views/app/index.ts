@@ -6,4 +6,5 @@ export { default as AddBuildingType } from "./AddBuildingType";
 export { default as AddBuilding } from "./AddBuilding";
 export { default as AddDefect } from "./AddDefect";
 export { default as Master } from "./Master";
-export { default as Annotation } from "./Annotation";
+export { default as Annotation} from "./Annotation"
+export { default as AddAnnotation } from "./AddAnnotation";

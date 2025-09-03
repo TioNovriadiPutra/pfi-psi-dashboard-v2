@@ -824,7 +824,7 @@ export const defectForm: FormType<DefectInput> = {
               [
                 {
                   type: "cart",
-                  name: "plans",
+                  name: "appendixs",
                   placeholder: "Appendix",
                   required: true,
                   cartData: {
@@ -832,7 +832,7 @@ export const defectForm: FormType<DefectInput> = {
                       [
                         {
                           type: "text",
-                          name: "plan",
+                          name: "appendix",
                           label: "Name",
                           placeholder: "Input here...",
                           required: true,
@@ -849,30 +849,10 @@ export const defectForm: FormType<DefectInput> = {
                         },
                       ],
                       [
+                       
                         {
                           type: "image",
-                          name: "plan_image",
-                          label: "Appendix Image",
-                          placeholder: "Upload image",
-                          required: false,
-                          rules: {
-                            validate: (val) => {
-                              const base64 = val.split(",")[1] || val;
-                              const padding = (base64.match(/=+$/) || [""])[0]
-                                .length;
-                              const sizeInBytes =
-                                (base64.length * 3) / 4 - padding;
-
-                              return (
-                                sizeInBytes <= 5 * 1024 * 1024 ||
-                                "Image to large (max 5mb)"
-                              );
-                            },
-                          },
-                        },
-                        {
-                          type: "image",
-                          name: "plan_evelvation_image",
+                          name: "appendix_image",
                           label: "Appendix Image",
                           placeholder: "Upload Image",
                           required: false,
@@ -894,17 +874,16 @@ export const defectForm: FormType<DefectInput> = {
                       ],
                     ],
                     template: {
-                      plan: "",
-                      plan_image: "",
-                      plan_evelvation_image: "",
+                      appendix: "",
+                      appendix_image: "",
                       description: "",
                     },
                   },
                   rules: {
-                    required: "Plans must be filled!",
+                    required: "Appendix must be filled!",
                     minLength: {
                       value: 1,
-                      message: "Plans must be filled!",
+                      message: "Appendix must be filled!",
                     },
                   },
                 },
