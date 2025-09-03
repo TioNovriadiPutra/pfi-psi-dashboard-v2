@@ -90,6 +90,17 @@ const useBuildingController = () => {
                     ),
                 },
                 {
+                  type: "custom",
+                  icon: BsBuildingGear,
+                  label: "Annotation",
+                  onClick: () =>
+                    nav(
+                      `/annotation/?form=${encodeURIComponent(
+                        generateEncryption(item.id.toString())
+                      )}`
+                    ),
+                },
+                {
                   type: "detail",
                   onClick: () => getBuildingDetailMutation.mutate(item.id),
                 },
