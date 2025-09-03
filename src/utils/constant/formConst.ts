@@ -1,4 +1,5 @@
 import type { AuthContentType, FormType } from "@interfaces/formInterface";
+import type { AnnotationInput } from "@models/annotationModel";
 import type { LoginInput, RegisterInput } from "@models/authModel";
 import type { BuildingInput } from "@models/buildingModel";
 import type { BuildingTypeInput } from "@models/buildingTypeModel";
@@ -771,12 +772,12 @@ export const defectForm: FormType<DefectInput> = {
                               [
                                 {
                                   type: "image",
-                                  name: "image_detail",
-                                  label: "Detail Image",
+                                  name: "image_defect",
+                                  label: "Defect Image",
                                   placeholder: "Upload image",
                                   required: true,
                                   rules: {
-                                    required: "Detail image must be filled!",
+                                    required: "Defect image must be filled!",
                                     validate: (val) => {
                                       const base64 = val.split(",")[1] || val;
                                       const padding = (base64.match(/=+$/) || [
@@ -796,7 +797,7 @@ export const defectForm: FormType<DefectInput> = {
                             ],
                             isGrey: false,
                             template: {
-                              image_detail: "",
+                              image_defect: "",
                               observation: "",
                               nature_of_defect: "",
                               recommendation: "",
@@ -848,5 +849,78 @@ export const defectTypeForm: FormType<DefectTypeInput> = {
   ],
   defaultValues: {
     name: "",
+  },
+};
+
+export const annotationForm: FormType<AnnotationInput> = {
+  inputs: [
+    [
+      {
+        type: "text",
+        name: "projectName",
+        label: "Project Name",
+        placeholder: "Input here...",
+        required: true,
+        rules: {
+          required: "Project name must be filled!",
+        },
+      },
+      {
+        type: "dropdown",
+        name: "category",
+        label: "Elevation",
+        placeholder: "Pick here",
+        required: true,
+        items: [],
+        rules: {
+          required: "Elevation must be chosen!",
+        },
+      },
+      {
+        type: "textarea",
+        name: "description",
+        label: "Description",
+        placeholder: "Input here...",
+        required: false,
+      },
+    ],
+    [
+      {
+        type: "image",
+        name: "image",
+        label: "Upload Image",
+        placeholder: "SVG, PNG, JPG or GIF (MAX. 5MB)",
+        required: true,
+        rules: {
+          required: "Image must be filled!",
+          validate: (val) => {
+            const base64 = val.split(",")[1] || val;
+            const padding = (base64.match(/=+$/) || [""])[0].length;
+            const sizeInBytes = (base64.length * 3) / 4 - padding;
+
+            return sizeInBytes <= 5 * 1024 * 1024 || "Image to large (max 5mb)";
+          },
+        },
+      },
+    ],
+    [
+      {
+        type: "annotation",
+        name: "annotations",
+        label: "Annotation Canvas",
+        placeholder: "",
+        required: true,
+        rules: {
+          required: "Annotation must be filled!",
+        },
+      },
+    ],
+  ],
+  defaultValues: {
+    image: "",
+    projectName: "",
+    category: undefined,
+    description: "",
+    annotations: [],
   },
 };

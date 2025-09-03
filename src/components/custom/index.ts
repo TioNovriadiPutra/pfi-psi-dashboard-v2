@@ -22,3 +22,6 @@ export { default as AddDefectContent } from "./AddDefectContent";
 export { default as ImageInput } from "./ImageInput";
 export { default as SidebarMobile } from "./SidebarMobile";
 export { default as LayoutHeader } from "./LayoutHeader";
+export { default as AnnotationInput } from "./AnnotationInput";
+export { default as AnnotationTool } from "./AnnotationTool";
+export { default as AnnotationTable } from "./AnnotationTable";

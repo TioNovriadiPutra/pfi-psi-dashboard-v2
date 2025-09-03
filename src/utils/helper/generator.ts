@@ -17,3 +17,6 @@ export const generateDecryption = (value: string): string => {
 
   return decrypted.toString(CryptoJS.enc.Utf8);
 };
+
+export const generateUUID = (): string =>
+  Math.random().toString(36).slice(2, 9);

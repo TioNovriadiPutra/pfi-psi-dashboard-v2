@@ -1,4 +1,5 @@
 import {
+  AnnotationInput,
   CartInput,
   DropdownInput,
   ImageInput,
@@ -70,6 +71,15 @@ const Form = ({ listData, control, errors }: Props) => {
         if (item.type === "image")
           return (
             <ImageInput
+              key={index.toString()}
+              inputData={item}
+              control={control}
+            />
+          );
+
+        if (item.type === "annotation")
+          return (
+            <AnnotationInput
               key={index.toString()}
               inputData={item}
               control={control}

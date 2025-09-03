@@ -73,7 +73,6 @@ const AnnotationRoute = () => {
     <Routes>
       <Route index element={<Annotation />} />
       <Route path="/annotation" element={<Annotation />} />
-      
     </Routes>
   );
 };

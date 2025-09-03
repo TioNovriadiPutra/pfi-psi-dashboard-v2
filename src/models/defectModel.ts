@@ -6,22 +6,13 @@ import { getDefectTypes } from "@services/defectTypeService";
 import { addDefect } from "@services/defectService";
 import useHelper from "@hooks/useHelper";
 import type { InspectionInput } from "./inspectionModel";
-import {
-  getBuildingLevels,
-  getBuildingLevelsByBuilding,
-} from "@services/buildingLevelService";
+import { getBuildingLevelsByBuilding } from "@services/buildingLevelService";
 import type { PlanInput, PlanReqInput } from "./planModel";
 
 export interface DefectDataInput {
-  name: string;
   observation: string;
-  couse: string;
   recommendation: string;
-  timeframe: string;
-  remedial: string;
   image_elevation: string;
-  image_detail: string;
-  defect_type_id: DropdownType | null;
   defect_levels: InspectionInput[];
 }
 

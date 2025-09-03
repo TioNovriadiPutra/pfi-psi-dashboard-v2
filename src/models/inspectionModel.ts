@@ -5,12 +5,10 @@ export interface InspectionInput {
   level_id: DropdownType | null;
   building_id: number;
   report_id: number;
-  photograph: string;
   observation: string;
   nature_of_defect: string;
   recommendation: string;
   description: string;
-  image_elevation?: string;
   image_defect?: string;
 }
 
