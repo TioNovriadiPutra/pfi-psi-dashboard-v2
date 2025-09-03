@@ -617,8 +617,8 @@ export const defectForm: FormType<DefectInput> = {
                                 (base64.length * 3) / 4 - padding;
 
                               return (
-                                sizeInBytes <= 2 * 1024 * 1024 ||
-                                "Image to large (max 2mb)"
+                                sizeInBytes <= 5 * 1024 * 1024 ||
+                                "Image to large (max 5mb)"
                               );
                             },
                           },
@@ -638,8 +638,8 @@ export const defectForm: FormType<DefectInput> = {
                                 (base64.length * 3) / 4 - padding;
 
                               return (
-                                sizeInBytes <= 2 * 1024 * 1024 ||
-                                "Image to large (max 2mb)"
+                                sizeInBytes <= 5 * 1024 * 1024 ||
+                                "Image to large (max 5mb)"
                               );
                             },
                           },
@@ -714,8 +714,8 @@ export const defectForm: FormType<DefectInput> = {
                                 (base64.length * 3) / 4 - padding;
 
                               return (
-                                sizeInBytes <= 2 * 1024 * 1024 ||
-                                "Image to large (max 2mb)"
+                                sizeInBytes <= 5 * 1024 * 1024 ||
+                                "Image to large (max 5mb)"
                               );
                             },
                           },
@@ -787,8 +787,8 @@ export const defectForm: FormType<DefectInput> = {
                                         (base64.length * 3) / 4 - padding;
 
                                       return (
-                                        sizeInBytes <= 2 * 1024 * 1024 ||
-                                        "Image to large (max 2mb)"
+                                        sizeInBytes <= 5 * 1024 * 1024 ||
+                                        "Image to large (max 5mb)"
                                       );
                                     },
                                   },
@@ -813,6 +813,99 @@ export const defectForm: FormType<DefectInput> = {
                       recommendation: "",
                       image_elevation: "",
                       defect_levels: [],
+                    },
+                  },
+                },
+              ],
+            ],
+          },
+          {
+            title: "Appendix",
+            inputs: [
+              [
+                {
+                  type: "cart",
+                  name: "plans",
+                  placeholder: "Appendix",
+                  required: true,
+                  cartData: {
+                    inputs: [
+                      [
+                        {
+                          type: "text",
+                          name: "plan",
+                          label: "Name",
+                          placeholder: "Input here...",
+                          required: true,
+                          rules: {
+                            required: "Name must be filled!",
+                          },
+                        },
+                        {
+                          type: "textarea",
+                          name: "description",
+                          label: "Description",
+                          placeholder: "Input here...",
+                          required: false,
+                        },
+                      ],
+                      [
+                        {
+                          type: "image",
+                          name: "plan_image",
+                          label: "Appendix Image",
+                          placeholder: "Upload image",
+                          required: false,
+                          rules: {
+                            validate: (val) => {
+                              const base64 = val.split(",")[1] || val;
+                              const padding = (base64.match(/=+$/) || [""])[0]
+                                .length;
+                              const sizeInBytes =
+                                (base64.length * 3) / 4 - padding;
+
+                              return (
+                                sizeInBytes <= 5 * 1024 * 1024 ||
+                                "Image to large (max 5mb)"
+                              );
+                            },
+                          },
+                        },
+                        {
+                          type: "image",
+                          name: "plan_evelvation_image",
+                          label: "Appendix Image",
+                          placeholder: "Upload Image",
+                          required: false,
+                          rules: {
+                            validate: (val) => {
+                              const base64 = val.split(",")[1] || val;
+                              const padding = (base64.match(/=+$/) || [""])[0]
+                                .length;
+                              const sizeInBytes =
+                                (base64.length * 3) / 4 - padding;
+
+                              return (
+                                sizeInBytes <= 5 * 1024 * 1024 ||
+                                "Image to large (max 5mb)"
+                              );
+                            },
+                          },
+                        },
+                      ],
+                    ],
+                    template: {
+                      plan: "",
+                      plan_image: "",
+                      plan_evelvation_image: "",
+                      description: "",
+                    },
+                  },
+                  rules: {
+                    required: "Plans must be filled!",
+                    minLength: {
+                      value: 1,
+                      message: "Plans must be filled!",
                     },
                   },
                 },
