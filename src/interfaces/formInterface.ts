@@ -16,6 +16,16 @@ export interface MapType {
   description: string;
 }
 
+export interface AnnotationType {
+  id: string;
+  type: "square" | "text" | "line";
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  text: string;
+}
+
 export interface TabInputType {
   title: string;
   inputs: InputType[][];
@@ -42,7 +52,9 @@ export interface InputType {
     | "tab"
     | "cart"
     | "image"
-    | "time";
+    | "time"
+    | "annotation"
+    | "gallery";
   name: string;
   label?: string;
   placeholder: string;

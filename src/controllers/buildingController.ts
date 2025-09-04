@@ -9,6 +9,7 @@ import { buildingForm } from "@utils/constant/formConst";
 import { BsBuildingGear } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { generateEncryption } from "@utils/helper/generator";
+import { HiOutlineAnnotation } from "react-icons/hi";
 
 const useBuildingController = () => {
   const nav = useNavigate();
@@ -91,11 +92,11 @@ const useBuildingController = () => {
                 },
                 {
                   type: "custom",
-                  icon: BsBuildingGear,
+                  icon: HiOutlineAnnotation,
                   label: "Annotation",
                   onClick: () =>
                     nav(
-                      `/annotation/?form=${encodeURIComponent(
+                      `/building/annotation-form?id=${encodeURIComponent(
                         generateEncryption(item.id.toString())
                       )}`
                     ),

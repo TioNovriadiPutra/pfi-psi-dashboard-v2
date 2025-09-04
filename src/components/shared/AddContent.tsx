@@ -28,12 +28,12 @@ const AddContent = ({
       <div
         className={`w-full ${
           size === "large" ? "max-w-[1424px]" : "max-w-[712px]"
-        } bg-neutral-0 p-md border border-neutral-200 rounded-lg`}
+        } bg-neutral-0 p-md border border-neutral-200 rounded-lg gap-md`}
         style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
       >
         <div className="!flex-row gap-md">
           {contentData.map((input, index2) => {
-            if (input[0].type !== "cart")
+            if (input[0].type !== "cart" && input[0].type !== "annotation")
               return (
                 <Form
                   key={index2.toString()}
@@ -44,6 +44,18 @@ const AddContent = ({
               );
           })}
         </div>
+
+        {contentData.map((input, index2) => {
+          if (input[0].type === "annotation")
+            return (
+              <Form
+                key={index2.toString()}
+                listData={input}
+                control={control}
+                errors={errors}
+              />
+            );
+        })}
       </div>
     </div>
   );

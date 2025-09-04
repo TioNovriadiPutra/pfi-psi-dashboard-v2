@@ -6,14 +6,13 @@ import { errorResponse, successResponse } from "@utils/helper/responseHandler";
 import { addInspection } from "./inspectionService";
 import { addReport } from "./reportService";
 import { addPlan } from "./planService";
+import { addAppendix } from "./appendixService";
 
 export const addDefect = async (
   body: DefectAllReqInput
 ): Promise<ResType<DefectDTO>> => {
   try {
     let response: any;
-
-    console.log(body);
 
     /* Add Report */
     const response1 = await addReport(body.report);
@@ -30,31 +29,22 @@ export const addDefect = async (
 
     /* Add Defects */
     for (const data of body.defects) {
-      let mapBody = {
-        ...data,
-        defect_type_id: data.defect_type_id?.value ?? null,
-      };
-
       const res1 = await axiosCloudinaryInstance.post("/image/upload", {
-        file: mapBody.image_elevation,
+        file: data.image_elevation,
         upload_preset: "pfi-psi-dashboard",
       });
 
-      const res2 = await axiosCloudinaryInstance.post("/image/upload", {
-        file: mapBody.image_detail,
-        upload_preset: "pfi-psi-dashboard",
-      });
-
-      mapBody = {
-        ...mapBody,
+      const mapBody = {
+        ...data,
         image_elevation: res1.data.secure_url,
-        image_detail: res2.data.secure_url,
       };
 
       response = await axiosInstance.post(API_ENDPOINT.getDefects, mapBody);
 
+      const defectLevels = data.defect_levels;
+
       /* Add Inspections */
-      for (const level of mapBody.defect_levels) {
+      for (const level of defectLevels) {
         const mapBody = {
           ...level,
           report_id: response1.data.id,
@@ -62,6 +52,11 @@ export const addDefect = async (
 
         await addInspection(mapBody);
       }
+    }
+
+    /* Add Appendix */
+    for (const appendix of body.appendixes) {
+      await addAppendix(appendix);
     }
 
     return successResponse<DefectDTO>(response, "Defect added!");

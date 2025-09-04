@@ -1,6 +1,5 @@
 import useHelper from "@hooks/useHelper";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "@utils/config/client";
+import type { DropdownType } from "@interfaces/formInterface";
 import {
   addAnnotation,
   deleteAnnotation,
@@ -8,37 +7,42 @@ import {
   getAnnotations,
   updateAnnotation,
 } from "@services/annotationService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "@utils/config/client";
+
+export interface AnnotationData {
+  type: "square" | "text" | "line";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+}
 
 export interface AnnotationInput {
   projectName: string;
-  category: string;
-  description: string;
   image: string;
-  annotations: {
-    type: "square" | "text" | "line";
-    x: number;
-    y: number;
-    width?: number;
-    height?: number;
-    text: string;
-  }[];
+  category?: DropdownType;
+  description?: string;
+  annotations: AnnotationData[];
 }
 
-export interface AnnotationDTO extends Omit<AnnotationInput, "annotations"> {
+export interface AnnotationDTO extends Omit<AnnotationInput, "category"> {
   id: number;
-  annotations: {
-    id: string;
-    type: "square" | "text" | "line";
-    x: number;
-    y: number;
-    width?: number;
-    height?: number;
-    text: string;
-  }[];
+  category: string;
+  created_at: string;
 }
 
 const useAnnotationModel = () => {
-  const { confirmationModal, pagination, nav, onMutate, onSettled, onError, onSuccess } = useHelper();
+  const {
+    confirmationModal,
+    pagination,
+    nav,
+    onMutate,
+    onSettled,
+    onError,
+    onSuccess,
+  } = useHelper();
 
   const useGetAnnotations = () =>
     useQuery({
@@ -83,7 +87,11 @@ const useAnnotationModel = () => {
           })),
         };
 
-        nav(`/annotation/form?data=${encodeURIComponent(JSON.stringify(defaultValues))}`);
+        nav(
+          `/annotation/form?data=${encodeURIComponent(
+            JSON.stringify(defaultValues)
+          )}`
+        );
       },
     });
 

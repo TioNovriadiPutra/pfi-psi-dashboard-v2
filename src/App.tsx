@@ -21,9 +21,9 @@ const App = () => {
 
   const { isTablet } = useResponsive();
 
-  // useEffect(() => {
-  //   auth.checkIsLoggedIn();
-  // }, []);
+  useEffect(() => {
+    auth.checkIsLoggedIn();
+  }, []);
 
   return (
     <div className="main">

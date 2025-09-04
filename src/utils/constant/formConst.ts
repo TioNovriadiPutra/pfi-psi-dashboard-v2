@@ -1,4 +1,5 @@
 import type { AuthContentType, FormType } from "@interfaces/formInterface";
+import type { AnnotationInput } from "@models/annotationModel";
 import type { LoginInput, RegisterInput } from "@models/authModel";
 import type { BuildingInput } from "@models/buildingModel";
 import type { BuildingTypeInput } from "@models/buildingTypeModel";
@@ -730,6 +731,38 @@ export const defectForm: FormType<DefectInput> = {
                             inputs: [
                               [
                                 {
+                                  type: "dropdown",
+                                  name: "level_start",
+                                  label: "Start",
+                                  placeholder: "Pick here",
+                                  required: true,
+                                  items: Array.from({ length: 50 }).map(
+                                    (_, i) => ({
+                                      label: `Level ${i + 1}`,
+                                      value: i + 1,
+                                    })
+                                  ),
+                                  rules: {
+                                    required: "Level start must be filled!",
+                                  },
+                                },
+                                {
+                                  type: "dropdown",
+                                  name: "level_end",
+                                  label: "End",
+                                  placeholder: "Pick here",
+                                  required: true,
+                                  items: Array.from({ length: 50 }).map(
+                                    (_, i) => ({
+                                      label: `Level ${i + 1}`,
+                                      value: i + 1,
+                                    })
+                                  ),
+                                  rules: {
+                                    required: "Level end must be filled!",
+                                  },
+                                },
+                                {
                                   type: "text",
                                   name: "observation",
                                   label: "Observation",
@@ -760,6 +793,8 @@ export const defectForm: FormType<DefectInput> = {
                                     required: "Recommendation must be filled!",
                                   },
                                 },
+                              ],
+                              [
                                 {
                                   type: "textarea",
                                   name: "description",
@@ -767,16 +802,14 @@ export const defectForm: FormType<DefectInput> = {
                                   placeholder: "Input here...",
                                   required: false,
                                 },
-                              ],
-                              [
                                 {
                                   type: "image",
-                                  name: "image_detail",
-                                  label: "Detail Image",
+                                  name: "image_defect",
+                                  label: "Defect Image",
                                   placeholder: "Upload image",
                                   required: true,
                                   rules: {
-                                    required: "Detail image must be filled!",
+                                    required: "Defect image must be filled!",
                                     validate: (val) => {
                                       const base64 = val.split(",")[1] || val;
                                       const padding = (base64.match(/=+$/) || [
@@ -796,7 +829,9 @@ export const defectForm: FormType<DefectInput> = {
                             ],
                             isGrey: false,
                             template: {
-                              image_detail: "",
+                              level_start: undefined,
+                              level_end: undefined,
+                              image_defect: "",
                               observation: "",
                               nature_of_defect: "",
                               recommendation: "",
@@ -824,7 +859,7 @@ export const defectForm: FormType<DefectInput> = {
               [
                 {
                   type: "cart",
-                  name: "appendixs",
+                  name: "appendixes",
                   placeholder: "Appendix",
                   required: true,
                   cartData: {
@@ -832,13 +867,10 @@ export const defectForm: FormType<DefectInput> = {
                       [
                         {
                           type: "text",
-                          name: "appendix",
+                          name: "name",
                           label: "Name",
                           placeholder: "Input here...",
-                          required: true,
-                          rules: {
-                            required: "Name must be filled!",
-                          },
+                          required: false,
                         },
                         {
                           type: "textarea",
@@ -847,43 +879,19 @@ export const defectForm: FormType<DefectInput> = {
                           placeholder: "Input here...",
                           required: false,
                         },
-                      ],
-                      [
-                       
                         {
-                          type: "image",
-                          name: "appendix_image",
-                          label: "Appendix Image",
-                          placeholder: "Upload Image",
+                          type: "gallery",
+                          name: "image_appendix",
+                          label: "Images",
+                          placeholder: "Image",
                           required: false,
-                          rules: {
-                            validate: (val) => {
-                              const base64 = val.split(",")[1] || val;
-                              const padding = (base64.match(/=+$/) || [""])[0]
-                                .length;
-                              const sizeInBytes =
-                                (base64.length * 3) / 4 - padding;
-
-                              return (
-                                sizeInBytes <= 5 * 1024 * 1024 ||
-                                "Image to large (max 5mb)"
-                              );
-                            },
-                          },
                         },
                       ],
                     ],
                     template: {
-                      appendix: "",
-                      appendix_image: "",
+                      name: "",
                       description: "",
-                    },
-                  },
-                  rules: {
-                    required: "Appendix must be filled!",
-                    minLength: {
-                      value: 1,
-                      message: "Appendix must be filled!",
+                      image_appendix: [],
                     },
                   },
                 },
@@ -903,6 +911,7 @@ export const defectForm: FormType<DefectInput> = {
     location_inspection: "",
     plans: [],
     defects: [],
+    appendixes: [],
   },
 };
 
@@ -920,5 +929,78 @@ export const defectTypeForm: FormType<DefectTypeInput> = {
   ],
   defaultValues: {
     name: "",
+  },
+};
+
+export const annotationForm: FormType<AnnotationInput> = {
+  inputs: [
+    [
+      {
+        type: "text",
+        name: "projectName",
+        label: "Project Name",
+        placeholder: "Input here...",
+        required: true,
+        rules: {
+          required: "Project name must be filled!",
+        },
+      },
+      {
+        type: "dropdown",
+        name: "category",
+        label: "Elevation",
+        placeholder: "Pick here",
+        required: true,
+        items: [],
+        rules: {
+          required: "Elevation must be chosen!",
+        },
+      },
+      {
+        type: "textarea",
+        name: "description",
+        label: "Description",
+        placeholder: "Input here...",
+        required: false,
+      },
+    ],
+    [
+      {
+        type: "image",
+        name: "image",
+        label: "Upload Image",
+        placeholder: "SVG, PNG, JPG or GIF (MAX. 5MB)",
+        required: true,
+        rules: {
+          required: "Image must be filled!",
+          validate: (val) => {
+            const base64 = val.split(",")[1] || val;
+            const padding = (base64.match(/=+$/) || [""])[0].length;
+            const sizeInBytes = (base64.length * 3) / 4 - padding;
+
+            return sizeInBytes <= 5 * 1024 * 1024 || "Image to large (max 5mb)";
+          },
+        },
+      },
+    ],
+    [
+      {
+        type: "annotation",
+        name: "annotations",
+        label: "Annotation Canvas",
+        placeholder: "",
+        required: true,
+        rules: {
+          required: "Annotation must be filled!",
+        },
+      },
+    ],
+  ],
+  defaultValues: {
+    image: "",
+    projectName: "",
+    category: undefined,
+    description: "",
+    annotations: [],
   },
 };

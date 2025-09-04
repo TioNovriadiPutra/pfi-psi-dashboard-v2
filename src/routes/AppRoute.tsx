@@ -1,17 +1,16 @@
 import {
+  AddAnnotation,
   AddBuilding,
   AddBuildingType,
   AddDefect,
   AddProject,
+  Annotation,
   Building,
   Dashboard,
   Master,
   Project,
-  
 } from "@views/app";
-import AddAnnotationForm from "@views/app/AddAnnotation";
 import AddDefectType from "@views/app/AddDefectType";
-import Annotation from "@views/app/Annotation";
 import Report from "@views/app/Report";
 import { Navigate, Route, Routes } from "react-router";
 
@@ -21,9 +20,9 @@ const AppRoute = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/project/*" element={<ProjectRoute />} />
       <Route path="/building/*" element={<BuildingRoute />} />
+      <Route path="/annotation/*" element={<AnnotationRoute />} />
       <Route path="/report/*" element={<ReportRoute />} />
       <Route path="/master/*" element={<MasterRoute />} />
-      <Route path="/annotation/*" element={<AnnotationRoute />} />
       <Route path="*" element={<Navigate to="/project" />} />
     </Routes>
   );
@@ -46,6 +45,7 @@ const BuildingRoute = () => {
       <Route path="/form" element={<AddBuilding />} />
       <Route path="/type-form" element={<AddBuildingType />} />
       <Route path="/defect-form" element={<AddDefect />} />
+      <Route path="/annotation-form" element={<AddAnnotation />} />
       <Route path="*" element={<Navigate to="/building" />} />
     </Routes>
   );
@@ -74,8 +74,7 @@ const AnnotationRoute = () => {
   return (
     <Routes>
       <Route index element={<Annotation />} />
-      <Route path="/form" element={<AddAnnotationForm />} />
-      <Route path="*" element={<Navigate to="/project" />} />
+      <Route path="*" element={<Navigate to="/annotation" />} />
     </Routes>
   );
 };

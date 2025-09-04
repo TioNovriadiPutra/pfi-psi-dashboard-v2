@@ -6,22 +6,14 @@ import { getDefectTypes } from "@services/defectTypeService";
 import { addDefect } from "@services/defectService";
 import useHelper from "@hooks/useHelper";
 import type { InspectionInput } from "./inspectionModel";
-import {
-  getBuildingLevels,
-  getBuildingLevelsByBuilding,
-} from "@services/buildingLevelService";
+import { getBuildingLevelsByBuilding } from "@services/buildingLevelService";
 import type { PlanInput, PlanReqInput } from "./planModel";
+import type { AppendixInput, AppendixReqInput } from "./appendixModel";
 
 export interface DefectDataInput {
-  name: string;
   observation: string;
-  couse: string;
   recommendation: string;
-  timeframe: string;
-  remedial: string;
   image_elevation: string;
-  image_detail: string;
-  defect_type_id: DropdownType | null;
   defect_levels: InspectionInput[];
 }
 
@@ -34,11 +26,13 @@ export interface DefectAllReqInput {
   report: ReportReqInput;
   plans: PlanReqInput[];
   defects: DefectReqInput[];
+  appendixes: AppendixReqInput[];
 }
 
 export interface DefectInput extends ReportInput {
   plans: PlanInput[];
   defects: DefectDataInput[];
+  appendixes: AppendixInput[];
 }
 
 export interface DefectDTO {

@@ -65,7 +65,7 @@ const ImageInput = ({ inputData, control }: Props) => {
             <MdUploadFile size={32} className="text-neutral-400" />
 
             <p className="text-body-sm font-semibold text-neutral-400">
-              Upload Image
+              {inputData.placeholder}
             </p>
           </>
         )}
