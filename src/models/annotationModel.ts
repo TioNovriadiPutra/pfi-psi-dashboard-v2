@@ -20,7 +20,7 @@ export interface AnnotationData {
 }
 
 export interface AnnotationInput {
-  projectName: string;
+  project_name: string;
   image: string;
   category?: DropdownType;
   description?: string;
@@ -73,8 +73,8 @@ const useAnnotationModel = () => {
       onError,
       onSuccess: (res) => {
         const defaultValues: AnnotationInput = {
-          projectName: res.data.projectName,
-          category: res.data.category,
+          project_name: res.data.project_name,
+          category: undefined,
           description: res.data.description,
           image: res.data.image,
           annotations: res.data.annotations.map((ann: any) => ({

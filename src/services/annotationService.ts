@@ -1,7 +1,7 @@
 import type { PaginationType, ResType } from "@interfaces/resInterface";
 import type { AnnotationDTO, AnnotationInput } from "@models/annotationModel";
 import { API_ENDPOINT } from "@utils/config/api";
-import { axiosInstance } from "@utils/config/axios";
+import { axiosCloudinaryInstance, axiosInstance } from "@utils/config/axios";
 import { errorResponse, successResponse } from "@utils/helper/responseHandler";
 
 export const getAnnotations = async (
@@ -41,10 +41,15 @@ export const addAnnotation = async (
   body: AnnotationInput
 ): Promise<ResType<AnnotationDTO>> => {
   try {
-    const response = await axiosInstance.post(
-      API_ENDPOINT.getAnnotations,
-      body
-    );
+    const url = await axiosCloudinaryInstance.post("/image/upload", {
+      file: body.image,
+      upload_preset: "pfi-psi-dashboard",
+    });
+
+    const response = await axiosInstance.post(API_ENDPOINT.getAnnotations, {
+      ...body,
+      image: url.data.secure_url,
+    });
 
     return successResponse<AnnotationDTO>(response, "Annotation added!");
   } catch (error) {

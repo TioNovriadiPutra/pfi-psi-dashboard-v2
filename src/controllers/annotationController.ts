@@ -1,12 +1,18 @@
 import useHelper from "@hooks/useHelper";
-import type { FetchDataType, FetchFinalDataType } from "@interfaces/pageInterface";
+import type {
+  FetchDataType,
+  FetchFinalDataType,
+} from "@interfaces/pageInterface";
 import useAnnotationModel from "@models/annotationModel";
 import { useConfirmationModal } from "@stores/modalStore";
+import { paginationHandler } from "@utils/helper/responseHandler";
 import { FaRegStickyNote } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 const useAnnotationController = () => {
-  const showConfirmationModal = useConfirmationModal((state) => state.showModal);
+  const showConfirmationModal = useConfirmationModal(
+    (state) => state.showModal
+  );
   const {
     useGetAnnotations,
     useAddAnnotation,
@@ -34,26 +40,33 @@ const useAnnotationController = () => {
       } else if (data) {
         finalData = [
           {
-            pagination: {
-              page: data.data.page,
-              items_per_page: data.data.items_per_page,
-              total_count: data.data.total_count,
-            },
+            pagination: paginationHandler(
+              data.data.page,
+              data.data.items_per_page,
+              data.data.total_count
+            ),
             finalData: data.data.data.map((item) => ({
               id: item.id,
               row: [
                 { type: "text", flex: "flex-2", label: item.project_name },
                 { type: "text", flex: "flex-2", label: item.category },
-                { type: "text", flex: "flex-3", label: item.description || "-" },
-                { type: "text", flex: "flex-1", label: item.annotations.length },
+                {
+                  type: "text",
+                  flex: "flex-2",
+                  label: item.description || "-",
+                },
+                {
+                  type: "text",
+                  flex: "flex-1",
+                  label: item.annotations.length,
+                },
               ],
               functions: [
                 {
                   type: "custom",
                   icon: FaRegStickyNote,
                   label: "Preview",
-                  onClick: () =>
-                    nav(`/annotation/preview/${item.id}`),
+                  onClick: () => nav(`/annotation/preview/${item.id}`),
                 },
                 {
                   type: "edit",
@@ -64,7 +77,7 @@ const useAnnotationController = () => {
                   onClick: () =>
                     showConfirmationModal({
                       title: "Delete Annotation",
-                      description: `Are you sure you want to delete annotation for project "${item.projectName}"? This action cannot be undone!`,
+                      description: `Are you sure you want to delete annotation for project "${item.project_name}"? This action cannot be undone!`,
                       onConfirm: () => deleteAnnotationMutation.mutate(item.id),
                     }),
                 },

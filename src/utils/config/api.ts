@@ -27,5 +27,5 @@ export const API_ENDPOINT = {
   addInspection: "/inspection",
   addPlan: "/plan",
   addAppendix: "/appendix",
-  getAnnotations: "/annotations",
+  getAnnotations: "/annotationss",
 };
