@@ -46,7 +46,7 @@ export const addAnnotation = async (
       upload_preset: "pfi-psi-dashboard",
     });
 
-    const response = await axiosInstance.post(API_ENDPOINT.getAnnotations, {
+    const response = await axiosInstance.post(API_ENDPOINT.AddAnnotations, {
       ...body,
       image: url.data.secure_url,
     });

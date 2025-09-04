@@ -984,13 +984,16 @@ export const annotationForm: FormType<AnnotationInput> = {
         },
       },
       {
-        type: "dropdown",
+        type: "text",
         name: "category",
-        label: "Category",
-        placeholder: "Pick here",
-        required: false,
-        items: [],
+        label: "Elevation",
+        placeholder: "Input here...",
+        required: true,
+        rules: {
+          required: "Project name must be filled!",
+        },
       },
+      
       {
         type: "textarea",
         name: "description",

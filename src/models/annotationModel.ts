@@ -20,6 +20,7 @@ export interface AnnotationData {
 }
 
 export interface AnnotationInput {
+  building_id: Number;
   project_name: string;
   image: string;
   category?: DropdownType;
