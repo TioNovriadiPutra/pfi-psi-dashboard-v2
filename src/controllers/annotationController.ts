@@ -1,10 +1,14 @@
 import useHelper from "@hooks/useHelper";
+import type { FormType } from "@interfaces/formInterface";
 import type {
   FetchDataType,
   FetchFinalDataType,
 } from "@interfaces/pageInterface";
-import useAnnotationModel from "@models/annotationModel";
+import useAnnotationModel, {
+  type AnnotationInput,
+} from "@models/annotationModel";
 import { useConfirmationModal } from "@stores/modalStore";
+import { annotationForm } from "@utils/constant/formConst";
 import { paginationHandler } from "@utils/helper/responseHandler";
 import { FaRegStickyNote } from "react-icons/fa";
 import { useNavigate } from "react-router";
@@ -15,6 +19,7 @@ const useAnnotationController = () => {
   );
   const {
     useGetAnnotations,
+    useGetAnnotationFormDropdown,
     useAddAnnotation,
     useGetAnnotationEdit,
     useUpdateAnnotation,
@@ -94,8 +99,50 @@ const useAnnotationController = () => {
     };
   };
 
+  const useGetAnnotationFormDropdownService = () => {
+    const responses = useGetAnnotationFormDropdown();
+
+    const isLoading = responses.some((response) => response.isLoading);
+    const isError = responses.some((response) => response.isError);
+    const error = responses.find((response) => response.error !== undefined);
+
+    let formData: FormType<AnnotationInput> = {
+      ...annotationForm,
+    };
+
+    if (!isLoading) {
+      if (isError) {
+        onError(error!.error!);
+      } else {
+        formData = {
+          ...annotationForm,
+          inputs: annotationForm.inputs.map((input) =>
+            input.map((input) => {
+              if (input.name === "building_id")
+                return {
+                  ...input,
+                  items: responses[0].data?.data.data.map((item) => ({
+                    label: item.name,
+                    value: item.id,
+                  })),
+                };
+
+              return input;
+            })
+          ),
+        };
+      }
+    }
+
+    return {
+      formData,
+      isLoading,
+    };
+  };
+
   return {
     useGetAnnotationsService,
+    useGetAnnotationFormDropdownService,
     addAnnotationService: (body: any) => addAnnotationMutation.mutate(body),
     updateAnnotationService: (data: { id: number; body: any }) =>
       updateAnnotationMutation.mutate(data),

@@ -7,7 +7,8 @@ import {
   getAnnotations,
   updateAnnotation,
 } from "@services/annotationService";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { getBuildings } from "@services/buildingService";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@utils/config/client";
 
 export interface AnnotationData {
@@ -20,7 +21,7 @@ export interface AnnotationData {
 }
 
 export interface AnnotationInput {
-  building_id: Number;
+  building_id?: DropdownType;
   project_name: string;
   image: string;
   category?: DropdownType;
@@ -49,6 +50,17 @@ const useAnnotationModel = () => {
     useQuery({
       queryKey: ["getAnnotations", pagination.page],
       queryFn: () => getAnnotations(pagination.page, pagination.items_per_page),
+    });
+
+  const useGetAnnotationFormDropdown = () =>
+    useQueries({
+      queries: [
+        {
+          queryKey: ["getAnnotation1Dropdown", pagination.page],
+          queryFn: () =>
+            getBuildings(pagination.page, pagination.items_per_page),
+        },
+      ],
     });
 
   const useAddAnnotation = () =>
@@ -130,6 +142,7 @@ const useAnnotationModel = () => {
 
   return {
     useGetAnnotations,
+    useGetAnnotationFormDropdown,
     useAddAnnotation,
     useGetAnnotationEdit,
     useUpdateAnnotation,

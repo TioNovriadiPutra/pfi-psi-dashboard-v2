@@ -661,14 +661,13 @@ export const defectForm: FormType<DefectInput> = {
                   cartData: {
                     inputs: [
                       [
-                        
                         {
                           type: "dropdown",
                           name: "observation",
                           label: "Observation",
                           placeholder: "Pick here",
                           required: true,
-                          items: [    
+                          items: [
                             { label: "No Defect", value: "no_defect" },
                             { label: "Have Defect", value: "have_defect" },
                           ],
@@ -682,7 +681,7 @@ export const defectForm: FormType<DefectInput> = {
                           label: "Nature of defect",
                           placeholder: "Pick here",
                           required: true,
-                          items: [    
+                          items: [
                             { label: "Safe", value: "safe" },
                             { label: "Have Defect", value: "have_defect" },
                           ],
@@ -690,7 +689,6 @@ export const defectForm: FormType<DefectInput> = {
                             required: "Defect status must be selected!",
                           },
                         },
-                        
                       ],
                       [
                         {
@@ -757,29 +755,53 @@ export const defectForm: FormType<DefectInput> = {
                                     required: "Level end must be filled!",
                                   },
                                 },
-                                
+
                                 {
                                   type: "dropdown",
                                   name: "observation",
                                   label: "Observation",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [   
-                                    { label: "No Defect", value: "No_Defect" }, 
+                                  items: [
+                                    { label: "No Defect", value: "No_Defect" },
                                     { label: "Crack", value: "Crack" },
                                     { label: "Chiff Of", value: "chiff_off" },
-                                    { label: "Blistering paint", value: "Blistering_paint" },
-                                    { label: "Paint cracks", value: "Paint_cracks" },
-                                    { label: "Blistering", value: "blistering" },
-                                    { label: "Cracks and Blistering", value: "Cracks_blistering" },
-                                    { label: "Chip off and Blistering", value: "Chip_off_blistering" },
-                                    { label: "Blistering and Paint Peel", value: "Blistering_Paint_Peel" },
-                                    { label: "Hollowness", value: "hollowness" },
-                                    { label: "Hollowness & Cracks", value: "hollowness_cracks" },
-                                    
+                                    {
+                                      label: "Blistering paint",
+                                      value: "Blistering_paint",
+                                    },
+                                    {
+                                      label: "Paint cracks",
+                                      value: "Paint_cracks",
+                                    },
+                                    {
+                                      label: "Blistering",
+                                      value: "blistering",
+                                    },
+                                    {
+                                      label: "Cracks and Blistering",
+                                      value: "Cracks_blistering",
+                                    },
+                                    {
+                                      label: "Chip off and Blistering",
+                                      value: "Chip_off_blistering",
+                                    },
+                                    {
+                                      label: "Blistering and Paint Peel",
+                                      value: "Blistering_Paint_Peel",
+                                    },
+                                    {
+                                      label: "Hollowness",
+                                      value: "hollowness",
+                                    },
+                                    {
+                                      label: "Hollowness & Cracks",
+                                      value: "hollowness_cracks",
+                                    },
                                   ],
                                   rules: {
-                                    required: "Defect Observation must be selected!",
+                                    required:
+                                      "Defect Observation must be selected!",
                                   },
                                 },
                                 {
@@ -788,14 +810,16 @@ export const defectForm: FormType<DefectInput> = {
                                   label: "Nature of Defect",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [   
-                                    { label: "Safe", value: "safe" }, 
-                                    { label: "Require repair", value: "Require_repair" },
-                                    
-                                    
+                                  items: [
+                                    { label: "Safe", value: "safe" },
+                                    {
+                                      label: "Require repair",
+                                      value: "Require_repair",
+                                    },
                                   ],
                                   rules: {
-                                    required: "Nature of Defect must be selected!",
+                                    required:
+                                      "Nature of Defect must be selected!",
                                   },
                                 },
                                 {
@@ -804,18 +828,18 @@ export const defectForm: FormType<DefectInput> = {
                                   label: "Recommendation",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [   
-                                    { label: "N/A", value: "na" }, 
-                                    { label: "Refer to section 5", value: "Refer_section5" },
-                                    
-                                    
+                                  items: [
+                                    { label: "N/A", value: "na" },
+                                    {
+                                      label: "Refer to section 5",
+                                      value: "Refer_section5",
+                                    },
                                   ],
                                   rules: {
-                                    required: "Recommendation must be selected!",
+                                    required:
+                                      "Recommendation must be selected!",
                                   },
                                 },
-                               
-                                
                               ],
                               [
                                 {
@@ -855,9 +879,9 @@ export const defectForm: FormType<DefectInput> = {
                               level_start: undefined,
                               level_end: undefined,
                               image_defect: "",
-                              observation: "",
-                              nature_of_defect: "",
-                              recommendation: "",
+                              observation: undefined,
+                              nature_of_defect: undefined,
+                              recommendation: undefined,
                               description: "",
                             },
                           },
@@ -866,8 +890,8 @@ export const defectForm: FormType<DefectInput> = {
                     ],
                     withAdd: false,
                     template: {
-                      observation: "",
-                      recommendation: "",
+                      observation: undefined,
+                      recommendation: undefined,
                       image_elevation: "",
                       defect_levels: [],
                     },
@@ -959,6 +983,17 @@ export const annotationForm: FormType<AnnotationInput> = {
   inputs: [
     [
       {
+        type: "dropdown",
+        name: "building_id",
+        label: "Building",
+        placeholder: "Pick here",
+        required: true,
+        items: [],
+        rules: {
+          required: "Building must be chosen!",
+        },
+      },
+      {
         type: "text",
         name: "project_name",
         label: "Project Name",
@@ -1020,6 +1055,7 @@ export const annotationForm: FormType<AnnotationInput> = {
     ],
   ],
   defaultValues: {
+    building_id: undefined,
     image: "",
     project_name: "",
     category: undefined,
