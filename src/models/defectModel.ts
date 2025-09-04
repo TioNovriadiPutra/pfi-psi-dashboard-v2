@@ -11,8 +11,8 @@ import type { PlanInput, PlanReqInput } from "./planModel";
 import type { AppendixInput, AppendixReqInput } from "./appendixModel";
 
 export interface DefectDataInput {
-  observation: string;
-  recommendation: string;
+  observation?: DropdownType;
+  recommendation?: DropdownType;
   image_elevation: string;
   defect_levels: InspectionInput[];
 }

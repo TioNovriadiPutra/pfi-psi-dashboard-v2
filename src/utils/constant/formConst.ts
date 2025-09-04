@@ -677,21 +677,23 @@ export const defectForm: FormType<DefectInput> = {
                     inputs: [
                       [
                         {
-                          type: "text",
+                          type: "dropdown",
                           name: "observation",
                           label: "Observation",
-                          placeholder: "Input here...",
+                          placeholder: "Pick here",
                           required: true,
+                          items: [],
                           rules: {
                             required: "Observation must be filled!",
                           },
                         },
                         {
-                          type: "text",
+                          type: "dropdown",
                           name: "recommendation",
                           label: "Recommendation",
-                          placeholder: "Input here...",
+                          placeholder: "Pick here",
                           required: true,
+                          items: [],
                           rules: {
                             required: "Recommendation must be filled!",
                           },
@@ -763,32 +765,35 @@ export const defectForm: FormType<DefectInput> = {
                                   },
                                 },
                                 {
-                                  type: "text",
+                                  type: "dropdown",
                                   name: "observation",
                                   label: "Observation",
-                                  placeholder: "Input here...",
+                                  placeholder: "Pick here",
                                   required: true,
+                                  items: [],
                                   rules: {
                                     required: "Observation must be filled!",
                                   },
                                 },
                                 {
-                                  type: "text",
+                                  type: "dropdown",
                                   name: "nature_of_defect",
                                   label: "Nature of Defect",
-                                  placeholder: "Input here...",
+                                  placeholder: "Pick here",
                                   required: true,
+                                  items: [],
                                   rules: {
                                     required:
                                       "Nature of defect must be filled!",
                                   },
                                 },
                                 {
-                                  type: "text",
+                                  type: "dropdown",
                                   name: "recommendation",
                                   label: "Recommendation",
-                                  placeholder: "Input here...",
+                                  placeholder: "Pick here",
                                   required: true,
+                                  items: [],
                                   rules: {
                                     required: "Recommendation must be filled!",
                                   },
@@ -832,9 +837,9 @@ export const defectForm: FormType<DefectInput> = {
                               level_start: undefined,
                               level_end: undefined,
                               image_defect: "",
-                              observation: "",
-                              nature_of_defect: "",
-                              recommendation: "",
+                              observation: undefined,
+                              nature_of_defect: undefined,
+                              recommendation: undefined,
                               description: "",
                             },
                           },
@@ -843,8 +848,8 @@ export const defectForm: FormType<DefectInput> = {
                     ],
                     withAdd: false,
                     template: {
-                      observation: "",
-                      recommendation: "",
+                      observation: undefined,
+                      recommendation: undefined,
                       image_elevation: "",
                       defect_levels: [],
                     },
@@ -936,6 +941,17 @@ export const annotationForm: FormType<AnnotationInput> = {
   inputs: [
     [
       {
+        type: "dropdown",
+        name: "building_id",
+        label: "Building",
+        placeholder: "Pick here",
+        required: true,
+        items: [],
+        rules: {
+          required: "Building must be chosen!",
+        },
+      },
+      {
         type: "text",
         name: "project_name",
         label: "Project Name",
@@ -994,6 +1010,7 @@ export const annotationForm: FormType<AnnotationInput> = {
     ],
   ],
   defaultValues: {
+    building_id: undefined,
     image: "",
     project_name: "",
     category: undefined,

@@ -20,6 +20,9 @@ export const addInspection = async (
       ...body,
       image_defect: res2?.data.secure_url ?? null,
       level_name: `${body.level_start?.label} - ${body.level_end?.label}`,
+      observation: body.observation?.value ?? undefined,
+      nature_of_defect: body.nature_of_defect?.value ?? undefined,
+      recommendation: body.recommendation?.value ?? undefined,
     };
 
     const response = await axiosInstance.post(

@@ -1,4 +1,5 @@
 import { AddContent, AddHeader } from "@components/shared";
+import { FormSkeleton } from "@components/skeleton";
 import MainContainer from "@containers/MainContainer";
 import useAnnotationController from "@controllers/annotationController";
 import { annotationForm } from "@utils/constant/formConst";
@@ -13,7 +14,10 @@ const AddAnnotation = () => {
     defaultValues: annotationForm.defaultValues,
   });
 
-  const { addAnnotationService } = useAnnotationController();
+  const { useGetAnnotationFormDropdownService, addAnnotationService } =
+    useAnnotationController();
+
+  const { formData, isLoading } = useGetAnnotationFormDropdownService();
 
   return (
     <MainContainer>
@@ -22,12 +26,16 @@ const AddAnnotation = () => {
         onSubmit={handleSubmit((body) => addAnnotationService(body))}
       />
 
-      <AddContent
-        contentData={annotationForm.inputs}
-        size="large"
-        control={control}
-        errors={errors}
-      />
+      {isLoading ? (
+        <FormSkeleton />
+      ) : (
+        <AddContent
+          contentData={formData.inputs}
+          size="large"
+          control={control}
+          errors={errors}
+        />
+      )}
     </MainContainer>
   );
 };
