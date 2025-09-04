@@ -1,5 +1,6 @@
 import { AddContent, AddHeader } from "@components/shared";
 import MainContainer from "@containers/MainContainer";
+import useAnnotationController from "@controllers/annotationController";
 import { annotationForm } from "@utils/constant/formConst";
 import { useForm } from "react-hook-form";
 
@@ -12,11 +13,13 @@ const AddAnnotation = () => {
     defaultValues: annotationForm.defaultValues,
   });
 
+  const { addAnnotationService } = useAnnotationController();
+
   return (
     <MainContainer>
       <AddHeader
         title="Annotation"
-        onSubmit={handleSubmit((body) => console.log(body))}
+        onSubmit={handleSubmit((body) => addAnnotationService(body))}
       />
 
       <AddContent

@@ -129,3 +129,21 @@ export const masterPageData: AppType[] = [
     },
   },
 ];
+
+export const annotationPageData: AppType = {
+  header: {
+    withSearch: true,
+    addLabel: "Add Annotation",
+    addDest: "/building/annotation-form",
+  },
+  content: {
+    title: "Annotations",
+    subTitle: "Annotation management table",
+    tableHeader: [
+      { flex: "flex-2", label: "Project Name" },
+      { flex: "flex-2", label: "Category" },
+      { flex: "flex-1", label: "Description" },
+      { flex: "flex-1", label: "Number of Marks" },
+    ],
+  },
+};

@@ -65,7 +65,7 @@ const AnnotationInput = ({ inputData, control }: Props) => {
           onMoveCanvas={onMoveCanvas}
         />
 
-        <div className="relative overflow-auto max-w-full border rounded-lg bg-gray-100 flex justify-center items-center min-h-[400px]">
+        <div className="relative overflow-hidden max-w-full border rounded-lg bg-gray-100 flex justify-center items-center min-h-[400px]">
           <img
             ref={imageRef}
             src={image}

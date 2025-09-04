@@ -262,23 +262,31 @@ const useAnnotationInput = (
   // Add wheel event for zooming
   const onHandleWheel = (e: WheelEvent) => {
     e.preventDefault();
-    const zoomIntensity = 0.1;
-    const wheel = e.deltaY < 0 ? 1 : -1;
-    const zoom = Math.exp(wheel * zoomIntensity);
 
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+    const LINE = 16;
+    const dx = e.deltaMode === 1 ? e.deltaX * LINE : e.deltaX;
+    const dy = e.deltaMode === 1 ? e.deltaY * LINE : e.deltaY;
 
-      const newScale = Math.max(0.1, Math.min(5, scale * zoom));
+    const isPinchZoom = e.ctrlKey;
+
+    if (isPinchZoom) {
+      const rect = canvasRef.current!.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      const zoomFactor = Math.exp(-dy * 0.001);
+      const nextScale = Math.min(5, Math.max(0.2, scale * zoomFactor));
 
       setOffset((prev) => ({
-        x: prev.x - (mouseX - prev.x) * (zoom - 1),
-        y: prev.y - (mouseY - prev.y) * (zoom - 1),
+        x: mx - ((mx - prev.x) * nextScale) / scale,
+        y: my - ((my - prev.y) * nextScale) / scale,
       }));
-
-      setScale(newScale);
+      setScale(nextScale);
+    } else {
+      setOffset((prev) => ({
+        x: prev.x - dx,
+        y: prev.y - dy,
+      }));
     }
   };
 

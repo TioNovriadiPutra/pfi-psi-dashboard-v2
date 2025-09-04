@@ -975,7 +975,7 @@ export const annotationForm: FormType<AnnotationInput> = {
     [
       {
         type: "text",
-        name: "projectName",
+        name: "project_name",
         label: "Project Name",
         placeholder: "Input here...",
         required: true,
@@ -986,13 +986,10 @@ export const annotationForm: FormType<AnnotationInput> = {
       {
         type: "dropdown",
         name: "category",
-        label: "Elevation",
+        label: "Category",
         placeholder: "Pick here",
-        required: true,
+        required: false,
         items: [],
-        rules: {
-          required: "Elevation must be chosen!",
-        },
       },
       {
         type: "textarea",
@@ -1036,7 +1033,7 @@ export const annotationForm: FormType<AnnotationInput> = {
   ],
   defaultValues: {
     image: "",
-    projectName: "",
+    project_name: "",
     category: undefined,
     description: "",
     annotations: [],
