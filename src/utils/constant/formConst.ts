@@ -682,20 +682,26 @@ export const defectForm: FormType<DefectInput> = {
                           label: "Observation",
                           placeholder: "Pick here",
                           required: true,
-                          items: [],
+                          items: [
+                            { label: "No Defect", value: "no_defect" },
+                            { label: "Have Defect", value: "have_defect" },
+                          ],
                           rules: {
-                            required: "Observation must be filled!",
+                            required: "Defect status must be selected!",
                           },
                         },
                         {
                           type: "dropdown",
                           name: "recommendation",
-                          label: "Recommendation",
+                          label: "Nature of defect",
                           placeholder: "Pick here",
                           required: true,
-                          items: [],
+                          items: [
+                            { label: "Safe", value: "safe" },
+                            { label: "Have Defect", value: "have_defect" },
+                          ],
                           rules: {
-                            required: "Recommendation must be filled!",
+                            required: "Defect status must be selected!",
                           },
                         },
                       ],
@@ -764,15 +770,53 @@ export const defectForm: FormType<DefectInput> = {
                                     required: "Level end must be filled!",
                                   },
                                 },
+
                                 {
                                   type: "dropdown",
                                   name: "observation",
                                   label: "Observation",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [],
+                                  items: [
+                                    { label: "No Defect", value: "No_Defect" },
+                                    { label: "Crack", value: "Crack" },
+                                    { label: "Chiff Of", value: "chiff_off" },
+                                    {
+                                      label: "Blistering paint",
+                                      value: "Blistering_paint",
+                                    },
+                                    {
+                                      label: "Paint cracks",
+                                      value: "Paint_cracks",
+                                    },
+                                    {
+                                      label: "Blistering",
+                                      value: "blistering",
+                                    },
+                                    {
+                                      label: "Cracks and Blistering",
+                                      value: "Cracks_blistering",
+                                    },
+                                    {
+                                      label: "Chip off and Blistering",
+                                      value: "Chip_off_blistering",
+                                    },
+                                    {
+                                      label: "Blistering and Paint Peel",
+                                      value: "Blistering_Paint_Peel",
+                                    },
+                                    {
+                                      label: "Hollowness",
+                                      value: "hollowness",
+                                    },
+                                    {
+                                      label: "Hollowness & Cracks",
+                                      value: "hollowness_cracks",
+                                    },
+                                  ],
                                   rules: {
-                                    required: "Observation must be filled!",
+                                    required:
+                                      "Defect Observation must be selected!",
                                   },
                                 },
                                 {
@@ -781,10 +825,16 @@ export const defectForm: FormType<DefectInput> = {
                                   label: "Nature of Defect",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [],
+                                  items: [
+                                    { label: "Safe", value: "safe" },
+                                    {
+                                      label: "Require repair",
+                                      value: "Require_repair",
+                                    },
+                                  ],
                                   rules: {
                                     required:
-                                      "Nature of defect must be filled!",
+                                      "Nature of Defect must be selected!",
                                   },
                                 },
                                 {
@@ -793,9 +843,16 @@ export const defectForm: FormType<DefectInput> = {
                                   label: "Recommendation",
                                   placeholder: "Pick here",
                                   required: true,
-                                  items: [],
+                                  items: [
+                                    { label: "N/A", value: "na" },
+                                    {
+                                      label: "Refer to section 5",
+                                      value: "Refer_section5",
+                                    },
+                                  ],
                                   rules: {
-                                    required: "Recommendation must be filled!",
+                                    required:
+                                      "Recommendation must be selected!",
                                   },
                                 },
                               ],
