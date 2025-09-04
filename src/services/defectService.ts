@@ -37,6 +37,9 @@ export const addDefect = async (
       const mapBody = {
         ...data,
         image_elevation: res1.data.secure_url,
+        observation: data.observation?.value ?? undefined,
+        recommendation: data.recommendation?.value ?? undefined,
+
       };
 
       response = await axiosInstance.post(API_ENDPOINT.getDefects, mapBody);

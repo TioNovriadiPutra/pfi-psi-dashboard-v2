@@ -529,19 +529,9 @@ export const defectForm: FormType<DefectInput> = {
                   },
                 },
                 {
-                  type: "time",
-                  name: "time_inspection",
-                  label: "Inspection Time",
-                  placeholder: "Input here...",
-                  required: true,
-                  rules: {
-                    required: "Inspection time must be filled!",
-                  },
-                },
-                {
                   type: "date",
                   name: "date_inspection",
-                  label: "Inspection Date",
+                  label: "Flight Date",
                   placeholder: "DD-MM-YYYY",
                   required: true,
                   rules: {
@@ -549,15 +539,36 @@ export const defectForm: FormType<DefectInput> = {
                   },
                 },
                 {
-                  type: "number",
-                  name: "duration_inspection",
-                  label: "Inspection Duration (minutes)",
-                  placeholder: "0",
+                  type: "time",
+                  name: "time_inspection_start",
+                  label: "Flight Time Start",
+                  placeholder: "Input here...",
                   required: true,
                   rules: {
-                    required: "Inspection duration must be filled!",
+                    required: "Inspection time must be filled!",
                   },
                 },
+                {
+                  type: "time",
+                  name: "time_inspection_end",
+                  label: "Flight Time End",
+                  placeholder: "Input here...",
+                  required: true,
+                  rules: {
+                    required: "Inspection time must be filled!",
+                  },
+                },
+                
+                // {
+                //   type: "number",
+                //   name: "duration_inspection",
+                //   label: "Flight Duration (minutes)",
+                //   placeholder: "0",
+                //   required: true,
+                //   rules: {
+                //     required: "Inspection duration must be filled!",
+                //   },
+                // },
                 {
                   type: "text",
                   name: "location_inspection",
@@ -593,13 +604,7 @@ export const defectForm: FormType<DefectInput> = {
                             required: "Name must be filled!",
                           },
                         },
-                        {
-                          type: "textarea",
-                          name: "description",
-                          label: "Description",
-                          placeholder: "Input here...",
-                          required: false,
-                        },
+                        
                       ],
                       [
                         {
@@ -623,27 +628,7 @@ export const defectForm: FormType<DefectInput> = {
                             },
                           },
                         },
-                        {
-                          type: "image",
-                          name: "plan_evelvation_image",
-                          label: "Elevation Image",
-                          placeholder: "Upload Image",
-                          required: false,
-                          rules: {
-                            validate: (val) => {
-                              const base64 = val.split(",")[1] || val;
-                              const padding = (base64.match(/=+$/) || [""])[0]
-                                .length;
-                              const sizeInBytes =
-                                (base64.length * 3) / 4 - padding;
-
-                              return (
-                                sizeInBytes <= 5 * 1024 * 1024 ||
-                                "Image to large (max 5mb)"
-                              );
-                            },
-                          },
-                        },
+                        
                       ],
                     ],
                     template: {
@@ -836,7 +821,7 @@ export const defectForm: FormType<DefectInput> = {
                                 {
                                   type: "textarea",
                                   name: "description",
-                                  label: "Description",
+                                  label: "Description of defect(s) ",
                                   placeholder: "Input here...",
                                   required: false,
                                 },
