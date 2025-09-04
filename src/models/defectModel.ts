@@ -8,6 +8,7 @@ import useHelper from "@hooks/useHelper";
 import type { InspectionInput } from "./inspectionModel";
 import { getBuildingLevelsByBuilding } from "@services/buildingLevelService";
 import type { PlanInput, PlanReqInput } from "./planModel";
+import type { AppendixInput, AppendixReqInput } from "./appendixModel";
 
 export interface DefectDataInput {
   observation: string;
@@ -25,11 +26,13 @@ export interface DefectAllReqInput {
   report: ReportReqInput;
   plans: PlanReqInput[];
   defects: DefectReqInput[];
+  appendixes: AppendixReqInput[];
 }
 
 export interface DefectInput extends ReportInput {
   plans: PlanInput[];
   defects: DefectDataInput[];
+  appendixes: AppendixInput[];
 }
 
 export interface DefectDTO {

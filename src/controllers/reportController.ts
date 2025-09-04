@@ -1,14 +1,11 @@
 import useHelper from "@hooks/useHelper";
 import type { FetchDataType } from "@interfaces/pageInterface";
 import useReportModel from "@models/reportModel";
-import { generateEncryption } from "@utils/helper/generator";
 import { paginationHandler } from "@utils/helper/responseHandler";
 import moment from "moment";
 import { BsBuildingGear } from "react-icons/bs";
-import { useNavigate } from "react-router";
 
 const useReportController = () => {
-  const nav = useNavigate();
   const { useGetReports, useDeleteReport } = useReportModel();
 
   const { confirmationModal, onError } = useHelper();
@@ -58,23 +55,6 @@ const useReportController = () => {
                   flex: "flex-1",
                   label: item.location_inspection,
                 },
-                {
-                  type: "text",
-                  flex: "flex-1",
-                  label: item.methodology_inspection,
-                },
-                { type: "text", flex: "flex-1", label: item.name_providers },
-                { type: "text", flex: "flex-1", label: item.facade_inspector },
-                {
-                  type: "text",
-                  flex: "flex-2",
-                  label: item.description ?? "-",
-                },
-                {
-                  type: "text",
-                  flex: "flex-1",
-                  label: item.highlight ?? "-",
-                },
               ],
               functions: [
                 {
@@ -86,8 +66,8 @@ const useReportController = () => {
                   icon: BsBuildingGear,
                   label: "Download Report",
                   onClick: () => {
-    window.open("uploads/defect_report_pfi.docx", "_blank");
-  },
+                    window.open("uploads/defect_report_pfi.docx", "_blank");
+                  },
                 },
                 {
                   type: "delete",

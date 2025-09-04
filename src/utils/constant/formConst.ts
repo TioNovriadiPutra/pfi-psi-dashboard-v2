@@ -881,7 +881,7 @@ export const defectForm: FormType<DefectInput> = {
                         },
                         {
                           type: "gallery",
-                          name: "appendix_images",
+                          name: "image_appendix",
                           label: "Images",
                           placeholder: "Image",
                           required: false,
@@ -891,7 +891,7 @@ export const defectForm: FormType<DefectInput> = {
                     template: {
                       name: "",
                       description: "",
-                      appendix_images: [],
+                      image_appendix: [],
                     },
                   },
                 },
@@ -911,6 +911,7 @@ export const defectForm: FormType<DefectInput> = {
     location_inspection: "",
     plans: [],
     defects: [],
+    appendixes: [],
   },
 };
 

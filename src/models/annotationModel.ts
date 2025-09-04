@@ -1,4 +1,7 @@
+import useHelper from "@hooks/useHelper";
 import type { DropdownType } from "@interfaces/formInterface";
+import { getAnnotations } from "@services/annotationService";
+import { useQuery } from "@tanstack/react-query";
 
 export interface AnnotationData {
   type: "square" | "text" | "line";
@@ -17,6 +20,24 @@ export interface AnnotationInput {
   annotations: AnnotationData[];
 }
 
-const useAnnotationModel = () => {};
+export interface AnnotationDTO extends Omit<AnnotationInput, "category"> {
+  id: number;
+  category: string;
+  created_at: string;
+}
+
+const useAnnotationModel = () => {
+  const { pagination } = useHelper();
+
+  const useGetAnnotations = () =>
+    useQuery({
+      queryKey: ["getAnnotations", pagination.page],
+      queryFn: () => getAnnotations(pagination.page, pagination.items_per_page),
+    });
+
+  return {
+    useGetAnnotations,
+  };
+};
 
 export default useAnnotationModel;

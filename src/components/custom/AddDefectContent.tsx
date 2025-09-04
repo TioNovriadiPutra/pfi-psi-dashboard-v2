@@ -45,6 +45,8 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
           formSlider.changePage(1);
         } else if (errorKeys.filter((key) => key === "defects").length > 0) {
           formSlider.changePage(2);
+        } else if (errorKeys.filter((key) => key === "appendixes").length > 0) {
+          formSlider.changePage(3);
         }
       }
     }
@@ -55,7 +57,7 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
       <AddHeader
         title="Add Defect"
         onSubmit={handleSubmit((body) => {
-          if (formSlider.page === 2) {
+          if (formSlider.page === 3) {
             addDefectService({
               report: {
                 report_no: body.report_no,
@@ -79,6 +81,10 @@ const AddDefectContent = ({ defectData, buildingId }: Props) => {
                   ...level,
                   building_id: buildingId,
                 })),
+              })),
+              appendixes: body.appendixes.map((appendix) => ({
+                ...appendix,
+                building_id: buildingId,
               })),
             });
           } else {

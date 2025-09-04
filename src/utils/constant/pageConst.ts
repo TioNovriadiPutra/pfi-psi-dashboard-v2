@@ -2,6 +2,7 @@ import type { AppType, SidebarType } from "@interfaces/pageInterface";
 import { BiBuildings, BiCabinet, BiSolidDashboard } from "react-icons/bi";
 import { TbReportAnalytics } from "react-icons/tb";
 import { LuDatabase } from "react-icons/lu";
+import { HiOutlineAnnotation } from "react-icons/hi";
 
 export const sidebarData: SidebarType[][] = [
   [
@@ -22,6 +23,11 @@ export const sidebarData: SidebarType[][] = [
     },
   ],
   [
+    {
+      icon: HiOutlineAnnotation,
+      label: "Annotation",
+      dest: "/annotation",
+    },
     {
       icon: TbReportAnalytics,
       label: "Report",
@@ -102,11 +108,6 @@ export const reportPageData: AppType = {
       { flex: "flex-1", label: "Inspect. Time" },
       { flex: "flex-1", label: "Inspect. Duration" },
       { flex: "flex-1", label: "Inspect. Location" },
-      { flex: "flex-1", label: "Inspect. Methodology" },
-      { flex: "flex-1", label: "Provider" },
-      { flex: "flex-1", label: "Inspect. Facade" },
-      { flex: "flex-2", label: "Description" },
-      { flex: "flex-1", label: "Highlight" },
     ],
   },
 };

@@ -6,6 +6,7 @@ import { errorResponse, successResponse } from "@utils/helper/responseHandler";
 import { addInspection } from "./inspectionService";
 import { addReport } from "./reportService";
 import { addPlan } from "./planService";
+import { addAppendix } from "./appendixService";
 
 export const addDefect = async (
   body: DefectAllReqInput
@@ -40,8 +41,10 @@ export const addDefect = async (
 
       response = await axiosInstance.post(API_ENDPOINT.getDefects, mapBody);
 
+      const defectLevels = data.defect_levels;
+
       /* Add Inspections */
-      for (const level of mapBody.defect_levels) {
+      for (const level of defectLevels) {
         const mapBody = {
           ...level,
           report_id: response1.data.id,
@@ -49,6 +52,11 @@ export const addDefect = async (
 
         await addInspection(mapBody);
       }
+    }
+
+    /* Add Appendix */
+    for (const appendix of body.appendixes) {
+      await addAppendix(appendix);
     }
 
     return successResponse<DefectDTO>(response, "Defect added!");

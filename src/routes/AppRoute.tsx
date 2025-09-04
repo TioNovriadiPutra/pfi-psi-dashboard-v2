@@ -4,6 +4,7 @@ import {
   AddBuildingType,
   AddDefect,
   AddProject,
+  Annotation,
   Building,
   Dashboard,
   Master,
@@ -19,6 +20,7 @@ const AppRoute = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/project/*" element={<ProjectRoute />} />
       <Route path="/building/*" element={<BuildingRoute />} />
+      <Route path="/annotation/*" element={<AnnotationRoute />} />
       <Route path="/report/*" element={<ReportRoute />} />
       <Route path="/master/*" element={<MasterRoute />} />
       <Route path="*" element={<Navigate to="/project" />} />
@@ -64,6 +66,15 @@ const MasterRoute = () => {
       <Route index element={<Master />} />
       <Route path="/defect-form" element={<AddDefectType />} />
       <Route path="*" element={<Navigate to="/master" />} />
+    </Routes>
+  );
+};
+
+const AnnotationRoute = () => {
+  return (
+    <Routes>
+      <Route index element={<Annotation />} />
+      <Route path="*" element={<Navigate to="/annotation" />} />
     </Routes>
   );
 };
