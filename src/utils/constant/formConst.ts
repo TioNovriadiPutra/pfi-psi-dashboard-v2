@@ -558,17 +558,6 @@ export const defectForm: FormType<DefectInput> = {
                     required: "Inspection time must be filled!",
                   },
                 },
-                
-                // {
-                //   type: "number",
-                //   name: "duration_inspection",
-                //   label: "Flight Duration (minutes)",
-                //   placeholder: "0",
-                //   required: true,
-                //   rules: {
-                //     required: "Inspection duration must be filled!",
-                //   },
-                // },
                 {
                   type: "text",
                   name: "location_inspection",
@@ -604,7 +593,6 @@ export const defectForm: FormType<DefectInput> = {
                             required: "Name must be filled!",
                           },
                         },
-                        
                       ],
                       [
                         {
@@ -628,7 +616,6 @@ export const defectForm: FormType<DefectInput> = {
                             },
                           },
                         },
-                        
                       ],
                     ],
                     template: {
@@ -1013,7 +1000,7 @@ export const annotationForm: FormType<AnnotationInput> = {
           required: "Project name must be filled!",
         },
       },
-      
+
       {
         type: "textarea",
         name: "description",
